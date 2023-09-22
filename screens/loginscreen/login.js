@@ -6,7 +6,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-
+  
   const handleLogin = () => {
     // Implement the login, verify email and password
     if (email === 'admin' && password === 'password') {
