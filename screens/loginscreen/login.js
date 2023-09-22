@@ -9,7 +9,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     // Implement the login, verify email and password
-    if (email === 'edom@calvin.edu' && password === 'password') {
+    if (email === 'admin' && password === 'password') {
       navigation.navigate('MainPage'); // Use navigation.navigate here
     }
   };
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFE34E',
     borderRadius: 50,
     padding: 15,
+    paddingHorizontal: -10,
     marginLeft: 5,
     alignItems: 'center',
   },
