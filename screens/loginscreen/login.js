@@ -9,7 +9,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     // Implement the login, verify email and password
-    if (email === 'edom@calvin.edu' && password === 'password') {
+    if (email === 'edom' && password === 'password') {
       navigation.navigate('MainPage'); // Use navigation.navigate here
     }
   };
