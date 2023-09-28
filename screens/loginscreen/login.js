@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Illustration from '../../assets/login-vector.svg';
+
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -20,11 +22,9 @@ const LoginScreen = () => {
     
     <View style={styles.container}>
 
-      <View style={styles.headingContainer}>
-        <Text style={styles.headingTop}>Calvin</Text>
-        <Text style={styles.headingBottom}>Finds</Text>
+      <View style={styles.logoContainer}>
+        <Illustration width={270} height={270} />
       </View>
-
       
       <View style={styles.inputContainer}>
         <TextInput
@@ -63,7 +63,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE7E7',
     padding: 30,
   },
-
+  //login illustration
+  logoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 100,
+  },
+  
   //heading styling
   headingContainer: {
     alignItems: 'flex-end',
