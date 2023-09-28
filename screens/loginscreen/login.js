@@ -105,11 +105,14 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     bottom: 15,
+    color: '#FAF2F2',
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
   },
   loginButton: {
     flex: 1,
-    backgroundColor: '#342F2F',
-    borderRadius: 12,
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
     width: 100,
     padding: 15,
     marginRight: 5,
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
   },
   signupButton: {
     flex: 1,
-    backgroundColor: '#FFE34E',
+    backgroundColor: '#FFAF66',
     borderRadius: 50,
     padding: 15,
     paddingHorizontal: -10,
