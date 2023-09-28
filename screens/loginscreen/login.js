@@ -21,8 +21,8 @@ const LoginScreen = () => {
     <View style={styles.container}>
 
       <View style={styles.headingContainer}>
-        <Text style={styles.headingTop}>CALVIN</Text>
-        <Text style={styles.headingBottom}>FINDS</Text>
+        <Text style={styles.headingTop}>Calvin</Text>
+        <Text style={styles.headingBottom}>Finds</Text>
       </View>
 
       
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'right',
-    backgroundColor: '#342F2F',
+    backgroundColor: '#EDE7E7',
     padding: 30,
   },
 
@@ -73,14 +73,14 @@ const styles = StyleSheet.create({
     fontSize: 60,
     fontWeight: '900',
     marginBottom: -20, 
-    color: '#FFF5D2',
+    color: '#2F2E41',
     textAlignVertical: 'center', 
   },
   headingBottom: {
     fontSize: 60,
     fontWeight: '900',
     marginBottom: 100,
-    color: '#FFF5D2',
+    color: '#2F2E41',
     textAlignVertical: 'center', // Vertically align the text
   },
 
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     padding: 8,
     paddingHorizontal: 15,
-    backgroundColor: '#6C5E5E',
+    backgroundColor: '#EDE7E7',
     borderRadius: 15,
     fontSize: 20,
     fontWeight: '900',
