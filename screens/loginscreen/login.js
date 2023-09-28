@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -8,6 +9,10 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
+  const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
+
+
   
   const handleLogin = () => {
     // Implement the login, verify email and password
@@ -16,14 +21,11 @@ const LoginScreen = () => {
     }
   };
 
-  return (
-
-
-    
+  return (    
     <View style={styles.container}>
 
       <View style={styles.logoContainer}>
-        <Illustration width={270} height={270} />
+        <Illustration width={svgWidth} height={svgWidth} />
       </View>
       
       <View style={styles.inputContainer}>
