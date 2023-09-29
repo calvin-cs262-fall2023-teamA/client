@@ -16,6 +16,8 @@ const LoginScreen = () => {
   //detect if email or password input is focused
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
+  const isFormFilled = email !== '' && password !== '';
+
 
   
   const handleLogin = () => {
@@ -58,7 +60,7 @@ const LoginScreen = () => {
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.signupButton}>
+        <TouchableOpacity style={[styles.signupButton, isFormFilled && styles.signupButtonFilled]}>
           <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
       </View>
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     fontSize: 20,
     fontWeight: '900',
-    color: '#fff',
+    color: '#2F2E41',
   },
 
   inputFocused: {
@@ -157,6 +159,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 18,
     alignItems: 'center',
+  },
+  signupButtonFilled: {
+    backgroundColor: '#F77361',
   },
   buttonText: {
     color: '#342F2F',
