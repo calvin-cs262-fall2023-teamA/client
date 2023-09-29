@@ -61,7 +61,7 @@ const LoginScreen = () => {
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.signupButton, isFormFilled && styles.signupButtonFilled]}>
-          <Text style={styles.buttonText}>Sign up</Text>
+          <Text style={[styles.buttonText, isFormFilled && styles.buttonTextFilled]}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -167,6 +167,9 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
+  },
+  buttonTextFilled: {
+    color: '#fff',
   },
 });
 
