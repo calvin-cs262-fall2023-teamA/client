@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: '#C2A3A3',
     fontWeight: '900',
-    fontSize: 21,
+    fontSize: 20,
   },
   signupButton: {
     flex: 1,
