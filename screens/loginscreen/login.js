@@ -24,21 +24,21 @@ const LoginScreen = () => {
   return (    
     <View style={styles.container}>
 
-      <View style={styles.logoContainer}>
+      <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
       </View>
       
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="ab12@calvin.edu"
-          placeholderTextColor="#C9C1B1" 
+          placeholderTextColor="#9E8B8D" 
           onChangeText={(text) => setEmail(text)}
           value={email}
           style={styles.input}
         />
         <TextInput
           placeholder="********"
-          placeholderTextColor="#C9C1B1" 
+          placeholderTextColor="#9E8B8D" 
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry
@@ -47,10 +47,10 @@ const LoginScreen = () => {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>LOG IN</Text>
+          <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.signupButton}>
-          <Text style={styles.buttonText}>SIGN UP</Text>
+          <Text style={styles.buttonText}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'right',
+    alignItems: 'center',
     backgroundColor: '#EDE7E7',
     padding: 30,
   },
   //login illustration
-  logoContainer: {
+  artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 100,
@@ -116,14 +116,19 @@ const styles = StyleSheet.create({
     color: '#FAF2F2',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
+    maxWidth: 350,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   loginButton: {
     flex: 1,
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: 100,
-    padding: 15,
-    marginRight: 5,
+    padding: 18,
     alignItems: 'center',
   },
   loginButtonText: {
@@ -135,9 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFAF66',
     borderRadius: 50,
-    padding: 15,
-    paddingHorizontal: -10,
-    marginLeft: 5,
+    padding: 18,
     alignItems: 'center',
   },
   buttonText: {
