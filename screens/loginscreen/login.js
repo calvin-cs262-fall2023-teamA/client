@@ -5,13 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 
 
+
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
-
+  //detect if email or password input is focused
+  const [isEmailFocused, setEmailFocused] = useState(false);
+  const [isPasswordFocused, setPasswordFocused] = useState(false);
 
   
   const handleLogin = () => {
@@ -34,7 +38,10 @@ const LoginScreen = () => {
           placeholderTextColor="#9E8B8D" 
           onChangeText={(text) => setEmail(text)}
           value={email}
-          style={styles.input}
+          //detecting if email input is focused
+          onFocus={() => setEmailFocused(true)}
+          onBlur={() => setEmailFocused(false)}
+          style={[styles.input, isEmailFocused && styles.inputFocused]}
         />
         <TextInput
           placeholder="********"
@@ -42,7 +49,9 @@ const LoginScreen = () => {
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry
-          style={styles.input}
+          onFocus={() => setPasswordFocused(true)}
+          onBlur={() => setPasswordFocused(false)}
+          style={[styles.input, isPasswordFocused && styles.inputFocused]}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -110,6 +119,12 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#fff',
   },
+
+  inputFocused: {
+    backgroundColor: 'white',
+    
+  },
+  
   buttonContainer: {
     flexDirection: 'row',
     bottom: 15,
