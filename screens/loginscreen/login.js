@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 100,
+    marginBottom: 80,
   },
   
   //heading styling
