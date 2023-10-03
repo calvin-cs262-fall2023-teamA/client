@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './screens/loginscreen/login'; 
 import MainPage from './screens/loginscreen/mainpage';
+import SelectionScreen from './screens/selectionpage';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ function Navigation() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="MainPage" component={MainPage} />
       </Stack.Navigator>
     </NavigationContainer>
