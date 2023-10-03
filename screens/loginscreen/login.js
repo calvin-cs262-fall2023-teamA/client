@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE7E7',
     padding: 35,
   },
+  
   //login illustration
   artContainer: {
     alignItems: 'center',
