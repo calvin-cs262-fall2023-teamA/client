@@ -33,8 +33,7 @@ const SelectionPage = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.foundButton}>
                     <Text style={styles.buttonText} 
-                    onPress={() => navigation.navigate('Add')}>I FOUND SOMETHING</Text>
-                    {/*'Add' is a placholder */}
+                    onPress={() => navigation.navigate('AddPage')}>I FOUND SOMETHING</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -130,66 +129,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
     },
-    
-    
-    
-    // //heading styling
-    // headingContainer: {
-    //     alignItems: 'flex-end', 
-    // },
-    // headingTop: {
-    //     fontSize: 60,
-    //     fontWeight: '900',
-    //     marginBottom: -20, 
-    //     color: '#FFF5D2',
-    //     textAlignVertical: 'center', 
-    // },
-    // headingBottom: {
-    //     fontSize: 60,
-    //     fontWeight: '900',
-    //     marginBottom: 100,
-    //     color: '#FFF5D2',
-    //     textAlignVertical: 'center', // Vertically align the text
-    // },
-
-    // container: {
-    //     flex: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'right',
-    //     backgroundColor: '#342F2F',
-    //     padding: 30,
-    //   },
-    // // container: {
-    // //     backgroundColor: '#342F2F',
-    // //     flex: 1,
-    // //     flexDirection: 'column',
-    // //     //layout of buttons
-    // //     //paddingVertical: 100,
-    // //     //alignItems: 'center',
-    // //     justifyContent: 'space-between',
-    // //     //alignItems: 'center',
-    // //     //gap: 30px,
-    // // },
-    // button: {
-    //     flex: 1,
-    //     flexGrow: 4,
-    //     //top: 450,
-    //     //width: 200,
-    //     backgroundColor: 'red',
-    //     borderRadius: 50,
-    //     //height: 70,
-    //     //paddingVertical: 120,
-    //     //paddingHorizontal: 50,
-    //     marginHorizontal: 50,
-    //     marginVertical: 100,
-    //     //alignItems: 'center',
-    // },
-    // buttonText: {
-
-    // },
-    // titleText: {
-
-    // }
 });
 
 export default SelectionPage;
