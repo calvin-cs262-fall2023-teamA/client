@@ -10,6 +10,7 @@ import AddPage from './screens/addpage/addpage';
 import AddDetails from './screens/addpage/adddetails';
 import SubmitApp from "./screens/addpage/screens/submit";
 
+
 const Stack = createStackNavigator();
 
 function Navigation() {
