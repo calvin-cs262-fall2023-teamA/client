@@ -23,7 +23,7 @@ const LoginScreen = () => {
   const handleLogin = () => {
     // Implement the login, verify email and password
     if (email === 'admin' && password === 'password') {
-      navigation.navigate('MainPage'); // Use navigation.navigate here
+      navigation.navigate('Selection'); // Use navigation.navigate here
     }
   };
 
