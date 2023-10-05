@@ -18,15 +18,15 @@ function AddDetails({ route, navigation }) {
     return (
         <View style={{ flex: 1, padding: 20}}>
             {/* Display the fields of the received movie object. 2nd page*/}
-            <Text>{ route.params.name + "\n"}</Text>
-            <Text>{ route.params.task1 + "\n"}</Text>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>{ "\n" + "\n" + route.params.name + "\n"}</Text>
+            <Text>{ route.params.task1 }</Text>
+            <View style={{ flex: 1, alignItems: 'center' }}>
               <MyTextInput />
             </View>
             <Text>{ route.params.description }</Text>
             <Text>{ route.params.pickImage }</Text>
-            <Text>{ route.params.email + "\n"}</Text>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>{"\n" + "\n" + "\n" + route.params.email }</Text>
+            <View style={{ flex: 1, alignItems: 'center' }}>
               <MyTextInput />
             </View>
             <Button title="Submit" onPress={() => navigation.navigate('Selection')}/>

@@ -14,10 +14,10 @@ function AddPage() {
   /* A list of options for what kinds of things the user can add 
   (an item they lost or something they found). */
   const [reviews, setReviews] = useState([
-      { title: "Add lost Item", task1: "What is your lost item?", name: "", key: '1',
+      { title: "Add lost Item", title2: "", task1: "What is your lost item?", name: "", key: '1',
           description: "Add a picture here", email: "What is your email?",
           pickImage: <Button title="Pick an image" onPress={() => navigation.navigate('Submit')}/> },
-      { title: "Add found Item", task1: " ", key: '2',
+      {title: "", title2: "Add found Item", task1: " ", key: '2',
           description: "Where did you find this item?", name: "What is your name?", email: " "},
 
   ]);
@@ -28,7 +28,8 @@ function AddPage() {
           {/* Display list of options (add lost/add found) */}
           <FlatList data={reviews} renderItem={({ item })=> (
               <TouchableOpacity onPress={() => navigation.navigate('AddDetails', item)}>
-                  <Text>{ item.title + "\n"}</Text>
+                  <Text style={{ marginTop: 310, marginLeft: 90 }}>{ item.title }</Text>
+                  <Text style={{ position: 'absolute', bottom: 0, left: 0 }}>{ item.title2 + "\n"}</Text>
               </TouchableOpacity>
           )} />
       </View>
