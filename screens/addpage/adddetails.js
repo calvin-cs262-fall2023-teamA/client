@@ -15,7 +15,6 @@ import ImageButton from '../components/Buttons';
     look into when there is time.*/
 
 function AddDetails({ route, navigation }) {
-
     //const navigation = useNavigation();
     const PlaceholderImage = require('../../assets/icon.png');
     const [selectedImage, setSelectedImage] = useState(null);
@@ -45,6 +44,10 @@ function AddDetails({ route, navigation }) {
             <View style={{ flex: 1, alignItems: 'center' }}>
               <MyTextInput />
             </View>
+
+            {/* Selection screen uses info about which page directed to
+            it to determine what to display.*/}
+
             
             <View style={styles.footerContainer}>
           <ImageButton theme="primary" label="Choose a photo" onPress={pickImageAsync} />
@@ -58,7 +61,9 @@ function AddDetails({ route, navigation }) {
             />
           </View>
           
-            <Button title="Submit" onPress={() => navigation.navigate('Selection')}/>
+            <Button title="Submit" onPress={() => navigation.navigate('Selection', 
+            { prevRoute: route.name })}/> 
+            {/* <Button title="Submit" onPress={() => navigation.navigate('Selection')}/> */}
         </View>
     );
 }

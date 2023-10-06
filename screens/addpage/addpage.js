@@ -29,7 +29,16 @@ function AddPage() {
       <View style={{ flex: 1, padding: 20}}>
           {/* Display list of options (add lost/add found) */}
           <FlatList data={reviews} renderItem={({ item })=> (
-              <TouchableOpacity onPress={() => navigation.navigate('AddDetails', item)}>
+              <TouchableOpacity onPress={() => 
+                { 
+                  {/* vvv sends information back to Selection screen */}
+                  navigation.navigate({
+                    name: 'Selection',
+                    params: { prevRoute: "reset"},
+                    merge: true,
+                  }),
+                  navigation.navigate('AddDetails', item)
+                }}>
                   <Text style={{ marginTop: 10, textAlign: 'center' }}>{item.title }</Text>
                   <Text style={{ marginTop: -10, textAlign: 'center'  }}>{ item.title2 + "\n"}</Text>
               </TouchableOpacity>

@@ -1,14 +1,28 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 
-const SelectionPage = () => {
+const SelectionPage = ({ route, navigation }) => {
     //vars
-    const navigation = useNavigation();
+    const {prevRoute} = route.params;
+    /*set to "Login" if coming from login screen, 
+    name of adddetails ("AddDetails") if coming from add details screen,
+    and... */
+    
+
+    const [modalVisible, setModalVisible] = useState(false);
+    //const [hasRendered, setRenderState] = useState(false); //prevent re-renders -> infinite loop
 
     //methods
 
-
+    /*Used to give feedback to the user after they (successfully) add an item 
+    (from adddetails.js) to the database. 
+    Right now, that just means that the user made an item listing at the "addDetails" screen.*/
+    //currently has related code in this file, addpage.js, and adddetails.js
+    useEffect(() => {
+        //set modal (popup) to true until the user dismisses it.
+        if (prevRoute === "AddDetails") setModalVisible(true); 
+    }, [prevRoute]); //might work inconsistently.
+    
     //display
     return (
         <View style={styles.container}>
@@ -36,6 +50,25 @@ const SelectionPage = () => {
                     onPress={() => navigation.navigate('AddPage')}>I FOUND SOMETHING</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* PostPopup */}
+            <View style={styles.popupContainer}>
+                    <Modal
+                    animationType="slide"
+                    transparent={true} //show the rest of the screen; don't cover anything you don't have to.
+                    /*when visible set to true, animation will play and it will be put on screen. 
+                    False does same but with reverse animation direction and takes it off the screen.*/
+                    visible={modalVisible} 
+                    >
+                        <View style={styles.popup}>
+                            <Text style={styles.postPopupText}>Your item has been posted!</Text>
+                            <TouchableOpacity style={styles.popupButton}
+                            onPress={() => setModalVisible(!modalVisible)}>
+                                <Text style={styles.postPopupText}>OK</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+                </View>
         </View>
     );
 };
@@ -128,6 +161,38 @@ const styles = StyleSheet.create({
         color: '#FAF2F2',
         fontWeight: 'bold',
         fontSize: 18,
+    },
+
+    //for PostPopup
+    //container for everything, makes space for it on the screen.
+    popupContainer: {
+        order: 3,
+        padding: '4.25%',         //padding: 15,
+        //backgroundColor: 'red', //for testing, to see where it is and how big it is.
+    },
+    //the actual part the text goes in.
+    popup: {
+        marginTop: '100%', //0% = top, 100% = center, 200% = bottom 
+        borderRadius: 7.5,
+        paddingHorizontal: 20,
+        height: 60, //constant for now
+
+        alignSelf: 'center',
+        backgroundColor: '#F04564',
+        alignItems: 'center',
+    },
+    postPopupText: {
+        color: '#2F2E41',
+        fontSize: 20,
+    },
+    popupButton: {
+        backgroundColor: '#FAF2F2',
+        height: '50%',
+        paddingHorizontal: '5%',
+        borderRadius: 10,
+
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
