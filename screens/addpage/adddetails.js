@@ -12,7 +12,6 @@ import MyTextInput from './text';
     look into when there is time.*/
 
 function AddDetails({ route, navigation }) {
-
     //const navigation = useNavigation();
 
     return (
@@ -29,7 +28,10 @@ function AddDetails({ route, navigation }) {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <MyTextInput />
             </View>
-            <Button title="Submit" onPress={() => navigation.navigate('Selection')}/>
+            <Button title="Submit" onPress={() => navigation.navigate('Selection', 
+            { prevRoute: route.name })}/> 
+            {/* Selection screen uses info about which page directed to
+            it to determine what to display.*/}
         </View>
     );
 }

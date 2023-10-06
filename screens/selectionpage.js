@@ -1,23 +1,28 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Button } from 'react-native-paper';
 
-const SelectionPage = ({ route }) => {
+const SelectionPage = ({ route, navigation }) => {
     //vars
-    const navigation = useNavigation();
+    const {prevRoute} = route.params;
+    /*set to "Login" if coming from login screen, 
+    name of adddetails ("AddDetails") if coming from add details screen,
+    and... */
+    
+
     const [modalVisible, setModalVisible] = useState(false);
+    //const [hasRendered, setRenderState] = useState(false); //prevent re-renders -> infinite loop
 
     //methods
 
     /*Used to give feedback to the user after they (successfully) add an item 
-    (from adddetails.js) to the database.*/ //in progress
-    // const PostPopup = ({ route }) => {
-    //     if (route.name === "AddDetails") {
-    //         setModalVisible(true);
-    //     }
-    // }
-    // PostPopup(route);
+    (from adddetails.js) to the database. 
+    Right now, that just means that the user made an item listing at the "addDetails" screen.*/
+    //currently has related code in this file, addpage.js, and adddetails.js
+    useEffect(() => {
+        //set modal (popup) to true until the user dismisses it.
+        if (prevRoute === "AddDetails") setModalVisible(true); 
+    }, [prevRoute]); //might work inconsistently.
+    
     //display
     return (
         <View style={styles.container}>
