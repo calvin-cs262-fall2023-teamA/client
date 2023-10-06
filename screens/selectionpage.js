@@ -1,14 +1,23 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Button } from 'react-native-paper';
 
-const SelectionPage = () => {
+const SelectionPage = ({ route }) => {
     //vars
     const navigation = useNavigation();
+    const [modalVisible, setModalVisible] = useState(false);
 
     //methods
 
-
+    /*Used to give feedback to the user after they (successfully) add an item 
+    (from adddetails.js) to the database.*/ //in progress
+    // const PostPopup = ({ route }) => {
+    //     if (route.name === "AddDetails") {
+    //         setModalVisible(true);
+    //     }
+    // }
+    // PostPopup(route);
     //display
     return (
         <View style={styles.container}>
@@ -36,6 +45,25 @@ const SelectionPage = () => {
                     onPress={() => navigation.navigate('AddPage')}>I FOUND SOMETHING</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* PostPopup */}
+            <View style={styles.popupContainer}>
+                    <Modal
+                    animationType="slide"
+                    transparent={true} //show the rest of the screen; don't cover anything you don't have to.
+                    /*when visible set to true, animation will play and it will be put on screen. 
+                    False does same but with reverse animation direction and takes it off the screen.*/
+                    visible={modalVisible} 
+                    >
+                        <View style={styles.popup}>
+                            <Text style={styles.postPopupText}>Your item has been posted!</Text>
+                            <TouchableOpacity style={styles.popupButton}
+                            onPress={() => setModalVisible(!modalVisible)}>
+                                <Text style={styles.postPopupText}>OK</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+                </View>
         </View>
     );
 };
@@ -128,6 +156,38 @@ const styles = StyleSheet.create({
         color: '#FAF2F2',
         fontWeight: 'bold',
         fontSize: 18,
+    },
+
+    //for PostPopup
+    //container for everything, makes space for it on the screen.
+    popupContainer: {
+        order: 3,
+        padding: '4.25%',         //padding: 15,
+        //backgroundColor: 'red', //for testing, to see where it is and how big it is.
+    },
+    //the actual part the text goes in.
+    popup: {
+        marginTop: '100%', //0% = top, 100% = center, 200% = bottom 
+        borderRadius: 7.5,
+        paddingHorizontal: 20,
+        height: 60, //constant for now
+
+        alignSelf: 'center',
+        backgroundColor: '#F04564',
+        alignItems: 'center',
+    },
+    postPopupText: {
+        color: '#2F2E41',
+        fontSize: 20,
+    },
+    popupButton: {
+        backgroundColor: '#FAF2F2',
+        height: '50%',
+        paddingHorizontal: '5%',
+        borderRadius: 10,
+
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });
 
