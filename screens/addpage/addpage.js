@@ -28,8 +28,8 @@ function AddPage() {
           {/* Display list of options (add lost/add found) */}
           <FlatList data={reviews} renderItem={({ item })=> (
               <TouchableOpacity onPress={() => navigation.navigate('AddDetails', item)}>
-                  <Text style={{ marginTop: 310, marginLeft: 90 }}>{ item.title }</Text>
-                  <Text style={{ position: 'absolute', bottom: 0, left: 0 }}>{ item.title2 + "\n"}</Text>
+                  <Text style={{ marginTop: 10, textAlign: 'center' }}>{item.title }</Text>
+                  <Text style={{ marginTop: -10, textAlign: 'center'  }}>{ item.title2 + "\n"}</Text>
               </TouchableOpacity>
           )} />
       </View>
