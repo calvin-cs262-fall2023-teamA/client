@@ -45,8 +45,6 @@ function AddDetails({ route, navigation }) {
               <MyTextInput />
             </View>
 
-            <Button title="Submit" onPress={() => navigation.navigate('Selection', 
-            { prevRoute: route.name })}/> 
             {/* Selection screen uses info about which page directed to
             it to determine what to display.*/}
 
@@ -63,7 +61,9 @@ function AddDetails({ route, navigation }) {
             />
           </View>
           
-            <Button title="Submit" onPress={() => navigation.navigate('Selection')}/>
+            <Button title="Submit" onPress={() => navigation.navigate('Selection', 
+            { prevRoute: route.name })}/> 
+            {/* <Button title="Submit" onPress={() => navigation.navigate('Selection')}/> */}
         </View>
     );
 }
