@@ -77,6 +77,8 @@ function AddPage({ route }) {
         />
       </View>
 
+      {/* Go to Selection screen and send back which route it is coming from. 
+      Should return route.name for whatever route triggers the pop up.*/}
       <Button title="Submit" onPress={() => navigation.navigate('Selection', { prevRoute: route.name })} />
     </View>
   );
