@@ -19,8 +19,9 @@ const SelectionPage = ({ route, navigation }) => {
     Right now, that just means that the user made an item listing at the "addDetails" screen.*/
     //currently has related code in this file, addpage.js, and adddetails.js
     useEffect(() => {
+        console.log(prevRoute)
         //set modal (popup) to true until the user dismisses it.
-        if (prevRoute === "AddDetails") setModalVisible(true); 
+        if (prevRoute === "AddPage") setModalVisible(true); 
     }, [prevRoute]); //might work inconsistently.
     
     //display
