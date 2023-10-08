@@ -3,7 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 
 const SelectionPage = ({ route, navigation }) => {
     //vars
-    const {prevRoute} = route.params;
+
+    //THIS IS NOT ROUTE.NAME FOR ALL PAGES. 
+    //It is a hard-coded variable passed to the selection screen.
+    const {prevRoute} = route.params; 
     /*set to "Login" if coming from login screen, 
     name of adddetails ("AddDetails") if coming from add details screen,
     and... */
@@ -16,11 +19,12 @@ const SelectionPage = ({ route, navigation }) => {
 
     /*Used to give feedback to the user after they (successfully) add an item 
     (from adddetails.js) to the database. 
-    Right now, that just means that the user made an item listing at the "addDetails" screen.*/
-    //currently has related code in this file, addpage.js, and adddetails.js
+    Right now, that just means that the user made an item listing at the "addPage" screen.*/
+    //currently has related code in this file and addpage.js.
+    //Code is messy, should probably be refactored at some point.
     useEffect(() => {
         //set modal (popup) to true until the user dismisses it.
-        if (prevRoute === "AddDetails") setModalVisible(true); 
+        if (prevRoute === "AddPage") setModalVisible(true); 
     }, [prevRoute]); //might work inconsistently.
     
     //display
@@ -47,7 +51,17 @@ const SelectionPage = ({ route, navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.foundButton}>
                     <Text style={styles.buttonText} 
-                    onPress={() => navigation.navigate('AddPage')}>I FOUND SOMETHING</Text>
+                    onPress={() => {
+                        //send information to the selection (current) page to "reset" the pop up.
+                        //Without this, the popup will only work once (unless the useEffect is refactored in the future).
+                        navigation.navigate({
+                            name: 'Selection',
+                            params: { prevRoute: 'reset'},
+                            merge: true,
+                        }),
+                        //navigate to the AddPage (where the user will actually end up)
+                        navigation.navigate('AddPage')
+                    }}>I FOUND SOMETHING</Text>
                 </TouchableOpacity>
             </View>
 
