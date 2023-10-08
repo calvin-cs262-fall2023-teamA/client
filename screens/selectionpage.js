@@ -59,6 +59,7 @@ const SelectionPage = ({ route, navigation }) => {
                             params: { prevRoute: 'reset'},
                             merge: true,
                         }),
+                        //navigate to the AddPage (where the user will actually end up)
                         navigation.navigate('AddPage')
                     }}>I FOUND SOMETHING</Text>
                 </TouchableOpacity>
