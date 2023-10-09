@@ -4,28 +4,22 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 const SelectionPage = ({ route, navigation }) => {
     //vars
 
-    //THIS IS NOT ROUTE.NAME FOR ALL PAGES. 
-    //It is a hard-coded variable passed to the selection screen.
-    const {prevRoute} = route.params; 
-    /*set to "Login" if coming from login screen, 
-    name of adddetails ("AddDetails") if coming from add details screen,
-    and... */
+    const {prevRoute} = route.params;   //Used by the useEffect for the popup.
+    /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
+    and is reset to "reset" if navigating to addpage from this screen.*/
     
 
     const [modalVisible, setModalVisible] = useState(false);
-    //const [hasRendered, setRenderState] = useState(false); //prevent re-renders -> infinite loop
 
     //methods
 
     /*Used to give feedback to the user after they (successfully) add an item 
     (from adddetails.js) to the database. 
     Right now, that just means that the user made an item listing at the "addPage" screen.*/
-    //currently has related code in this file and addpage.js.
-    //Code is messy, should probably be refactored at some point.
     useEffect(() => {
         //set modal (popup) to true until the user dismisses it.
         if (prevRoute === "AddPage") setModalVisible(true); 
-    }, [prevRoute]); //might work inconsistently.
+    }, [prevRoute]); //If it changes (which it does when navigating to this page), run the function.
     
     //display
     return (
