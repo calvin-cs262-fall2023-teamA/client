@@ -96,11 +96,11 @@ const MainPage = ({ navigation, route }) => {
                 />
                 </View>
                 
-                {/* PLACEHOLDER FOR ADD BUTTON
+                {/* PLACEHOLDER FOR ADD BUTTON */}
+                {/* The navigation.navigate part must be the same for the popup to work. 
+                The current placeholder works but is not stylized. */}
 
-                The navigation.navigate part must be the same for the popup to work. The current placeholder works if you uncomment it, but is not stylized.
-
-                <TouchableOpacity style={styles.searchButton}
+                <TouchableOpacity style={styles.addButton}
                     onPress={() => {
                         //send information to the main (current) page to "reset" the pop up.
                         //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -112,14 +112,14 @@ const MainPage = ({ navigation, route }) => {
                         //navigate to the AddPage (where the user will actually end up)
                         navigation.navigate('AddPage')
                     }}>
+                      <Text>+</Text>
                 </TouchableOpacity>
-                */}
+                {/* END OF PLACEHOLDER */}
 
                 <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                     <Text style={styles.buttonText}>Search</Text>
                 </TouchableOpacity>
 
-                {/*offsets search bar, dont know why*/}
                 {/* PostPopup */}
                 <View style={styles.popupContainer}>
                     <Modal
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   searchButton: {
-    backgroundColor: '#C2A3A3', // Background color of the search button
+    backgroundColor: '#FFAF66', // Background color of the search button
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderTopRightRadius: 10,
@@ -251,9 +251,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  addButton: {
+    backgroundColor: '#C2A3A3', // Background color of the add button
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+
   //for PostPopup
     //container for everything, makes space for it on the screen.
-    popupContainer: {
+  popupContainer: {
       order: 3,
       //backgroundColor: 'red', //for testing, to see where it is and how big it is.
   },
