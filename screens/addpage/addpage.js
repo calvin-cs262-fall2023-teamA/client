@@ -10,6 +10,15 @@ import ImageButton from '../components/Buttons';
 function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
 
+  //information entered by the user that needs to be sent to the database for an Item.
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState(""); //may need several, one for now until we figure out what those should be.
+  const [location, setLocation] = useState(null);
+  //status = resolved or unresolved. Not entered when creating the card.
+  const [lostorfound, setLostOrFound] = useState("lost") //either lost or found. A string for now but could be a boolean.
+  //image handled below
+
   const PlaceholderImage = require('../../assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
 
