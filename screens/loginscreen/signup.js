@@ -5,9 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 
 
-
-
-
 const LoginScreen = () => {
   const [Name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,7 +18,7 @@ const LoginScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const [isRepeatPasswordFocused, setRepeatPasswordFocused] = useState(false);
   const [repeatPassword, setRepeatPassword] = useState('');
-  const isFormFilled = email !== '' && password !== '' && Name !== '';
+  const isFormFilled = Name !== '' && email !== '' && password !== '' && repeatPassword  !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false);
 
