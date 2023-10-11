@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F77361',
   },
   buttonText: {
-    color: '#C2A3A3',
+    color: '#9E8B8D',
     fontWeight: '900',
     fontSize: 20,
   },
