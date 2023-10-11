@@ -24,7 +24,12 @@ const LoginScreen = () => {
 
 
   
-  const handleLogin = () => {
+  const handleSignup = () => {
+    // Check if passwords match
+    if (password !== repeatPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
     // Implement the login, verify email and password
     if (email === 'admin' && password === 'password') {
       navigation.navigate('MainPage'); // Use navigation.navigate here
@@ -113,7 +118,7 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.primaryButton, isFormFilled && styles.buttonFilled]} onPress={handleLogin}>
+        <TouchableOpacity style={[styles.primaryButton, isFormFilled && styles.buttonFilled]} onPress={handleSignup}>
           <Text style={[styles.primaryButtonText, isFormFilled && styles.buttonTextFilled]}>Signup</Text>
         </TouchableOpacity>
       </View>
@@ -175,7 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 0,
-    marginBottom: 20,
+    marginBottom: 15,
     padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#EDE7E7',
