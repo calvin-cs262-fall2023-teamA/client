@@ -30,7 +30,8 @@ const LoginScreen = () => {
   };
 
   return (    
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
     <View style={styles.container}>
 
       <View style={styles.artContainer}>
