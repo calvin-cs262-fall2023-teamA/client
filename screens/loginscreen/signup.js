@@ -80,13 +80,13 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.loginButton, isFormFilled && styles.buttonFilled]} onPress={handleLogin}>
-          <Text style={[styles.loginButtonText, isFormFilled && styles.buttonTextFilled]}>Signup</Text>
+        <TouchableOpacity style={[styles.primaryButton, isFormFilled && styles.buttonFilled]} onPress={handleLogin}>
+          <Text style={[styles.primaryButtonText, isFormFilled && styles.buttonTextFilled]}>Signup</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.signupButton} onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.buttonText}>Already Got Account?</Text>
         </TouchableOpacity>
       </View>
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     // elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   
-  loginButton: {
+  primaryButton: {
     flex: 1,
     backgroundColor: '#FFAF66',
     borderRadius: 50,
@@ -194,12 +194,13 @@ const styles = StyleSheet.create({
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
-  loginButtonText: {
+  primaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
   },
-  signupButton: {
+  
+  secondaryButton: {
     flex: 1,
     borderRadius: 50,
     padding: 18,
