@@ -1,45 +1,65 @@
-import { Dimensions, Image ,TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { Dimensions, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 
 
-
-
-
 const LoginScreen = () => {
+  const [Name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
   //detect if email or password input is focused
+  const [isNameFocused, setNameFocused] = useState(false);
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
-  const isFormFilled = email !== '' && password !== '';
+  const [isRepeatPasswordFocused, setRepeatPasswordFocused] = useState(false);
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const isFormFilled = Name !== '' && email !== '' && password !== '' && repeatPassword  !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false);
 
 
   
-  const handleLogin = () => {
+  const handleSignup = () => {
+    // Check if passwords match
+    if (password !== repeatPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
     // Implement the login, verify email and password
     if (email === 'admin' && password === 'password') {
-      navigation.navigate('MainPage', { prevRoute: "Login" }); // Use navigation.navigate here
+      navigation.navigate('MainPage'); // Use navigation.navigate here
     }
   };
 
   return (    
     //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-
       <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
       </View>
       
       <View style={styles.inputContainer}>
         
+        {/* Name input */}
+        <View style={[styles.input, isNameFocused && styles.inputFocused]}>
+          <Image source={require('../../assets/profileIcon.png')} style={styles.inputIconStyle} />
+          <TextInput
+              placeholder="John Doe"
+              placeholderTextColor="#9E8B8D" 
+              onChangeText={(text) => setName(text)}
+              value={Name}
+              onFocus={() => setNameFocused(true)}
+              onBlur={() => setNameFocused(false)}
+              style={styles.inputText}
+          />
+        </View>
+
         {/* Email input */}
         <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
           <Image source={require('../../assets/emailIcon.png')} style={styles.inputIconStyle} />
@@ -53,11 +73,11 @@ const LoginScreen = () => {
               style={styles.inputText}
           />
         </View>
-
+        {/* password input */}
         <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
           <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
           <TextInput
-            placeholder="********"
+            placeholder="password"
             placeholderTextColor="#9E8B8D" 
             onChangeText={(text) => setPassword(text)}
             value={password}
@@ -74,18 +94,39 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
 
+        {/* repeat password input */}
+        <View style={[styles.input, isRepeatPasswordFocused && styles.inputFocused]}>
+            <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
+            <TextInput
+                placeholder="Repeat Password"
+                placeholderTextColor="#9E8B8D" 
+                onChangeText={(text) => setRepeatPassword(text)}
+                value={repeatPassword}
+                secureTextEntry={!isRepeatPasswordVisible} // Toggle based on isPasswordVisible
+                onFocus={() => setRepeatPasswordFocused(true)}
+                onBlur={() => setRepeatPasswordFocused(false)}
+                style={styles.inputText}
+            />
+            <TouchableOpacity onPress={() => setRepeatPasswordVisible(!isRepeatPasswordVisible)}>
+                {isRepeatPasswordVisible ? 
+                    <Image source={require('../../assets/visibleEye.png')} style={styles.inputIconStyle} /> : 
+                    <Image source={require('../../assets/hiddenEye.png')} style={styles.inputIconStyle} />
+                }
+            </TouchableOpacity>
+        </View>
+
 
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.primaryButton, isFormFilled && styles.buttonFilled]} onPress={handleLogin}>
-          <Text style={[styles.primaryButtonText, isFormFilled && styles.buttonTextFilled]}>Login</Text>
+        <TouchableOpacity style={[styles.primaryButton, isFormFilled && styles.buttonFilled]} onPress={handleSignup}>
+          <Text style={[styles.primaryButtonText, isFormFilled && styles.buttonTextFilled]}>Signup</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Signup')}>
-          <Text style={styles.buttonText}>No Account Yet?</Text>
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Already Got Account?</Text>
         </TouchableOpacity>
       </View>
 
@@ -107,7 +148,7 @@ const styles = StyleSheet.create({
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 80,
+    marginBottom: 20,
   },
   
   //heading styling
@@ -141,7 +182,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 0,
-    marginBottom: 30,
+    marginBottom: 15,
     padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#EDE7E7',
@@ -200,6 +241,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: 20,
   },
+  
   secondaryButton: {
     flex: 1,
     borderRadius: 50,
