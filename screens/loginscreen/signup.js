@@ -1,4 +1,4 @@
-import { Dimensions, Image } from 'react-native';
+import { Dimensions, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -37,8 +37,8 @@ const LoginScreen = () => {
   };
 
   return (    
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
-
       <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
       </View>
@@ -130,6 +130,7 @@ const LoginScreen = () => {
       </View>
 
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
