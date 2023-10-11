@@ -57,7 +57,7 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.signupButton, isFormFilled && styles.signupButtonFilled]}>
+        <TouchableOpacity style={[styles.signupButton, isFormFilled && styles.buttonFilled]}>
           <Text style={[styles.buttonText, isFormFilled && styles.buttonTextFilled]}>Sign up</Text>
         </TouchableOpacity>
       </View>
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
-  signupButtonFilled: {
+  buttonFilled: {
     backgroundColor: '#F77361',
   },
   buttonText: {

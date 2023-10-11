@@ -58,7 +58,7 @@ const LoginScreen = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.loginButton, isFormFilled && styles.signupButtonFilled]} onPress={handleLogin}>
+        <TouchableOpacity style={[styles.loginButton, isFormFilled && styles.buttonFilled]} onPress={handleLogin}>
           <Text style={[styles.loginButtonText, isFormFilled && styles.buttonTextFilled]}>Login</Text>
         </TouchableOpacity>
       </View>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
-  signupButtonFilled: {
+  buttonFilled: {
     backgroundColor: '#F77361',
   },
   buttonText: {
