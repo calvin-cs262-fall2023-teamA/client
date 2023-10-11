@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
+import EmailIcon from '../../assets/emailIcon.svg';
+import PasswordIcon from '../../assets/lock.svg';
+import VisibleEyeIcon from '../../assets/visibleEyeIcon.svg';
+import HiddenEyeIcon from '../../assets/hiddenEyeIcon.svg';
+
 
 
 
@@ -17,6 +22,7 @@ const LoginScreen = () => {
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
 
 
   
@@ -35,36 +41,53 @@ const LoginScreen = () => {
       </View>
       
       <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="ab12@calvin.edu"
-          placeholderTextColor="#9E8B8D" 
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          //detecting if email input is focused
-          onFocus={() => setEmailFocused(true)}
-          onBlur={() => setEmailFocused(false)}
-          style={[styles.input, isEmailFocused && styles.inputFocused]}
-        />
-        <TextInput
-          placeholder="********"
-          placeholderTextColor="#9E8B8D" 
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry
-          onFocus={() => setPasswordFocused(true)}
-          onBlur={() => setPasswordFocused(false)}
-          style={[styles.input, isPasswordFocused && styles.inputFocused]}
-        />
+        
+        {/* Email input */}
+        <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
+          <EmailIcon width={25} height={25} style={styles.inputIconStyle} />
+          <TextInput
+              placeholder="ab12@calvin.edu"
+              placeholderTextColor="#9E8B8D" 
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
+              style={styles.inputText}
+          />
+        </View>
+
+        <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
+          <PasswordIcon width={25} height={25} style={styles.inputIconStyle} />
+          <TextInput
+            placeholder="********"
+            placeholderTextColor="#9E8B8D" 
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
+            onFocus={() => setPasswordFocused(true)}
+            onBlur={() => setPasswordFocused(false)}
+            style={styles.inputText}
+          />
+          <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
+            {isPasswordVisible ? 
+              <HiddenEyeIcon width={25} height={25} style={styles.inputIconStyle} /> : 
+              <VisibleEyeIcon width={25} height={25} style={styles.inputIconStyle} />
+            }
+          </TouchableOpacity>
+        </View>
+
+
       </View>
+
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.signupButton, isFormFilled && styles.buttonFilled]}>
-          <Text style={[styles.buttonText, isFormFilled && styles.buttonTextFilled]}>Sign up</Text>
+        <TouchableOpacity style={[styles.loginButton, isFormFilled && styles.buttonFilled]} onPress={handleLogin}>
+          <Text style={[styles.loginButtonText, isFormFilled && styles.buttonTextFilled]}>Login</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Login</Text>
+        <TouchableOpacity style={styles.signupButton} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Already Got Account?</Text>
         </TouchableOpacity>
       </View>
 
@@ -114,22 +137,32 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
   },
+  
   input: {
-    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 0,
     marginBottom: 30,
-    padding: 8,
+    padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#EDE7E7',
     borderRadius: 15,
+  },
+
+  inputText:{
+    flex: 1,
     fontSize: 20,
     fontWeight: '900',
     color: '#2F2E41',
+    height: 60,
   },
 
   inputFocused: {
     backgroundColor: 'white',
     
+  },
+  inputIconStyle: {
+    marginRight: 8,
   },
   
   buttonContainer: {
@@ -149,21 +182,9 @@ const styles = StyleSheet.create({
   
   loginButton: {
     flex: 1,
-    // backgroundColor: '#FAF2F2',
-    borderRadius: 50,
-    width: 100,
-    padding: 18,
-    alignItems: 'center',
-  },
-  loginButtonText: {
-    color: '#C2A3A3',
-    fontWeight: '900',
-    fontSize: 20,
-  },
-  signupButton: {
-    flex: 1,
     backgroundColor: '#FFAF66',
     borderRadius: 50,
+    width: 100,
     padding: 18,
     alignItems: 'center',
     shadowColor: '#A59D95',
@@ -172,11 +193,24 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
+
+  loginButtonText: {
+    color: '#342F2F',
+    fontWeight: '900',
+    fontSize: 20,
+  },
+  signupButton: {
+    flex: 1,
+    borderRadius: 50,
+    padding: 18,
+    alignItems: 'center',
+
+  },
   buttonFilled: {
     backgroundColor: '#F77361',
   },
   buttonText: {
-    color: '#342F2F',
+    color: '#9E8B8D',
     fontWeight: '900',
     fontSize: 20,
   },
