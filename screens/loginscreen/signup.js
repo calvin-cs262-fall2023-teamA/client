@@ -1,27 +1,26 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Image } from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
-import EmailIcon from '../../assets/emailIcon.svg';
-import PasswordIcon from '../../assets/lock.svg';
-import VisibleEyeIcon from '../../assets/visibleEyeIcon.svg';
-import HiddenEyeIcon from '../../assets/hiddenEyeIcon.svg';
 
 
 
 
 
 const LoginScreen = () => {
+  const [Name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
   //detect if email or password input is focused
+  const [isNameFocused, setNameFocused] = useState(false);
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
-  const isFormFilled = email !== '' && password !== '';
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const isFormFilled = email !== '' && password !== '' && Name !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
 
@@ -42,9 +41,23 @@ const LoginScreen = () => {
       
       <View style={styles.inputContainer}>
         
+        {/* Name input */}
+        <View style={[styles.input, isNameFocused && styles.inputFocused]}>
+          <Image source={require('../../assets/profileIcon.png')} style={styles.inputIconStyle} />
+          <TextInput
+              placeholder="John Doe"
+              placeholderTextColor="#9E8B8D" 
+              onChangeText={(text) => setName(text)}
+              value={Name}
+              onFocus={() => setNameFocused(true)}
+              onBlur={() => setNameFocused(false)}
+              style={styles.inputText}
+          />
+        </View>
+
         {/* Email input */}
         <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
-          <EmailIcon width={25} height={25} style={styles.inputIconStyle} />
+          <Image source={require('../../assets/emailIcon.png')} style={styles.inputIconStyle} />
           <TextInput
               placeholder="ab12@calvin.edu"
               placeholderTextColor="#9E8B8D" 
@@ -55,11 +68,11 @@ const LoginScreen = () => {
               style={styles.inputText}
           />
         </View>
-
+        {/* password input */}
         <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
-          <PasswordIcon width={25} height={25} style={styles.inputIconStyle} />
+          <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
           <TextInput
-            placeholder="********"
+            placeholder="password"
             placeholderTextColor="#9E8B8D" 
             onChangeText={(text) => setPassword(text)}
             value={password}
@@ -70,8 +83,8 @@ const LoginScreen = () => {
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
             {isPasswordVisible ? 
-              <HiddenEyeIcon width={25} height={25} style={styles.inputIconStyle} /> : 
-              <VisibleEyeIcon width={25} height={25} style={styles.inputIconStyle} />
+              <Image source={require('../../assets/visibleEye.png')} style={styles.inputIconStyle} /> : 
+              <Image source={require('../../assets/hiddenEye.png')} style={styles.inputIconStyle} />
             }
           </TouchableOpacity>
         </View>
@@ -108,7 +121,7 @@ const styles = StyleSheet.create({
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 80,
+    marginBottom: 40,
   },
   
   //heading styling
@@ -163,6 +176,8 @@ const styles = StyleSheet.create({
   },
   inputIconStyle: {
     marginRight: 8,
+    width: 25, // or whatever size you want
+    height: 25, // or whatever size you want
   },
   
   buttonContainer: {

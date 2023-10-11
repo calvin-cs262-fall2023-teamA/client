@@ -1,12 +1,8 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Image } from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
-import EmailIcon from '../../assets/emailIcon.svg';
-import PasswordIcon from '../../assets/lock.svg';
-import VisibleEyeIcon from '../../assets/visibleEyeIcon.svg';
-import HiddenEyeIcon from '../../assets/hiddenEyeIcon.svg';
 
 
 
@@ -44,7 +40,7 @@ const LoginScreen = () => {
         
         {/* Email input */}
         <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
-          <EmailIcon width={25} height={25} style={styles.inputIconStyle} />
+          <Image source={require('../../assets/emailIcon.png')} style={styles.inputIconStyle} />
           <TextInput
               placeholder="ab12@calvin.edu"
               placeholderTextColor="#9E8B8D" 
@@ -57,7 +53,7 @@ const LoginScreen = () => {
         </View>
 
         <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
-          <PasswordIcon width={25} height={25} style={styles.inputIconStyle} />
+          <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
           <TextInput
             placeholder="********"
             placeholderTextColor="#9E8B8D" 
@@ -70,8 +66,8 @@ const LoginScreen = () => {
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
             {isPasswordVisible ? 
-              <HiddenEyeIcon width={25} height={25} style={styles.inputIconStyle} /> : 
-              <VisibleEyeIcon width={25} height={25} style={styles.inputIconStyle} />
+              <Image source={require('../../assets/visibleEye.png')} style={styles.inputIconStyle} /> : 
+              <Image source={require('../../assets/hiddenEye.png')} style={styles.inputIconStyle} />
             }
           </TouchableOpacity>
         </View>
@@ -163,6 +159,8 @@ const styles = StyleSheet.create({
   },
   inputIconStyle: {
     marginRight: 8,
+    width: 25, // or whatever size you want
+    height: 25, // or whatever size you want
   },
   
   buttonContainer: {
