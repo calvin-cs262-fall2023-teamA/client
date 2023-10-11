@@ -5,6 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import EmailIcon from '../../assets/emailIcon.svg';
 import PasswordIcon from '../../assets/lock.svg';
+import VisibleEyeIcon from '../../assets/visibleEyeIcon.svg';
+import HiddenEyeIcon from '../../assets/hiddenEyeIcon.svg';
+
 
 
 
@@ -19,6 +22,7 @@ const LoginScreen = () => {
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
 
 
   
@@ -59,11 +63,17 @@ const LoginScreen = () => {
             placeholderTextColor="#9E8B8D" 
             onChangeText={(text) => setPassword(text)}
             value={password}
-            secureTextEntry
+            secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
             style={styles.inputText}
           />
+          <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
+            {isPasswordVisible ? 
+              <HiddenEyeIcon width={25} height={25} style={styles.inputIconStyle} /> : 
+              <VisibleEyeIcon width={25} height={25} style={styles.inputIconStyle} />
+            }
+          </TouchableOpacity>
         </View>
 
 
