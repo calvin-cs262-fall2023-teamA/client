@@ -19,9 +19,11 @@ const LoginScreen = () => {
   const [isNameFocused, setNameFocused] = useState(false);
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
+  const [isRepeatPasswordFocused, setRepeatPasswordFocused] = useState(false);
   const [repeatPassword, setRepeatPassword] = useState('');
   const isFormFilled = email !== '' && password !== '' && Name !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false);
 
 
   
@@ -89,6 +91,27 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
 
+        {/* repeat password input */}
+        <View style={[styles.input, isRepeatPasswordFocused && styles.inputFocused]}>
+            <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
+            <TextInput
+                placeholder="Repeat Password"
+                placeholderTextColor="#9E8B8D" 
+                onChangeText={(text) => setRepeatPassword(text)}
+                value={repeatPassword}
+                secureTextEntry={!isRepeatPasswordVisible} // Toggle based on isPasswordVisible
+                onFocus={() => setRepeatPasswordFocused(true)}
+                onBlur={() => setRepeatPasswordFocused(false)}
+                style={styles.inputText}
+            />
+            <TouchableOpacity onPress={() => setRepeatPasswordVisible(!isRepeatPasswordVisible)}>
+                {isRepeatPasswordVisible ? 
+                    <Image source={require('../../assets/visibleEye.png')} style={styles.inputIconStyle} /> : 
+                    <Image source={require('../../assets/hiddenEye.png')} style={styles.inputIconStyle} />
+                }
+            </TouchableOpacity>
+        </View>
+
 
       </View>
 
@@ -121,7 +144,7 @@ const styles = StyleSheet.create({
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   
   //heading styling
@@ -155,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 0,
-    marginBottom: 30,
+    marginBottom: 20,
     padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#EDE7E7',
