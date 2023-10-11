@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
+import EmailIcon from '../../assets/emailIcon.svg';
 
 
 
@@ -35,16 +36,21 @@ const LoginScreen = () => {
       </View>
       
       <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="ab12@calvin.edu"
-          placeholderTextColor="#9E8B8D" 
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          //detecting if email input is focused
-          onFocus={() => setEmailFocused(true)}
-          onBlur={() => setEmailFocused(false)}
-          style={[styles.input, isEmailFocused && styles.inputFocused]}
-        />
+        
+        {/* Email input */}
+        <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
+          <EmailIcon width={25} height={25} style={styles.inputIconStyle} />
+          <TextInput
+              placeholder="ab12@calvin.edu"
+              placeholderTextColor="#9E8B8D" 
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
+              style={styles.inputText}
+          />
+        </View>
+
         <TextInput
           placeholder="********"
           placeholderTextColor="#9E8B8D" 
@@ -117,21 +123,30 @@ const styles = StyleSheet.create({
   },
   
   input: {
-    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 0,
     marginBottom: 30,
-    padding: 8,
+    padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#EDE7E7',
     borderRadius: 15,
+  },
+
+  inputText:{
+    flex: 1,
     fontSize: 20,
     fontWeight: '900',
     color: '#2F2E41',
+    height: 60,
   },
 
   inputFocused: {
     backgroundColor: 'white',
     
+  },
+  inputIconStyle: {
+    marginRight: 8,
   },
   
   buttonContainer: {
