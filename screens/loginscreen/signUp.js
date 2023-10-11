@@ -56,16 +56,15 @@ const LoginScreen = () => {
           style={[styles.input, isPasswordFocused && styles.inputFocused]}
         />
       </View>
-
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.loginButton, isFormFilled && styles.signupButtonFilled]} onPress={handleLogin}>
-          <Text style={[styles.loginButtonText, isFormFilled && styles.buttonTextFilled]}>Login</Text>
+        <TouchableOpacity style={[styles.signupButton, isFormFilled && styles.signupButtonFilled]}>
+          <Text style={[styles.buttonText, isFormFilled && styles.buttonTextFilled]}>Sign up</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.signupButton}>
-          <Text style={styles.buttonText}>Sign up</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
       </View>
 
@@ -115,7 +114,6 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
   },
-  
   input: {
     height: 60,
     borderWidth: 0,
@@ -151,9 +149,21 @@ const styles = StyleSheet.create({
   
   loginButton: {
     flex: 1,
-    backgroundColor: '#FFAF66',
+    // backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: 100,
+    padding: 18,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#C2A3A3',
+    fontWeight: '900',
+    fontSize: 20,
+  },
+  signupButton: {
+    flex: 1,
+    backgroundColor: '#FFAF66',
+    borderRadius: 50,
     padding: 18,
     alignItems: 'center',
     shadowColor: '#A59D95',
@@ -162,24 +172,11 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
-
-  loginButtonText: {
-    color: '#342F2F',
-    fontWeight: '900',
-    fontSize: 20,
-  },
-  signupButton: {
-    flex: 1,
-    borderRadius: 50,
-    padding: 18,
-    alignItems: 'center',
-
-  },
   signupButtonFilled: {
     backgroundColor: '#F77361',
   },
   buttonText: {
-    color: '#C2A3A3',
+    color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
   },
