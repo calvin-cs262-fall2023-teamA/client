@@ -4,6 +4,7 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import EmailIcon from '../../assets/emailIcon.svg';
+import PasswordIcon from '../../assets/lock.svg';
 
 
 
@@ -51,16 +52,21 @@ const LoginScreen = () => {
           />
         </View>
 
-        <TextInput
-          placeholder="********"
-          placeholderTextColor="#9E8B8D" 
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry
-          onFocus={() => setPasswordFocused(true)}
-          onBlur={() => setPasswordFocused(false)}
-          style={[styles.input, isPasswordFocused && styles.inputFocused]}
-        />
+        <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
+          <PasswordIcon width={25} height={25} style={styles.inputIconStyle} />
+          <TextInput
+            placeholder="********"
+            placeholderTextColor="#9E8B8D" 
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry
+            onFocus={() => setPasswordFocused(true)}
+            onBlur={() => setPasswordFocused(false)}
+            style={styles.inputText}
+          />
+        </View>
+
+
       </View>
 
       <View style={styles.buttonContainer}>
