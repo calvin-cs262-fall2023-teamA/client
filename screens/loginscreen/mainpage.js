@@ -50,24 +50,43 @@ const MainPage = ({ navigation, route }) => {
   const renderItem = ({ item }) => (
     <View style={styles.container}>
         <View style={styles.postContainer}>
-            <Text style={styles.itemName}>
-                Item Name
-            </Text>
+
+            <View style={styles.row}>
+
+                <View style={styles.nameDescription}>
+                    <Text style={styles.itemName}>
+                        Item Name
+                    </Text>
+                    <Text style={styles.description}>
+                        Description
+                    </Text>
+                </View>
+
+                <View style={styles.userDate}>
+                    <Text style={styles.username}>
+                        Username
+                    </Text>
+                    <Text style={styles.date}>
+                        MM/DD/YY
+                    </Text>
+                    {/* comments should be only visible in item page*/}
+                    {/* <Text style={styles.comments}>
+                        Comments
+                    </Text> */}
+                </View>
+            </View>
+
+
+
+
+
+
             <Image
                 source={require('../../assets/icon.png')} // Placeholder image for post
                 style={styles.postImage}
             />
-            <View style={styles.postFooter}>
-                <Text style={styles.username}>
-                    Username
-                </Text>
-                <Text style={styles.description}>
-                    Description
-                </Text>
-                <Text style={styles.comments}>
-                    Comments
-                </Text>
-            </View>
+
+
         </View>
     </View>
   );
@@ -151,36 +170,56 @@ const styles = StyleSheet.create({
   // This is a simplified example, and you may need to customize it further.
   container: {
     flex: 1,
-    color: '#342F2F',
+    backgroundColor: '#EDE7E7',
   },
   
   postContainer: {
     marginBottom: 20,
-    backgroundColor: '#342F2F',
+    backgroundColor: '#fff',
+    margin: 28,
+    borderRadius: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginHorizontal: 25,
+    marginVertical: 16,
+    alignItems: 'baseline',
   },
   itemName: {
     flexDirection: 'row',
     alignItems: 'center',
-    fontWeight: 'bold',
-    padding: 16,
-    fontSize: 16,
-    color: '#FFF5D2',
+    fontWeight: '900',
+    // padding: 16,
+    fontSize: 30,
+    color: '#2F2E41',
   },
   username: {
-    fontWeight: 'bold',
+    fontWeight: '900',
+    fontSize: 16,
+    color: '#888',
+  },
+  date: {
     fontSize: 14,
-    color: '#FFF5D2',
+    fontWeight: '700',
+    color: '#888',
   },
   postImage: {
     width: '100%',
     height: 300,
+    borderRadius: 20,
+
   },
-  postFooter: {
-    padding: 16,
+  userDate: {
+    
   },
   description: {
     marginBottom: 8,
-    color: '#FFF5D2',
+    color: '#2F2E41',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginTop: -3,
   },
   comments: {
     color: '#888',
