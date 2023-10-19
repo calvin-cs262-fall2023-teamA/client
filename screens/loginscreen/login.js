@@ -44,6 +44,7 @@ const LoginScreen = () => {
           onFocus={() => setEmailFocused(true)}
           onBlur={() => setEmailFocused(false)}
           style={[styles.input, isEmailFocused && styles.inputFocused]}
+          autoCapitalize={'none'}
         />
         <TextInput
           placeholder="********"
@@ -54,6 +55,7 @@ const LoginScreen = () => {
           onFocus={() => setPasswordFocused(true)}
           onBlur={() => setPasswordFocused(false)}
           style={[styles.input, isPasswordFocused && styles.inputFocused]}
+          autoCapitalize={'none'}
         />
       </View>
       <View style={styles.buttonContainer}>
