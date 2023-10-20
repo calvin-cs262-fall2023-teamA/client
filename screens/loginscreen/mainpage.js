@@ -11,6 +11,11 @@ const MainPage = ({ navigation, route }) => {
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
   const [modalVisible, setModalVisible] = useState(false); //modal = popup
+  const [searchActive, setSearchActive] = useState(false);  
+
+  const handleSearch = () => {
+    setSearchActive(!searchActive);  // Toggle the searchActive state
+  };
 
 
   /*Function/useEffect used to give feedback to the user after they (successfully) add an item 
@@ -45,9 +50,9 @@ const MainPage = ({ navigation, route }) => {
     //Implement adding an item
   }
 
-  const handleSearch = () => {
-    // Implement searching for an item
-  };
+  // const handleSearch = () => {
+  //   // Implement searching for an item
+  // };
 
   const renderItem = ({ item }) => (
     <View style={styles.container}>
@@ -107,7 +112,7 @@ const MainPage = ({ navigation, route }) => {
             style={styles.writeTaskWrapper}
             keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
         >
-
+            {searchActive && (
             <View style={styles.searchContainer}>
                 {/* PLACEHOLDER FOR ADD BUTTON */}
                 {/* The navigation.navigate part must be the same for the popup to work. 
@@ -127,17 +132,6 @@ const MainPage = ({ navigation, route }) => {
                     <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
                 </TouchableOpacity>
                 {/* END OF PLACEHOLDER */}
-                
-                {/* Search Bar */}
-                {/* <View style={styles.searchBarContainer}>
-
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search for an item"
-                        value={searchedItem}
-                        onChangeText={(text) => setSearchedItem(text)}
-                    />
-                </View> */}
 
                 <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
@@ -163,10 +157,30 @@ const MainPage = ({ navigation, route }) => {
                 </View>
                 {/* PostPopup End */}
             </View>
-
+            )}
+            {searchActive && (
             <TouchableOpacity onPress={handleSearch}>
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
             </TouchableOpacity>
+            )}
+
+            {/* Search Bar */}
+            
+            {!searchActive && (
+            <View style={styles.searchBarContainer}>
+
+                <TextInput
+                    style={styles.searchInput}
+                    placeholder="Search for an item"
+                    value={searchedItem}
+                    onChangeText={(text) => setSearchedItem(text)}
+                />
+                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                    <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
+                </TouchableOpacity>
+            </View>
+            )}
+
         </KeyboardAvoidingView>
 
     </View>

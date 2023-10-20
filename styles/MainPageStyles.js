@@ -122,7 +122,20 @@ const styles = StyleSheet.create({
   },
 
   searchBarContainer: {
-    flex: 1,
+    // flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#FAF2F2', 
+    borderRadius: 50,
+    marginHorizontal: 20,
+    marginBottom: 30,
+    marginTop: 5,
+    fontSize: 20,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, //android shadow
+
   },
 
   addIconStyle: {
