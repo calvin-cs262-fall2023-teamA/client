@@ -178,6 +178,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: 28,
     borderRadius: 20,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, //android shadow
   },
   row: {
     flexDirection: 'row',
@@ -207,7 +212,7 @@ const styles = StyleSheet.create({
   },
   postImage: {
     width: '100%',
-    height: 300,
+    height: 200,
     borderRadius: 20,
 
   },
@@ -237,7 +242,7 @@ const styles = StyleSheet.create({
 
   writeTaskWrapper: {
     flex: 1,
-    backgroundColor: '#342F2F',
+    backgroundColor: '#EDE7E7',
     position: 'absolute',
     bottom: 0,
     paddingTop: 10,
@@ -245,8 +250,9 @@ const styles = StyleSheet.create({
     //height: 100,
     flexDirection: 'row',
     //justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
   },
+
   addWrapper: {
     width: 50,
     //height: 50,
@@ -257,6 +263,7 @@ const styles = StyleSheet.create({
     borderColor: '#C0C0C0',
     borderWidth: 1,
   },
+
   addText: {},
   searchButtonText: {
     color: '#C2A3A3',
