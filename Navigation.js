@@ -19,6 +19,7 @@ function Navigation() {
       <StatusBar
         backgroundColor="#EDE7E7"
         barStyle="dark-content"
+        //color="#000"
      />
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
