@@ -11,5 +11,6 @@ The app currently contains a login screen, a main screen, a selection screen, an
 - The add screen has fields that the user can modify, but the information from the form on that page does not yet transfer over to the main page.
 
 ### Dependencies to Download:
-- react-native-svg-transformer
+- react-native-svg
 - expo-image-picker
+- expo-status-bar
