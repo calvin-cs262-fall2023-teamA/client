@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     width: '100%',
     //height: 100,
     flexDirection: 'row',
-    //justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 
@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAF2F2', 
     borderRadius: 50,
     marginHorizontal: 10,
-    marginBottom: 50,
+    marginBottom: 30,
+    marginTop: 5,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
@@ -133,8 +134,12 @@ const styles = StyleSheet.create({
     height: 40, // or whatever size you want
   },
   userIconStyle: {
-    width: 40, // or whatever size you want
-    height: 40, // or whatever size you want
+    width: 70, // or whatever size you want
+    height: 70, // or whatever size you want
+    borderRadius: 50,
+    marginHorizontal: 10,
+    marginBottom: 30,
+    marginTop: 5,
   },
 
   searchInput: {

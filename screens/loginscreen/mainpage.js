@@ -162,10 +162,11 @@ const MainPage = ({ navigation, route }) => {
                     </Modal>
                 </View>
                 {/* PostPopup End */}
-                
             </View>
 
-
+            <TouchableOpacity onPress={handleSearch}>
+              <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
+            </TouchableOpacity>
         </KeyboardAvoidingView>
 
     </View>
