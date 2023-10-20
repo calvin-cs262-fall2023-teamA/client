@@ -172,6 +172,7 @@ const MainPage = ({ navigation, route }) => {
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Search for an item"
+                    placeholderTextColor="#9E8B8D" 
                     value={searchedItem}
                     onChangeText={(text) => setSearchedItem(text)}
                 />

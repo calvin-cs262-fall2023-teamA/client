@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FAF2F2', 
     borderRadius: 50,
-    marginHorizontal: 20,
+    marginHorizontal: 23,
     marginBottom: 30,
     marginTop: 5,
     fontSize: 20,
@@ -156,13 +156,29 @@ const styles = StyleSheet.create({
   },
 
   searchInput: {
-    padding: 10,
+    flex: 1,
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#2F2E41',
+    height: 60,
+    padding: 20,
+    marginTop: 7,
   },
   searchButton: {
     backgroundColor: '#FFAF66', // Background color of the search button
     paddingVertical: 15,
     paddingHorizontal: 35,
     borderRadius: 50,
+  },
+  input: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 0,
+    marginBottom: 30,
+    padding: 3,
+    paddingHorizontal: 15,
+    backgroundColor: '#EDE7E7',
+    borderRadius: 15,
   },
   buttonText: {
     color: '#342F2F',
