@@ -51,6 +51,7 @@ const LoginScreen = () => {
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
               style={styles.inputText}
+              autoCapitalize={'none'}
           />
         </View>
 
@@ -65,6 +66,7 @@ const LoginScreen = () => {
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
             style={styles.inputText}
+            autoCapitalize={'none'}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
             {isPasswordVisible ? 
@@ -73,7 +75,6 @@ const LoginScreen = () => {
             }
           </TouchableOpacity>
         </View>
-
 
       </View>
 

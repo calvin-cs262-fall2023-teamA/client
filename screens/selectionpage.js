@@ -16,9 +16,9 @@ const SelectionPage = ({ route, navigation }) => {
     /*Used to give feedback to the user after they (successfully) add an item 
     (from adddetails.js) to the database. 
     Right now, that just means that the user made an item listing at the "addPage" screen.*/
-    useEffect(() => {
-        if (prevRoute === "AddPage") setModalVisible(true); 
-    }, [prevRoute]); //If it changes (which it does when navigating to this page), run the function.
+    //useEffect(() => {
+    //    if (prevRoute === "AddPage") alert("Your item has been !")//setModalVisible(true); 
+    //}, [prevRoute]); //If it changes (which it does when navigating to this page), run the function.
     
     //display
     return (

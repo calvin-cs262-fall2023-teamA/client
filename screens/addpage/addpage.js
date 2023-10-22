@@ -1,14 +1,46 @@
 import React, { useState } from 'react';
-import { Button, View, Text, TouchableOpacity, FlatList, TextInput, StyleSheet } from 'react-native';
+import { Button, View, Text, TouchableOpacity, Switch, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { globalStyles } from './styles/global';
 import MyTextInput from './text';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
+import InputField from '../components/InputField';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
+
+  //information entered by the user that needs to be sent to the database for an Item.
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  
+
+  //Main categories. May have subcategories in a different dropdown/selection tool (color? etc.) later.
+  const [categories, setCategories] = useState([
+    {label: 'Books/Notebooks', value: 'books'},
+    {label: 'Clothing/Accessories', value: 'clothing'},
+    {label: 'Jewelry', value: 'jewelry'},
+    {label: 'Electronics', value: 'electronics'},
+    {label: 'Keys', value: 'keys'},
+    {label: 'Personal Items (Umbrella, Water Bottle, etc.)', value: 'items'},
+
+    {label: 'Other', value: 'other'}, //catch-all
+  ]); 
+  const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
+  const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
+
+  const [location, setLocation] = useState(null);
+  //status = resolved or unresolved. Not entered when creating the card.
+  const [lostorfound, setLostOrFound] = useState("lost") //either lost or found. A string for now but could be a boolean.
+  //for Switch (selecting lost/found)
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState); 
+    isEnabled ? setLostOrFound("found") : setLostOrFound("lost");
+  }
+
+  //image handled below
 
   const PlaceholderImage = require('../../assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
@@ -25,84 +57,97 @@ function AddPage({ route }) {
       alert('You did not select any image.');
     }
   }
-
-  /* A list of options for what kinds of things the user can add 
-  (an item they lost or something they found). */
-  const [reviews, setReviews] = useState([
-    {
-      title: "Add lost Item",
-      title2: "",
-      task1: "What is your lost item?",
-      name: "",
-      key: '1',
-      email: "What is your email?",
-      pickImage: ""
-    },
-    {
-      title: "",
-      title2: "Add found Item",
-      task1: " ",
-      key: '2',
-      description: "Where did you find this item?",
-      name: "What is your name?",
-      email: " ",
-    },
-  ]);
+  
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
-      {/* Display the fields of the received movie object. 2nd page*/}
-      <Text>{ "\n" + "\n" + reviews[0].name + "\n"}</Text>
-      <Text>{ reviews[0].task1 }</Text>
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <MyTextInput />
-      </View>
-      <Text>{ reviews[1].description }</Text>
-      <Text>{ reviews[1].pickImage }</Text>
-      <Text>{"\n" + "\n" + "\n" + reviews[1].email }</Text>
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <MyTextInput />
-      </View>
 
-      {/* Selection screen uses info about which page directed to
-        it to determine what to display.*/}
-      <View style={styles.footerContainer}>
-        <ImageButton theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-      </View>
-
-      <View style={styles.imageContainer}>
+      <TouchableOpacity style={styles.imageContainer} onPress={pickImageAsync}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
+          onPress={pickImageAsync} //click on image to modify. Should probably *change the default to make it more apparent that you can modify/upload images.
         />
+      </TouchableOpacity>
+
+      {/* A list of options for what kinds of things the user can add 
+        (an item they lost or something they found). */}
+      <View style={styles.inputContainer}>
+        <View style={styles.switchContainer}>
+          {/* Text and a switch */}
+          <Text style={!isEnabled ? styles.selectText : styles.unselectText}>I Lost...</Text>
+          <Switch
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
+          <Text style={isEnabled ? styles.selectText : styles.unselectText}>I Found...</Text>
+        </View>
+        <InputField header="Title" bodySize={50} changeText={setName} />
+        <InputField header="Description" bodySize={100} changeText={setDescription} />
+          {/* change to a dropdown later.         <InputField header="Category" bodySize={50} changeText={setCategory} /> */}
+        <DropDownPicker 
+          style={styles.dropdown}
+          items={categories}
+          value={value}
+          open={open}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setCategories}
+
+          /* It would be great if it was more apparent that the user can scroll down through a list of categories.
+             My initial thought was to make the scroll bar always visible (instead of just while scrolling), but I
+             haven't gotten that to work yet. */
+             //possible props I could modify [vvv] to accomplish [^^^]
+          //containerProps={{
+            //the dropdown container (a 'View')
+          //}}
+          //dropDownContainerStyle={{
+          //}}
+        />
+        {/* Location Field */}
       </View>
+       
+      
 
       {/* Go to Selection screen and send back which route it is coming from. 
-      Should return route.name for whatever route triggers the pop up.*/}
-      <Button title="Submit" onPress={() => navigation.navigate('MainPage', { prevRoute: route.name })} />
+      Should return route.name for whatever route triggers the alert.*/}
+      <Button title="Submit Item" onPress={() => navigation.navigate('MainPage', { prevRoute: route.name })} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
-  },
   imageContainer: {
     flex: 1,
     paddingBottom: 8,
     marginBottom: 200,
+    marginVertical: 10,
+    alignItems: 'center',
   },
   image: {
     width: 320,
     height: 440,
     borderRadius: 18,
   },
-  footerContainer: {
-    // flex: 1 / 3,
-    marginBottom: 10,
+  inputContainer: {
+    marginBottom: '25%',
+  },
+  switchContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    marginHorizontal: '10%',
+    alignItems: 'center',
+  },
+  selectText: {
+    fontWeight: 'bold',
+    color: '#DBB3E3',
+    fontSize: 24,
+  },
+  unselectText: {
+    color: '#00000099',
+  },
+  dropdown: {
+    
   },
 });
 

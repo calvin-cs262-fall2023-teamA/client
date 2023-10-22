@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, Modal } from 'react-native';
+import {KeyboardAvoidingView, View, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 
@@ -10,21 +10,19 @@ const MainPage = ({ navigation, route }) => {
   const {prevRoute} = route.params;   //Used by the useEffect for the popup.
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
-  const [modalVisible, setModalVisible] = useState(false); //modal = popup
+
   const [searchActive, setSearchActive] = useState(false);  
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-
-  /*Function/useEffect used to give feedback to the user after they (successfully) add an item 
+  /*Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
     (from adddetails.js) to the database. 
     Right now, that just means that the user made an item listing at the "addPage" screen.*/
   useEffect(() => {
-    //set modal (popup) to true until the user dismisses it.
-    if (prevRoute === "AddPage") setModalVisible(true); 
-  }, [prevRoute]); //If it changes (which it does when navigating to this page), run the function.
+    if (prevRoute === "AddPage") alert("Your item has been posted!"); 
+  }, [prevRoute]); //If prevRoute changes (which it does when navigating to this page), run the function.
 
 
   useEffect(() => {
@@ -136,28 +134,9 @@ const MainPage = ({ navigation, route }) => {
                 <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
                 </TouchableOpacity>
-
-                {/* PostPopup */}
-                <View style={styles.popupContainer}>
-                    <Modal
-                    animationType="slide"
-                    transparent={true} //show the rest of the screen; don't cover anything you don't have to.
-                    /*when visible set to true, animation will play and it will be put on screen. 
-                    False does same but with reverse animation direction and takes it off the screen.*/
-                    visible={modalVisible} 
-                    >
-                        <View style={styles.popup}>
-                            <Text style={styles.postPopupText}>Your item has been posted!</Text>
-                            <TouchableOpacity style={styles.popupButton}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.postPopupText}>OK</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Modal>
-                </View>
-                {/* PostPopup End */}
             </View>
             )}
+            
             {searchActive && (
             <TouchableOpacity onPress={handleSearch}>
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
