@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, View, Text, TouchableOpacity, Switch, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import MyTextInput from './text';
@@ -59,6 +59,27 @@ function AddPage({ route }) {
       alert('You did not select any image.');
     }
   }
+
+  const handleCreateItem = () => {
+    if (name != "") { //item MUST have a name
+      //send infromation (useEffect commented in just in case.)
+      //useEffect(() => {
+        fetch('', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: name, description: description, category: value, location: location, status: lostorfound,
+          }),
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      //}, []);
+      //navigate back to the main page. Send back which route it is coming from.
+      navigation.navigate('MainPage', { prevRoute: route.name })
+    } else {
+      alert('Your post MUST include a title.')
+    }
+  }
   
 
   return (
@@ -68,7 +89,7 @@ function AddPage({ route }) {
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          onPress={pickImageAsync} //click on image to modify. Should probably *change the default to make it more apparent that you can modify/upload images.
+          onPress={pickImageAsync} //click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
         />
       </TouchableOpacity>
 
@@ -86,8 +107,7 @@ function AddPage({ route }) {
         </View>
         <InputField header="Title" bodySize={50} changeText={setName} />
         <InputField header="Description" bodySize={100} changeText={setDescription} />
-          {/* change to a dropdown later.         <InputField header="Category" bodySize={50} changeText={setCategory} /> */}
-        <DropDownPicker 
+        <DropDownPicker //change default text? currently "Select an Item" rather than "Select a catgory" or something.
           style={styles.dropdown}
           items={categories}
           value={value}
@@ -109,11 +129,7 @@ function AddPage({ route }) {
         {/* Location Field */}
       </View>
        
-      
-
-      {/* Go to Selection screen and send back which route it is coming from. 
-      Should return route.name for whatever route triggers the alert.*/}
-      <Button title="Submit Item" onPress={() => navigation.navigate('MainPage', { prevRoute: route.name })} />
+      <Button title="Submit Item" onPress={() => handleCreateItem()} />
     </View>
   );
 }
