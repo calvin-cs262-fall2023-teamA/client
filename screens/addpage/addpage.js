@@ -20,25 +20,27 @@ function AddPage({ route }) {
   const [categories, setCategories] = useState([
     {label: 'Books/Notebooks', value: 'books'},
     {label: 'Clothing/Accessories', value: 'clothing'},
-    {label: 'Jewelry', value: 'jewelry'},
     {label: 'Electronics', value: 'electronics'},
     {label: 'Keys', value: 'keys'},
     {label: 'Personal Items (Umbrella, Water Bottle, etc.)', value: 'items'},
 
     {label: 'Other', value: 'other'}, //catch-all
   ]); 
-  const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
-  const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
 
   const [location, setLocation] = useState(null);
   //status = resolved or unresolved. Not entered when creating the card.
   const [lostorfound, setLostOrFound] = useState("lost") //either lost or found. A string for now but could be a boolean.
+  
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState); 
     isEnabled ? setLostOrFound("found") : setLostOrFound("lost");
   }
+
+  //useStates for dropdown (category)
+  const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
+  const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
 
   //image handled below
 
