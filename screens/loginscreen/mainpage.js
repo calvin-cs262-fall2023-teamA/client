@@ -80,12 +80,6 @@ const MainPage = ({ navigation, route }) => {
                     </Text> */}
                 </View>
             </View>
-
-
-
-
-
-
             <Image
                 source={require('../../assets/placeholder.jpg')} // Placeholder image for post
                 style={styles.postImage}
@@ -138,7 +132,17 @@ const MainPage = ({ navigation, route }) => {
             )}
             
             {searchActive && (
-            <TouchableOpacity onPress={handleSearch}>
+            <TouchableOpacity onPress={() => {
+              //send information to the main (current) page to "reset" the pop up.
+              //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+              navigation.navigate({
+                  name: 'Profile',
+                  params: { prevRoute: 'reset'},
+                  merge: true,
+              }),
+              //navigate to the AddPage (where the user will actually end up)
+              navigation.navigate('Profile')
+          }}>
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
             </TouchableOpacity>
             )}
@@ -155,6 +159,7 @@ const MainPage = ({ navigation, route }) => {
                     value={searchedItem}
                     onChangeText={(text) => setSearchedItem(text)}
                 />
+                {/* handles search bar and account icon */}
                 <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
                 </TouchableOpacity>
