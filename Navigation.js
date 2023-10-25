@@ -8,7 +8,7 @@ import SignupScreen from './screens/loginscreen/signup';
 import MainPage from './screens/loginscreen/mainpage';
 import SelectionScreen from './screens/selectionpage';
 import AddPage from './screens/addpage/addpage';
-
+import Profile from './screens/loginscreen/profile';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +26,7 @@ function Navigation() {
         <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="MainPage" component={MainPage} />
         <Stack.Screen name="AddPage" component={AddPage} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
