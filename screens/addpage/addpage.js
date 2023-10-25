@@ -64,7 +64,7 @@ function AddPage({ route }) {
     if (name != "") { //item MUST have a name
       //send infromation (useEffect commented in just in case.)
       //useEffect(() => {
-        fetch('', {
+        fetch('postgres://nzykzast:PWMqmS1q0X0Q7ZfPZg-o3kODB6yDDu5x@peanut.db.elephantsql.com/nzykzast', {
           method: 'POST',
           body: JSON.stringify({
             name: name, description: description, category: value, location: location, status: lostorfound,
