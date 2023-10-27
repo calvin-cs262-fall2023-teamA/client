@@ -162,7 +162,7 @@ const MainPage = ({ navigation, route }) => {
                     onChangeText={(text) => setSearchedItem(text)}
                 />
                 {/* handles search bar and account icon */}
-                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
                 </TouchableOpacity>
             </View>

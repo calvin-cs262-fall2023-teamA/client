@@ -167,6 +167,12 @@ const styles = StyleSheet.create({
   searchButton: {
     backgroundColor: '#FFAF66', // Background color of the search button
     paddingVertical: 15,
+    paddingHorizontal: 35,
+    borderRadius: 50,
+  },
+  searchButtonActive: {
+    backgroundColor: '#FFAF66', // Background color of the search button
+    paddingVertical: 15,
     paddingHorizontal: 25,
     borderRadius: 50,
   },
