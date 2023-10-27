@@ -11,7 +11,7 @@ const MainPage = ({ navigation, route }) => {
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
 
-  const [searchActive, setSearchActive] = useState(false);  
+  const [searchActive, setSearchActive] = useState(true);  
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state

@@ -206,15 +206,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 18,
     alignItems: 'center',
-
-  },
-  buttonFilled: {
-    backgroundColor: '#F77361',
   },
   buttonText: {
     color: '#9E8B8D',
     fontWeight: '900',
     fontSize: 20,
+  },
+  buttonFilled: {
+    backgroundColor: '#F77361',
   },
   buttonTextFilled: {
     color: '#fff',
