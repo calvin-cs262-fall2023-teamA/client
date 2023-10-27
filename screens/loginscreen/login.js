@@ -22,10 +22,31 @@ const LoginScreen = () => {
 
 
   
-  const handleLogin = () => {
+  const handleLogin = async() => {
     // Implement the login, verify email and password
-    if (email === 'admin' && password === 'password') {
-      navigation.navigate('MainPage', { prevRoute: "Login" }); // Use navigation.navigate here
+    // if (email === 'admin' && password === 'password') {
+    //   navigation.navigate('MainPage', { prevRoute: "Login" }); // Use navigation.navigate here
+    // }
+
+    if (!email || !password) {
+      alert('Email and password are required.');
+      return;
+    }
+  
+    try {
+      // Send a GET request to your server for user authentication
+      const response = await fetch(`https://calvinfinds.azurewebsites.net/users?emailAddress=${email}&password=${password}`);
+  
+      if (response.ok) {
+        // User authentication was successful
+        navigation.navigate('MainPage', { prevRoute: 'Login' });
+      } else {
+        // Authentication failed
+        alert('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred during login.');
     }
   };
 
