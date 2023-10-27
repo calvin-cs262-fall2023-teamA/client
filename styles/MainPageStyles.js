@@ -170,6 +170,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
     borderRadius: 50,
   },
+  searchButtonActive: {
+    backgroundColor: '#FFAF66', // Background color of the search button
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 50,
+  },
+  closeButton: {
+    backgroundColor: '#FFF', // Background color of the search button
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 50,
+  },
   input: {
     flexDirection: 'row',
     alignItems: 'center',
