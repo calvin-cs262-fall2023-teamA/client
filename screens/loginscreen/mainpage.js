@@ -55,7 +55,17 @@ const MainPage = ({ navigation, route }) => {
   const renderItem = ({ item }) => (
     <View style={styles.container}>
         <View style={styles.postContainer}>
-
+        <TouchableOpacity onPress={() => {
+              //send information to the main (current) page to "reset" the pop up.
+              //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+              navigation.navigate({
+                  name: 'Detail',
+                  params: { prevRoute: 'reset'},
+                  merge: true,
+              }),
+              //navigate to the Profile (where the user will actually end up)
+              navigation.navigate('Detail')
+          }}>
             <View style={styles.row}>
 
                 <View style={styles.nameDescription}>
@@ -84,6 +94,7 @@ const MainPage = ({ navigation, route }) => {
                 source={require('../../assets/placeholder.jpg')} // Placeholder image for post
                 style={styles.postImage}
             />
+        </TouchableOpacity>
 
 
         </View>
@@ -140,7 +151,7 @@ const MainPage = ({ navigation, route }) => {
                   params: { prevRoute: 'reset'},
                   merge: true,
               }),
-              //navigate to the AddPage (where the user will actually end up)
+              //navigate to the Profile (where the user will actually end up)
               navigation.navigate('Profile')
           }}>
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
