@@ -126,7 +126,7 @@ const LoginScreen = () => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Already Got Account?</Text>
+          <Text style={styles.buttonText}>Already Have An Account?</Text>
         </TouchableOpacity>
       </View>
 
