@@ -151,7 +151,9 @@ const MainPage = ({ navigation, route }) => {
             
             {!searchActive && (
             <View style={styles.searchBarContainer}>
-
+                <TouchableOpacity style={styles.closeButton} onPress={handleSearch}>
+                    <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
+                </TouchableOpacity>
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Search for an item"
