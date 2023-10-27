@@ -24,7 +24,7 @@ const LoginScreen = () => {
 
 
   
-  const handleSignup = () => {
+  const handleSignup = async() => {
     // Check if passwords match
     if (password !== repeatPassword) {
       alert("Passwords do not match!");
@@ -34,6 +34,39 @@ const LoginScreen = () => {
     if (email === 'admin' && password === 'password') {
       navigation.navigate('MainPage'); // Use navigation.navigate here
     }
+
+
+    // Create a user object with the entered data
+    const user = {
+      id: 5,
+      name: Name,
+      email: email,
+      password: password,
+      type: "Standard"
+    };
+
+
+    try {
+      // Send a POST request to your API endpoint
+      const response = await fetch('https://calvinfinds.azurewebsites.net/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        // User registration was successful
+        navigation.navigate('Login'); // Redirect to the login screen
+      } else {
+        alert('Error: Registration failed');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error: Registration failed');
+    }
+
   };
 
   return (    
