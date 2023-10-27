@@ -31,9 +31,9 @@ const LoginScreen = () => {
       return;
     }
     // Implement the login, verify email and password
-    if (email === 'admin' && password === 'password') {
-      navigation.navigate('MainPage'); // Use navigation.navigate here
-    }
+    // if (email === 'admin' && password === 'password') {
+    //   navigation.navigate('MainPage'); // Use navigation.navigate here
+    // }
 
 
     // Create a user object with the entered data
