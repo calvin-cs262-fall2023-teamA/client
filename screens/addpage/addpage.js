@@ -29,7 +29,7 @@ function AddPage({ route }) {
 
   const [location, setLocation] = useState(null);
   //status = resolved or unresolved. Not entered when creating the card.
-  const [lostorfound, setLostOrFound] = useState("lost") //either lost or found. A string for now but could be a boolean.
+  const [lostorfound, setLostOrFound] = useState("lost") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
@@ -64,10 +64,10 @@ function AddPage({ route }) {
     if (name != "") { //item MUST have a name
       //send infromation (useEffect commented in just in case.)
       //useEffect(() => {
-        fetch('postgres://nzykzast:PWMqmS1q0X0Q7ZfPZg-o3kODB6yDDu5x@peanut.db.elephantsql.com/nzykzast', {
+        fetch('https://calvinfinds.azurewebsites.net/item', {
           method: 'POST',
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, status: lostorfound,
+            name: name, description: description, category: value, location: location, status: "not claimed", //nothing for whether it was lost/found (lostorfound)
           }),
         })
         .catch(error => {
