@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 
@@ -10,6 +10,9 @@ const MainPage = ({ navigation, route }) => {
   const {prevRoute} = route.params;   //Used by the useEffect for the popup.
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
+
+  // Define state to control the visibility of the Details popup
+  const [detailsVisible, setDetailsVisible] = useState(false);
 
   const [searchActive, setSearchActive] = useState(true);  
 
@@ -49,13 +52,23 @@ const MainPage = ({ navigation, route }) => {
   // const handleSearch = () => {
   //   // Implement searching for an item
   // };
+  const handleDetailsOpen = () => {
+        //send information to the main (current) page to "reset" the pop up.
+        //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+        navigation.navigate({
+            name: 'MainPage',
+            params: { prevRoute: 'reset'},
+            merge: true,
+        }),
+        //navigate to the AddPage (where the user will actually end up)
+        navigation.navigate('Details')
+    }
 
   const renderItem = ({ item }) => (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={handleDetailsOpen}>
+      <View style={styles.container}>
         <View style={styles.postContainer}>
-
-            <View style={styles.row}>
-
+            <View style={styles.row}>  
                 <View style={styles.nameDescription}>
                     <Text style={styles.itemName}>
                         Item Name
@@ -82,10 +95,9 @@ const MainPage = ({ navigation, route }) => {
                 source={require('../../assets/placeholder.jpg')} // Placeholder image for post
                 style={styles.postImage}
             />
-
-
         </View>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
