@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TouchableOpacity, Switch, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import MyTextInput from './text';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import InputField from '../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
+import MapView, { Marker } from 'react-native-maps';
+import MarkerList from '../components/MapMarkers';
 
 function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
@@ -44,7 +45,7 @@ function AddPage({ route }) {
 
   //image handled below
 
-  const PlaceholderImage = require('../../assets/icon.png');
+  const PlaceholderImage = require('./assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImageAsync = async () => {
@@ -86,7 +87,7 @@ function AddPage({ route }) {
         </View>
         <InputField header="Title" bodySize={50} changeText={setName} />
         <InputField header="Description" bodySize={100} changeText={setDescription} />
-          {/* change to a dropdown later.         <InputField header="Category" bodySize={50} changeText={setCategory} /> */}
+        {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
         <DropDownPicker 
           style={styles.dropdown}
           items={categories}
@@ -107,6 +108,26 @@ function AddPage({ route }) {
           //}}
         />
         {/* Location Field */}
+        {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
+        and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
+        {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
+        <MapView
+          style={styles.map}
+          //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
+          /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
+          region={{
+            latitude: 42.93105829800732,
+            longitude: -85.58688823855098,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.005,
+          }}
+          mapType='hybrid'
+          minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
+          //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
+        >
+           {/* Space for Markers (and other components that can be in maps). */}
+            {MarkerList()}
+        </MapView>
       </View>
        
       
@@ -121,8 +142,8 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
-    paddingBottom: 8,
-    marginBottom: 200,
+    //paddingBottom: 8,
+    marginBottom: 75,
     marginVertical: 10,
     alignItems: 'center',
   },
@@ -132,12 +153,12 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   inputContainer: {
-    marginBottom: '25%',
+    marginBottom: '0%',
   },
   switchContainer: {
     flexDirection: 'row', 
     justifyContent: 'space-between',
-    marginHorizontal: '10%',
+    //marginHorizontal: '10%',
     alignItems: 'center',
   },
   selectText: {
@@ -151,6 +172,11 @@ const styles = StyleSheet.create({
   dropdown: {
     
   },
+  map: {
+    width: '90%',
+    height: '35%',
+    alignSelf: 'center',
+  }
 });
 
 export default AddPage;

@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/loginscreen/login'; 
 import SignupScreen from './screens/loginscreen/signup'; 
 import MainPage from './screens/loginscreen/mainpage';
-import SelectionScreen from './screens/selectionpage';
 import AddPage from './screens/addpage/addpage';
 import Profile from './screens/loginscreen/profile';
 
@@ -23,7 +22,6 @@ function Navigation() {
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="Selection" component={SelectionScreen} />
         <Stack.Screen name="MainPage" component={MainPage} />
         <Stack.Screen name="AddPage" component={AddPage} />
         <Stack.Screen name="Profile" component={Profile} />

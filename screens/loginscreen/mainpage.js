@@ -26,11 +26,9 @@ const MainPage = ({ navigation, route }) => {
 
 
   useEffect(() => {
-    // Simulate loading data (e.g., fetching from an API)
-    setTimeout(() => {
+      //load data
       setIsLoading(false);
       setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
-    }, 2000); // Simulate a 2-second loading delay
   }, []);
 
   const generatePlaceholderData = (count) => {
