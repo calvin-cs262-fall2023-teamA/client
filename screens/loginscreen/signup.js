@@ -38,7 +38,6 @@ const LoginScreen = () => {
 
     // Create a user object with the entered data
     const user = {
-      id: 4,
       name: Name,
       email: email,
       password: password,
