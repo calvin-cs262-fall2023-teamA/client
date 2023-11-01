@@ -4,6 +4,7 @@ import styles from '../../styles/detailsStyles';
 
 const Details = ({ navigation, route }) => {
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
         <View style={styles.container}>
 
             <View style={styles.contentContainer}>
@@ -118,12 +119,9 @@ const Details = ({ navigation, route }) => {
                         autoCapitalize={'none'}
                     />
                 </View>
-
             </View>
-
-
-
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 
