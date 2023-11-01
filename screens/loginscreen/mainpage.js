@@ -152,7 +152,7 @@ const MainPage = ({ navigation, route }) => {
               }),
               //navigate to the AddPage (where the user will actually end up)
               navigation.navigate('Profile')
-          }}>
+             }}>
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
             </TouchableOpacity>
             )}
