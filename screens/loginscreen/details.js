@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import styles from '../../styles/detailsStyles'; 
 
 const Details = ({ navigation, route }) => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
         <View style={styles.container}>
-
+            
             <View style={styles.contentContainer}>
                 <Image
                     source={require('../../assets/placeholder.jpg')} // Placeholder image for post
@@ -47,7 +47,7 @@ const Details = ({ navigation, route }) => {
                     </View>
                 </View>
             </View>
-
+                        
             <View style={styles.commentContainer}>
                 <TouchableOpacity onPress={() => {
                     //send information to the main (current) page to "reset" the pop up.
@@ -121,6 +121,7 @@ const Details = ({ navigation, route }) => {
                 </View>
             </View>
         </View>
+
         </TouchableWithoutFeedback>
     );
 }
