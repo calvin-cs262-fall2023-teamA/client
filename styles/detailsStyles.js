@@ -3,14 +3,14 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        //alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: '#EDE7E7',
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        borderRadius: 20,
+        borderTopRightRadius: 0,
+        borderTopLeftRadius: 0,
     },
     contentContainer: {
-        flex: 1,
         width: '100%',
         borderRadius: 20,
         backgroundColor: '#fff',
@@ -39,8 +39,16 @@ const styles = StyleSheet.create({
     commentContainer: {
         flexDirection: 'row',
         justifyContent: 'left',
-        padding: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
         alignItems: 'center',
+    },
+    textContainer: {
+        flexDirection: 'column',
+        justifyContent: 'left',
+        padding: 10,
+        marginBottom: 20,
+        alignItems: 'left',
     },
     item: {
         flex: 1,
@@ -81,6 +89,36 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginBottom: 30,
         marginTop: 5,
+      },
+    userName: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        fontWeight: '900',
+        // padding: 16,
+        fontSize: 18,
+        color: '#2F2E41',
+    },
+    userComment: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        fontWeight: '600',
+        // padding: 16,
+        fontSize: 15,
+        color: '#2F2E41',
+    },
+    input: {
+        alignItems: 'center',
+        borderWidth: 0,
+        padding: 3,
+        paddingHorizontal: 15,
+        backgroundColor: '#fff',
+        borderRadius: 15,
+    },
+    inputText:{
+        fontSize: 18,
+        fontWeight: '900',
+        color: '#2F2E41',
+        height: 50,
       },
 });
 
