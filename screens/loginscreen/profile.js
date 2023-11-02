@@ -20,7 +20,7 @@ const Profile = ({  }) => {
 
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.goBack()}>
           <Text style={styles.tertiaryButtonTitle}>13</Text>
-          <Text style={styles.tertiaryButtonText}>Archived</Text>
+          <Text style={styles.tertiaryButtonText}>Claimed</Text>
         </TouchableOpacity> 
 
       </View>

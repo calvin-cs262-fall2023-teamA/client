@@ -6,7 +6,7 @@ import styles from '../../styles/MainPageStyles';
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [searchedItem, setSearchedItem] = useState();
+  const [searchedItem, setSearchedItem] = useState('');
   const {prevRoute} = route.params;   //Used by the useEffect for the popup.
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
@@ -20,6 +20,19 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
+  const searchItem = async (text) => {
+    setSearchedItem(text)
+    try {
+      const response = await fetch('https://calvinfinds.azurewebsites.net/items/' + text);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+  };
+
   /*Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
     (from adddetails.js) to the database. 
     Right now, that just means that the user made an item listing at the "addPage" screen.*/
@@ -30,9 +43,22 @@ const MainPage = ({ navigation, route }) => {
 
   useEffect(() => {
       //load data
-      setIsLoading(false);
-      setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
+      getItems();
+      //setIsLoading(false);
+      //setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
   }, []);
+
+  const getItems = async () => {
+    try {
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items');
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const generatePlaceholderData = (count) => {
     const placeholderData = [];
@@ -45,13 +71,6 @@ const MainPage = ({ navigation, route }) => {
     return placeholderData;
   };
 
-  const handleAddItem = () => {
-    //Implement adding an item
-  }
-
-  // const handleSearch = () => {
-  //   // Implement searching for an item
-  // };
   const handleDetailsOpen = () => {
         //send information to the main (current) page to "reset" the pop up.
         //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -71,19 +90,19 @@ const MainPage = ({ navigation, route }) => {
             <View style={styles.row}>  
                 <View style={styles.nameDescription}>
                     <Text style={styles.itemName}>
-                        Item Name
+                        {item.name}
                     </Text>
                     <Text style={styles.description}>
-                        Description
+                        {item.description}
                     </Text>
                 </View>
 
                 <View style={styles.userDate}>
                     <Text style={styles.username}>
-                        Username
+                        Edom {/* placeholder for now. */}
                     </Text>
                     <Text style={styles.date}>
-                        MM/DD/YY
+                        11/3/23 {/* placeholder, not currently stored in database */}
                     </Text>
                     {/* comments should be only visible in item page*/}
                     {/* <Text style={styles.comments}>
@@ -104,7 +123,7 @@ const MainPage = ({ navigation, route }) => {
     <View>
         <FlatList
         data={data}
-        keyExtractor={(item) => item.id}
+        keyExtractor={({id}) => id} //{(item) => item.id} //old
         renderItem={renderItem}
         />
         {/* Search for an item */}
@@ -169,7 +188,7 @@ const MainPage = ({ navigation, route }) => {
                     placeholder="Search for an item"
                     placeholderTextColor="#9E8B8D" 
                     value={searchedItem}
-                    onChangeText={(text) => setSearchedItem(text)}
+                    onChangeText={(text) => searchItem(text)}
                 />
                 {/* handles search bar and account icon */}
                 <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
