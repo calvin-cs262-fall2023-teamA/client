@@ -32,8 +32,14 @@ const MainPage = ({ navigation, route }) => {
       } finally {
         setIsLoading(false);
       };
-    
   };
+
+  //clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
+  const resetSearch = () => {
+    //called by "x" button displayed when search bar is open.
+    handleSearch() //what was originally called by that button
+    getItems //reset the search results.
+  }
 
   /*Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
     (from adddetails.js) to the database. 
@@ -182,7 +188,7 @@ const MainPage = ({ navigation, route }) => {
             
             {!searchActive && (
             <View style={styles.searchBarContainer}>
-                <TouchableOpacity style={styles.closeButton} onPress={handleSearch}>
+                <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
                     <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
                 </TouchableOpacity>
                 <TextInput
