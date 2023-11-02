@@ -36,6 +36,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: '#2F2E41',
   },
+  description: {
+    marginBottom: 8,
+    color: '#2F2E41',
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginTop: -3,
+  },
   username: {
     fontWeight: '900',
     fontSize: 16,
@@ -51,16 +58,6 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
 
-  },
-  userDate: {
-    
-  },
-  description: {
-    marginBottom: 8,
-    color: '#2F2E41',
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginTop: -3,
   },
   comments: {
     color: '#888',
