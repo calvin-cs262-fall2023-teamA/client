@@ -72,7 +72,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, status: "not claimed" //nothing for whether it was lost/found (lostorfound)
+            name: name, description: description, category: value, location: location, postUser: name, claimUser: null //nothing for whether it was lost/found (lostorfound)
           }),
          
         })
