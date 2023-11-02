@@ -62,10 +62,12 @@ function AddPage({ route }) {
 
   const handleCreateItem = () => {
     if (name != "") { //item MUST have a name
-      //send infromation (useEffect commented in just in case.)
-      //useEffect(() => {
-        fetch('https://calvinfinds.azurewebsites.net/item', {
+      //send information
+        fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
+          headers: {
+            "Content-type": "application/json"
+          },
           body: JSON.stringify({
             name: name, description: description, category: value, location: location, status: "not claimed", //nothing for whether it was lost/found (lostorfound)
           }),
@@ -73,7 +75,6 @@ function AddPage({ route }) {
         .catch(error => {
           console.error(error);
         });
-      //}, []);
       //navigate back to the main page. Send back which route it is coming from.
       navigation.navigate('MainPage', { prevRoute: route.name })
     } else {
