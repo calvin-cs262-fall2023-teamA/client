@@ -8,6 +8,8 @@ const Profile = ({  }) => {
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/user.png')} style={profileStyles.userIconStyle} />
+      <Text style={styles.userName}>User Name</Text>
+      <Text style={styles.userEmail}>ab12@calvin.edu</Text>
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
@@ -50,10 +52,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE7E7',
     padding: 35,
   },
-
+  userName: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    fontWeight: '900',
+    paddingTop: 16,
+    fontSize: 30,
+    color: '#2F2E41',
+  },
+  userEmail: {
+    marginBottom: 8,
+    color: '#2F2E41',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 3,
+  },
   flexContainer: {
-    marginTop: 100,
-    marginBottom: 150,
+    marginTop: 80,
+    marginBottom: 130,
     flexDirection: 'row', // Arrange elements horizontally
     justifyContent: 'center',
   },
