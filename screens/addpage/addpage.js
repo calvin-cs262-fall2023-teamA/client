@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, View, Text, TouchableOpacity, Switch, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
@@ -30,7 +30,7 @@ function AddPage({ route }) {
 
   const [location, setLocation] = useState(null);
   //status = resolved or unresolved. Not entered when creating the card.
-  const [lostorfound, setLostOrFound] = useState("lost") //either lost or found. A string for now but could be a boolean.
+  const [lostorfound, setLostOrFound] = useState("lost") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
@@ -60,6 +60,35 @@ function AddPage({ route }) {
       alert('You did not select any image.');
     }
   }
+
+
+
+  const handleCreateItem = async () => {
+    if (name != "") { //item MUST have a name
+      //send information
+        fetch('https://calvinfinds.azurewebsites.net/items', {
+          method: 'POST',
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({
+            id: 4, name: name, description: description, category: value, location: location, status: "not claimed" //nothing for whether it was lost/found (lostorfound)
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        })
+        .then((response) => response.json)
+        .then((json) => console.log(json))
+        .catch(error => {
+          console.error(error);
+        });
+      //navigate back to the main page. Send back which route it is coming from.
+      navigation.navigate('MainPage', { prevRoute: route.name })
+    } else {
+      alert('Your post MUST include a title.')
+    }
+  }
   
 
   return (
@@ -69,7 +98,7 @@ function AddPage({ route }) {
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          onPress={pickImageAsync} //click on image to modify. Should probably *change the default to make it more apparent that you can modify/upload images.
+          onPress={pickImageAsync} //click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
         />
       </TouchableOpacity>
 
@@ -130,11 +159,7 @@ function AddPage({ route }) {
         </MapView>
       </View>
        
-      
-
-      {/* Go to Selection screen and send back which route it is coming from. 
-      Should return route.name for whatever route triggers the alert.*/}
-      <Button title="Submit Item" onPress={() => navigation.navigate('MainPage', { prevRoute: route.name })} />
+      <Button title="Submit Item" onPress={() => handleCreateItem()} />
     </View>
   );
 }
