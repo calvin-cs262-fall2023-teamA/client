@@ -107,19 +107,71 @@ const styles = StyleSheet.create({
         color: '#2F2E41',
     },
     input: {
-        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'baseline',
         borderWidth: 0,
+        marginBottom: 20,
         padding: 3,
         paddingHorizontal: 15,
         backgroundColor: '#fff',
         borderRadius: 15,
-    },
+      },
     inputText:{
         fontSize: 18,
         fontWeight: '900',
         color: '#2F2E41',
         height: 50,
       },
+    bottomContainer: {
+        flex: 1,
+        backgroundColor: '#EDE7E7',
+        position: 'absolute',
+        bottom: 0,
+        paddingTop: 10,
+        width: '100%',
+        //height: 100,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        bottom: 15,
+        maxWidth: 350,
+        margin: 10,
+      },
+      
+    primaryButton: {
+        flex: 1,
+        backgroundColor: '#FAF2F2',
+        borderRadius: 50,
+        width: 100,
+        padding: 18,
+        alignItems: 'center',
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    },
+
+    primaryButtonText: {
+        color: '#342F2F',
+        fontWeight: '900',
+        fontSize: 20,
+    },
+    secondaryButton: {
+        flex: 1,
+        borderRadius: 50,
+        padding: 18,
+        alignItems: 'center',
+    },
+    secondaryButtonText: {
+        color: '#9E8B8D',
+        fontWeight: '900',
+        fontSize: 20,
+    },
 });
 
 export default styles;

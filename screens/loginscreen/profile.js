@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 
   primaryButton: {
     flex: 1,
-    backgroundColor: '#FFAF66',
+    backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: 100,
     padding: 18,
