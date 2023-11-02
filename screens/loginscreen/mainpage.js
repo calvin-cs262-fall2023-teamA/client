@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 
@@ -11,7 +11,10 @@ const MainPage = ({ navigation, route }) => {
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
 
-  const [searchActive, setSearchActive] = useState(false);  
+  // Define state to control the visibility of the Details popup
+  const [detailsVisible, setDetailsVisible] = useState(false);
+
+  const [searchActive, setSearchActive] = useState(true);  
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
@@ -26,11 +29,9 @@ const MainPage = ({ navigation, route }) => {
 
 
   useEffect(() => {
-    // Simulate loading data (e.g., fetching from an API)
-    setTimeout(() => {
+      //load data
       setIsLoading(false);
       setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
-    }, 2000); // Simulate a 2-second loading delay
   }, []);
 
   const generatePlaceholderData = (count) => {
@@ -51,13 +52,23 @@ const MainPage = ({ navigation, route }) => {
   // const handleSearch = () => {
   //   // Implement searching for an item
   // };
+  const handleDetailsOpen = () => {
+        //send information to the main (current) page to "reset" the pop up.
+        //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+        navigation.navigate({
+            name: 'MainPage',
+            params: { prevRoute: 'reset'},
+            merge: true,
+        }),
+        //navigate to the AddPage (where the user will actually end up)
+        navigation.navigate('Details')
+    }
 
   const renderItem = ({ item }) => (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={handleDetailsOpen}>
+      <View style={styles.container}>
         <View style={styles.postContainer}>
-
-            <View style={styles.row}>
-
+            <View style={styles.row}>  
                 <View style={styles.nameDescription}>
                     <Text style={styles.itemName}>
                         Item Name
@@ -80,20 +91,13 @@ const MainPage = ({ navigation, route }) => {
                     </Text> */}
                 </View>
             </View>
-
-
-
-
-
-
             <Image
                 source={require('../../assets/placeholder.jpg')} // Placeholder image for post
                 style={styles.postImage}
             />
-
-
         </View>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -138,7 +142,17 @@ const MainPage = ({ navigation, route }) => {
             )}
             
             {searchActive && (
-            <TouchableOpacity onPress={handleSearch}>
+            <TouchableOpacity onPress={() => {
+              //send information to the main (current) page to "reset" the pop up.
+              //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+              navigation.navigate({
+                  name: 'Profile',
+                  params: { prevRoute: 'reset'},
+                  merge: true,
+              }),
+              //navigate to the AddPage (where the user will actually end up)
+              navigation.navigate('Profile')
+             }}>
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
             </TouchableOpacity>
             )}
@@ -147,7 +161,9 @@ const MainPage = ({ navigation, route }) => {
             
             {!searchActive && (
             <View style={styles.searchBarContainer}>
-
+                <TouchableOpacity style={styles.closeButton} onPress={handleSearch}>
+                    <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
+                </TouchableOpacity>
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Search for an item"
@@ -155,7 +171,8 @@ const MainPage = ({ navigation, route }) => {
                     value={searchedItem}
                     onChangeText={(text) => setSearchedItem(text)}
                 />
-                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                {/* handles search bar and account icon */}
+                <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
                 </TouchableOpacity>
             </View>
