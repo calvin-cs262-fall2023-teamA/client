@@ -90,7 +90,7 @@ function AddPage({ route }) {
   
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={styles.container}>
 
       <TouchableOpacity style={styles.imageContainer} onPress={pickImageAsync}>
         <ImageViewer
@@ -163,17 +163,25 @@ function AddPage({ route }) {
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
+  container: {
     flex: 1,
-    //paddingBottom: 8,
-    marginBottom: 75,
-    marginVertical: 10,
-    alignItems: 'center',
+    //alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#EDE7E7',
+    padding: 25,
+  },
+  imageContainer: {
+    width: '100%',
+    // flex: 1,
+    // //paddingBottom: 8,
+    // marginBottom: 75,
+    // marginVertical: 10,
+    // alignItems: 'center',
   },
   image: {
-    width: 320,
-    height: 440,
-    borderRadius: 18,
+    width: '100%',
+    height: 200,
+    borderRadius: 20,
   },
   inputContainer: {
     marginBottom: '0%',
