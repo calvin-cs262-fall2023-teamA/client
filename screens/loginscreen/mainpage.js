@@ -27,10 +27,12 @@ const MainPage = ({ navigation, route }) => {
         const json = await response.json();
         setData(json);
       } catch (error) {
-        console.error(error);
+        //console.error(error);
+        setData([]);
       } finally {
         setIsLoading(false);
-      }
+      };
+    
   };
 
   /*Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
