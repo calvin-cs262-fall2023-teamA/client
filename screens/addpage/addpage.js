@@ -29,14 +29,14 @@ function AddPage({ route }) {
   ]); 
 
   const [location, setLocation] = useState(null);
-  //status = resolved or unresolved. Not entered when creating the card.
+
   const [lostorfound, setLostOrFound] = useState("lost") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState); 
-    isEnabled ? setLostOrFound("found") : setLostOrFound("lost");
+    isEnabled ? setLostOrFound("found") : setLostOrFound("lost"); //IN HANDLECREATEITEM(), ALWAYS RETURNS "lost".
   }
 
   //useStates for dropdown (category)
@@ -58,6 +58,7 @@ function AddPage({ route }) {
       setSelectedImage(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
+      console.log(lostorfound);
     }
   }
 
@@ -72,7 +73,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, postUser: name, claimUser: null //nothing for whether it was lost/found (lostorfound)
+            name: name, description: description, category: value, location: location, lostFound: lostorfound, postUser: 'Edom@gmail.com', claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
           }),
          
         })
