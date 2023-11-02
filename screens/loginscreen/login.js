@@ -34,9 +34,21 @@ const LoginScreen = () => {
     }
   
     try {
-      // Send a GET request to your server for user authentication
-      const response = await fetch(`https://calvinfinds.azurewebsites.net/users?emailAddress=${email}&password=${password}`);
-  
+      // Create an object with the email and password
+      const credentials = {
+        emailAddress: email,
+        password: password,
+      };
+    
+      // Send a POST request to your server for user authentication
+      const response = await fetch('https://calvinfinds.azurewebsites.net/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+    
       if (response.ok) {
         // User authentication was successful
         navigation.navigate('MainPage', { prevRoute: 'Login' });
@@ -48,6 +60,7 @@ const LoginScreen = () => {
       console.error(error);
       alert('An error occurred during login.');
     }
+    
   };
 
   return (    
