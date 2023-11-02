@@ -60,7 +60,9 @@ function AddPage({ route }) {
     }
   }
 
-  const handleCreateItem = () => {
+
+
+  const handleCreateItem = async () => {
     if (name != "") { //item MUST have a name
       //send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
@@ -69,9 +71,14 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, status: "not claimed", //nothing for whether it was lost/found (lostorfound)
+            id: 4, name: name, description: description, category: value, location: location, status: "not claimed" //nothing for whether it was lost/found (lostorfound)
           }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
         })
+        .then((response) => response.json)
+        .then((json) => console.log(json))
         .catch(error => {
           console.error(error);
         });
