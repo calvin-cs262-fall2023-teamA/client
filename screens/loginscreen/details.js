@@ -121,6 +121,9 @@ const Details = ({ navigation, route }) => {
                                 style={styles.inputText}
                                 autoCapitalize={'none'}
                             />
+                            <TouchableOpacity style={styles.sendButton}>
+                                <Image source={require('../../assets/send.png')} style={styles.sendIconStyle} />
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>

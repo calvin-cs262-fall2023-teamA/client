@@ -109,20 +109,30 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         flexDirection: 'row',
-        alignItems: 'baseline',
         borderWidth: 0,
         marginBottom: 20,
-        padding: 3,
-        paddingHorizontal: 15,
+        paddingLeft: 15,
         backgroundColor: '#fff',
         borderRadius: 15,
-      },
+        justifyContent: 'space-between',
+    },
     inputText:{
         fontSize: 18,
         fontWeight: '900',
         color: '#2F2E41',
         height: 50,
-      },
+    },
+    sendIconStyle: {
+        width: 40, // or whatever size you want
+        height: 40, // or whatever size you want
+    },
+    sendButton: {
+        backgroundColor: '#FFAF66', // Background color of the search button
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        borderRadius: 15,
+        padding: 3,
+    },
     bottomContainer: {
         flex: 1,
         backgroundColor: '#EDE7E7',
@@ -172,6 +182,7 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         fontSize: 20,
     },
+
 });
 
 export default styles;
