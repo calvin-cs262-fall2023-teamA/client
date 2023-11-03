@@ -105,11 +105,11 @@ function AddPage({ route }) {
       <View style={styles.inputContainer}>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>I Lost</Text>
+          <TouchableOpacity style={styles.leftButton}>
+            <Text style={styles.leftButtonText}>I Lost</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signupButton}>
-            <Text style={styles.buttonText}>I Found</Text>
+          <TouchableOpacity style={styles.rightButton}>
+            <Text style={styles.rightButtonText}>I Found</Text>
           </TouchableOpacity>
         </View>
 
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
-  loginButton: {
+  leftButton: {
     flex: 1,
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
@@ -195,19 +195,19 @@ const styles = StyleSheet.create({
     padding: 18,
     alignItems: 'center',
   },
-  loginButtonText: {
+  leftButtonText: {
     color: '#C2A3A3',
     fontWeight: '900',
     fontSize: 20,
   },
-  signupButton: {
+  rightButton: {
     flex: 1,
     backgroundColor: '#FFAF66',
     borderRadius: 50,
     padding: 18,
     alignItems: 'center',
   },
-  buttonText: {
+  rightButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
