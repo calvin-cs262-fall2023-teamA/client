@@ -35,6 +35,11 @@ const LoginScreen = () => {
     //   navigation.navigate('MainPage'); // Use navigation.navigate here
     // }
 
+    // Check if the email is from @calvin.edu domain
+    if (!email.endsWith('@calvin.edu')) {
+      alert("Make sure you are using @calvin.edu email address.");
+      return;
+    }
 
     // Create a user object with the entered data
     const user = {
