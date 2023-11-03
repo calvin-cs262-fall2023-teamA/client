@@ -92,7 +92,7 @@ function AddPage({ route }) {
   return (
     <View style={styles.container}>
 
-      <TouchableOpacity style={styles.imageContainer} onPress={pickImageAsync}>
+      <TouchableOpacity onPress={pickImageAsync}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
@@ -168,20 +168,6 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     justifyContent: 'flex-start',
     backgroundColor: '#EDE7E7',
-    padding: 25,
-  },
-  imageContainer: {
-    width: '100%',
-    // flex: 1,
-    // //paddingBottom: 8,
-    // marginBottom: 75,
-    // marginVertical: 10,
-    // alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    borderRadius: 20,
   },
   inputContainer: {
     marginBottom: '0%',
