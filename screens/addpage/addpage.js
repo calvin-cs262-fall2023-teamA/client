@@ -189,14 +189,15 @@ function AddPage({ route }) {
            {/* Space for Markers (and other components that can be in maps). */}
             {MarkerList()}
         </MapView>
-      </View>
-       
-      {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
+              {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
           <Text style={styles.submitButtonText}>Submit Item</Text>
         </TouchableOpacity>
       </View>
+      </View>
+       
+
     </View>
   );
 }
