@@ -13,12 +13,12 @@ const Profile = ({  }) => {
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: 'post' })}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post" })}>
           <Text style={styles.tertiaryButtonTitle}>10</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: 'claim' })}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim" })}>
           <Text style={styles.tertiaryButtonTitle}>0</Text>
           <Text style={styles.tertiaryButtonText}>Claimed</Text>
         </TouchableOpacity> 

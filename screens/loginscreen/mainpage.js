@@ -20,20 +20,6 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-  const searchItem = async (text) => {
-    setSearchedItem(text)
-    try {
-      const response = await fetch('https://calvinfinds.azurewebsites.net/items/' + text);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        //console.error(error);
-        setData([]);
-      } finally {
-        setIsLoading(false);
-      };
-  };
-
   //clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
   const resetSearch = () => {
     //called by "x" button displayed when search bar is open.
@@ -52,7 +38,7 @@ const MainPage = ({ navigation, route }) => {
   useEffect(() => {
       //load data
       if(prevRoute === "post") {
-        //if coming from profile page looking for user.postUser (that user's posts)
+        //if coming from profile page looking for user.postUser (that user's posts) 
         getItemsPosted();
       } else if (prevRoute === "claim") {
         //if coming from profile page looking for user.claimUser (that user's claimed items)
@@ -62,7 +48,7 @@ const MainPage = ({ navigation, route }) => {
         //setIsLoading(false);
         //setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
       }
-  }, []);
+  }, [prevRoute]);
 
   const getItems = async () => {
     try {
@@ -75,6 +61,20 @@ const MainPage = ({ navigation, route }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const searchItem = async (text) => {
+    setSearchedItem(text)
+    try {
+      const response = await fetch('https://calvinfinds.azurewebsites.net/items/' + text);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        //console.error(error);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      };
   };
 
   const getItemsPosted = async () => {
