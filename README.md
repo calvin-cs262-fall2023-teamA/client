@@ -20,7 +20,9 @@ The app currently contains a login/signup screen, a main screen, a details scree
    - Includes number of items posted and number of items claimed (not functional yet).
    - The "log out" button will navigate to the login page.
      
-### Dependencies to Download:
+### Unique Dependencies:
 - react-native-svg
 - expo-image-picker
 - expo-status-bar
+- react-native-dropdown-picker
+- react-native-maps
