@@ -30,14 +30,14 @@ function AddPage({ route }) {
 
   const [location, setLocation] = useState(null);
 
-  const [lostorfound, setLostOrFound] = useState("lost") //the user either lost or found this item. A string for now but could technically be a boolean.
+  const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState); 
-    isEnabled ? setLostOrFound("found") : setLostOrFound("lost"); //IN HANDLECREATEITEM(), ALWAYS RETURNS "lost".
+  const toggleSwitch = (status) => {
+    setLostOrFound(status);
   }
+  
 
   //useStates for dropdown (category)
   const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
@@ -87,6 +87,8 @@ function AddPage({ route }) {
       alert('Your post MUST include a title.')
     }
   }
+
+  
   
 
   return (
@@ -103,14 +105,21 @@ function AddPage({ route }) {
         (an item they lost or something they found). */}
       <View style={styles.inputContainer}>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.leftButton}>
-            <Text style={styles.leftButtonText}>I Lost</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.rightButton}>
-            <Text style={styles.rightButtonText}>I Found</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.buttonContainer}>
+      <TouchableOpacity 
+          style={[styles.button, lostorfound === "found" ? styles.activeButton : styles.inactiveButton]} 
+          onPress={() => toggleSwitch("found")}
+        >
+          <Text style={[styles.buttonText, lostorfound === "found" ? styles.activeButtonText : styles.inactiveButtonText]}>I Found</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.button, lostorfound === "lost" ? styles.activeButton : styles.inactiveButton]} 
+          onPress={() => toggleSwitch("lost")}
+        >
+          <Text style={[styles.buttonText, lostorfound === "lost" ? styles.activeButtonText : styles.inactiveButtonText]}>I Lost</Text>
+        </TouchableOpacity>
+
+      </View>
 
         <InputField header="Title" bodySize={50} changeText={setName} />
         <InputField header="Description" bodySize={50} changeText={setDescription} />
@@ -186,30 +195,27 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
-  leftButton: {
+  button: {
     flex: 1,
-    backgroundColor: '#FAF2F2',
     borderRadius: 50,
-    width: 100,
     padding: 18,
     alignItems: 'center',
   },
-  leftButtonText: {
-    color: '#C2A3A3',
+  buttonText: {
     fontWeight: '900',
     fontSize: 20,
   },
-  rightButton: {
-    flex: 1,
+  activeButton: {
     backgroundColor: '#FFAF66',
-    borderRadius: 50,
-    padding: 18,
-    alignItems: 'center',
   },
-  rightButtonText: {
+  inactiveButton: {
+    backgroundColor: '#FAF2F2',
+  },
+  activeButtonText: {
     color: '#342F2F',
-    fontWeight: '900',
-    fontSize: 20,
+  },
+  inactiveButtonText: {
+    color: '#C2A3A3',
   },
   switchContainer: {
     flexDirection: 'row', 
