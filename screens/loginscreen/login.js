@@ -78,7 +78,7 @@ const LoginScreen = () => {
         <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
           <Image source={require('../../assets/emailIcon.png')} style={styles.inputIconStyle} />
           <TextInput
-              placeholder="ab12@calvin.edu"
+              placeholder="Email"
               placeholderTextColor="#9E8B8D" 
               onChangeText={(text) => setEmail(text)}
               value={email}
@@ -91,7 +91,7 @@ const LoginScreen = () => {
         <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
           <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
           <TextInput
-            placeholder="********"
+            placeholder="Password"
             placeholderTextColor="#9E8B8D" 
             onChangeText={(text) => setPassword(text)}
             value={password}
