@@ -1,15 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import ImageButton from '../components/Buttons';
+import ImageViewer from '../components/ImageViewer';
 
 const Profile = ({  }) => {
   const navigation = useNavigation();
+
+  //image handled below
+
+  const PlaceholderImage = require('../../assets/user.png');
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert('You did not select any image.');
+      
+    }
+  }
   
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/user.png')} style={profileStyles.userIconStyle} />
+      <TouchableOpacity style={profileStyles.imageContainer} onPress={pickImageAsync}>
+        <ImageViewer
+          placeholderImageSource={PlaceholderImage}
+          selectedImage={selectedImage}
+          onPress={pickImageAsync} //click on image to modify.
+        />
+      </TouchableOpacity>
+      
       <Text style={styles.userName}>User Name</Text>
       <Text style={styles.userEmail}>ab12@calvin.edu</Text>
+
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
@@ -31,7 +61,7 @@ const Profile = ({  }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.secondaryButtonContainer}>
         <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.secondaryButtonText}>Log Out</Text>
         </TouchableOpacity>
@@ -98,6 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: 100,
+    height: 60,
     padding: 18,
     alignItems: 'center',
     shadowColor: '#A59D95',
@@ -105,12 +136,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    marginTop: -100,
   },
 
   primaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
+    
+  },
+
+  secondaryButtonContainer: {
+    alignItems: 'center',
+    marginTop: 20, // Adjust the marginTop to lift the "Log Out" button
   },
 
   secondaryButton: {
@@ -118,6 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 18,
     alignItems: 'center',
+    marginTop: -80,
   },
   secondaryButtonText: {
     color: '#9E8B8D',
@@ -156,11 +195,10 @@ const styles = StyleSheet.create({
 });
 
 const profileStyles = StyleSheet.create({
-  userIconStyle: {
-    width: 130,
-    height: 130,
-    marginTop: 50,
-    borderRadius: 100,
+  imageContainer: {
+    // Photo is moved down until it is fully visable
+    marginTop: 640,
+    
   },
 });
 
