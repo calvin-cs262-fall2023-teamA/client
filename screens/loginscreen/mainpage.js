@@ -66,7 +66,7 @@ const MainPage = ({ navigation, route }) => {
   const searchItem = async (text) => {
     setSearchedItem(text)
     try {
-      const response = await fetch('https://calvinfinds.azurewebsites.net/items/' + text);
+      const response = await fetch('https://calvinfinds.azurewebsites.net/items/search/' + text);
         const json = await response.json();
         setData(json);
       } catch (error) {
