@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, Text, TouchableOpacity, Switch, StyleSheet } from 'react-native';
+import { Button, View, Text, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
