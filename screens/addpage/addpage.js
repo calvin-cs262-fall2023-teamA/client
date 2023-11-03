@@ -91,7 +91,6 @@ function AddPage({ route }) {
 
   return (
     <View style={styles.container}>
-
       <TouchableOpacity onPress={pickImageAsync}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
@@ -114,7 +113,7 @@ function AddPage({ route }) {
         </View>
 
         <InputField header="Title" bodySize={50} changeText={setName} />
-        <InputField header="Description" bodySize={100} changeText={setDescription} />
+        <InputField header="Description" bodySize={50} changeText={setDescription} />
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
         <DropDownPicker 
           style={styles.dropdown}
@@ -230,9 +229,9 @@ const styles = StyleSheet.create({
     
   },
   map: {
-    width: '90%',
+    width: '100%',
     height: '35%',
-    alignSelf: 'center',
+    borderRadius: 20,
   }
 });
 
