@@ -190,12 +190,11 @@ function AddPage({ route }) {
             {MarkerList()}
         </MapView>
               {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
-      <View style={styles.buttonContainer}>
+      </View>
+
         <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
           <Text style={styles.submitButtonText}>Submit Item</Text>
         </TouchableOpacity>
-      </View>
-      </View>
        
 
     </View>
@@ -304,12 +303,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   submitButton: {
-    flex: 1,
+    alignItems: 'center',
     backgroundColor: '#FFAF66',
     borderRadius: 50,
-    width: 100,
+    width: '80%',
     padding: 18,
-    alignItems: 'center',
+    marginBottom: 30,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
