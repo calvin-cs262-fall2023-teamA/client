@@ -8,18 +8,18 @@ const Profile = ({  }) => {
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/user.png')} style={profileStyles.userIconStyle} />
-      <Text style={styles.userName}>User Name</Text>
-      <Text style={styles.userEmail}>ab12@calvin.edu</Text>
+      <Text style={styles.userName}>Edom</Text>
+      <Text style={styles.userEmail}>Edom@gmail.com</Text>
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.goBack()}> 
-          <Text style={styles.tertiaryButtonTitle}>0</Text>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: 'post' })}>
+          <Text style={styles.tertiaryButtonTitle}>10</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.tertiaryButtonTitle}>13</Text>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: 'claim' })}>
+          <Text style={styles.tertiaryButtonTitle}>0</Text>
           <Text style={styles.tertiaryButtonText}>Claimed</Text>
         </TouchableOpacity> 
 
