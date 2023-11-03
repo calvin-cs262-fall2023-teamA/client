@@ -35,6 +35,11 @@ const LoginScreen = () => {
     //   navigation.navigate('MainPage'); // Use navigation.navigate here
     // }
 
+    // Check if the email is from @calvin.edu domain
+    if (!email.endsWith('@calvin.edu')) {
+      alert("Make sure you are using @calvin.edu email address.");
+      return;
+    }
 
     // Create a user object with the entered data
     const user = {
@@ -82,7 +87,7 @@ const LoginScreen = () => {
         <View style={[styles.input, isNameFocused && styles.inputFocused]}>
           <Image source={require('../../assets/profileIcon.png')} style={styles.inputIconStyle} />
           <TextInput
-              placeholder="John Doe"
+              placeholder="User Name"
               placeholderTextColor="#9E8B8D" 
               onChangeText={(text) => setName(text)}
               value={Name}
@@ -96,7 +101,7 @@ const LoginScreen = () => {
         <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
           <Image source={require('../../assets/emailIcon.png')} style={styles.inputIconStyle} />
           <TextInput
-              placeholder="ab12@calvin.edu"
+              placeholder="Email"
               placeholderTextColor="#9E8B8D" 
               onChangeText={(text) => setEmail(text)}
               value={email}
@@ -109,7 +114,7 @@ const LoginScreen = () => {
         <View style={[styles.input, isPasswordFocused && styles.inputFocused]}>
           <Image source={require('../../assets/lock.png')} style={styles.inputIconStyle} />
           <TextInput
-            placeholder="password"
+            placeholder="Password"
             placeholderTextColor="#9E8B8D" 
             onChangeText={(text) => setPassword(text)}
             value={password}
