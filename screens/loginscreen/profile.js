@@ -1,15 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import ImageButton from '../components/Buttons';
+import ImageViewer from '../components/ImageViewer';
 
 const Profile = ({  }) => {
   const navigation = useNavigation();
+
+  //image handled below
+
+  const PlaceholderImage = require('../../assets/user.png');
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert('You did not select any image.');
+      
+    }
+  }
   
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/user.png')} style={profileStyles.userIconStyle} />
+      <TouchableOpacity style={styles.imageContainer} onPress={pickImageAsync}>
+        <ImageViewer
+          style={profileStyles.userIconStyle}
+          placeholderImageSource={PlaceholderImage}
+          selectedImage={selectedImage}
+          onPress={pickImageAsync} //click on image to modify.
+        />
+      </TouchableOpacity>
+      
       <Text style={styles.userName}>User Name</Text>
       <Text style={styles.userEmail}>ab12@calvin.edu</Text>
+
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
