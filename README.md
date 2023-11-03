@@ -1,15 +1,25 @@
 # CalvinFinds Client
 This is the client application for the CalvinFinds project.
 
-The app currently contains a login screen, a main screen, a selection screen, and an add (item) screen.
-- The login page contains fields for entering a username/password and buttons to "log in" or "sign up" (sign up button is currently non-functional).
-- The "log in" button will navigate to the main page if the **username "admin" and password "password"** are entered.
-- The main page contains a list of lost/found items (based on a set of data used as a placeholder). The cards for these items currently lack detail (pictures, titles, descriptions, etc.).
-- The main page also includes a (currently non-functional) search bar.
-- A selection screen exists between the login page and the other screens. It currently serves as a menu to navigate users to other screens
-- A screen also exists for adding items (lost/found item cards) to the main page.
-- The add screen has fields that the user can modify, but the information from the form on that page does not yet transfer over to the main page.
-
+The app currently contains a login/signup screen, a main screen, a details screen, an add (item) screen, and a user profile screen.
+- **Login/Signup page:**  
+   - Contains fields for entering a username/password and buttons to "log in" (or "sign up" to create a new account).
+   - The "log in" button will navigate to the main page if the existing user credentials are correctly entered.
+- **Main page:**
+   - Contains a list of lost/found items that have been posted by users.
+   - The cards for these items currently include titles and descriptions but lack detail regarding pictures, location, etc.).
+   - The main page also includes a search bar to search for specific items.
+- **Add Items page:**
+   - Allows the user to add items (lost/found item cards) to the main page.
+   - The items added from this page are displayed on the main page.
+- **Details page:**
+   - Contains a detailed description of the items.
+   - Contains comments from users on the items (not functional yet).
+- **User Profile page:**
+   - Displays the current user's name and email.
+   - Includes number of items posted and number of items claimed (not functional yet).
+   - The "log out" button will navigate to the login page.
+     
 ### Dependencies to Download:
 - react-native-svg
 - expo-image-picker
