@@ -29,9 +29,8 @@ const Profile = ({  }) => {
   
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.imageContainer} onPress={pickImageAsync}>
+      <TouchableOpacity style={profileStyles.imageContainer} onPress={pickImageAsync}>
         <ImageViewer
-          style={profileStyles.userIconStyle}
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
           onPress={pickImageAsync} //click on image to modify.
@@ -62,7 +61,7 @@ const Profile = ({  }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.secondaryButtonContainer}>
         <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.secondaryButtonText}>Log Out</Text>
         </TouchableOpacity>
@@ -129,6 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: 100,
+    height: 60,
     padding: 18,
     alignItems: 'center',
     shadowColor: '#A59D95',
@@ -136,12 +136,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    marginTop: -100,
   },
 
   primaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
+    
+  },
+
+  secondaryButtonContainer: {
+    alignItems: 'center',
+    marginTop: 20, // Adjust the marginTop to lift the "Log Out" button
   },
 
   secondaryButton: {
@@ -149,6 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 18,
     alignItems: 'center',
+    marginTop: -80,
   },
   secondaryButtonText: {
     color: '#9E8B8D',
@@ -187,11 +195,10 @@ const styles = StyleSheet.create({
 });
 
 const profileStyles = StyleSheet.create({
-  userIconStyle: {
-    width: 130,
-    height: 130,
-    marginTop: 50,
-    borderRadius: 100,
+  imageContainer: {
+    // Photo is moved down until it is fully visable
+    marginTop: 640,
+    
   },
 });
 
