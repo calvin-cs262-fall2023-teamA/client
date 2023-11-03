@@ -87,8 +87,10 @@ function AddPage({ route }) {
     }
   }
 
-  const [isInputFieldFocused, setInputFieldEmailFocused] = useState(false);
-  const [isPasswordFocused, setPasswordFocused] = useState(false);
+  const [isInputFieldFocused, setInputFieldFocused] = useState(false);
+  const [isDescriptionFocused, setDescriptionFocused] = useState(false);
+  const [title, setTitle] = useState('');
+  const [inputDescription, setInputDescription] = useState('');
   
 
   return (
@@ -105,43 +107,65 @@ function AddPage({ route }) {
         (an item they lost or something they found). */}
       <View style={styles.inputContainer}>
 
-      <View style={styles.buttonContainer}>
-      <TouchableOpacity 
-          style={[styles.button, lostorfound === "found" ? styles.activeButton : styles.inactiveButton]} 
-          onPress={() => toggleSwitch("found")}
-        >
-          <Text style={[styles.buttonText, lostorfound === "found" ? styles.activeButtonText : styles.inactiveButtonText]}>I Found</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.button, lostorfound === "lost" ? styles.activeButton : styles.inactiveButton]} 
-          onPress={() => toggleSwitch("lost")}
-        >
-          <Text style={[styles.buttonText, lostorfound === "lost" ? styles.activeButtonText : styles.inactiveButtonText]}>I Lost</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={[styles.button, lostorfound === "found" ? styles.activeButton : styles.inactiveButton]} 
+            onPress={() => toggleSwitch("found")}
+          >
+            <Text style={[styles.buttonText, lostorfound === "found" ? styles.activeButtonText : styles.inactiveButtonText]}>I Found</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.button, lostorfound === "lost" ? styles.activeButton : styles.inactiveButton]} 
+            onPress={() => toggleSwitch("lost")}
+          >
+            <Text style={[styles.buttonText, lostorfound === "lost" ? styles.activeButtonText : styles.inactiveButtonText]}>I Lost</Text>
+          </TouchableOpacity>
 
-      </View>
+        </View>
 
-      <View style={[styles.input, isInputFieldFocused && styles.inputFocused]}>
+        <View style={[styles.input, isInputFieldFocused && styles.inputFocused]}>
           <TextInput
-              placeholder="1 to 2 words to describe Title"
+              placeholder="1 to 2 words for title"
               placeholderTextColor="#9E8B8D" 
-              onChangeText={(text) => setEmail(text)}
-              onFocus={() => setInputFieldEmailFocused(true)}
-              onBlur={() => setInputFieldEmailFocused(false)}
+              onChangeText={(text) => setTitle(text)}
+              onFocus={() => setInputFieldFocused(true)}
+              onBlur={() => setInputFieldFocused(false)}
               style={styles.inputText}
           />
         </View>
-        <InputField header="Description" bodySize={50} changeText={setDescription} />
+        {/* <InputField header="Description" bodySize={50} changeText={setDescription} /> */}
+        <View style={[styles.input, isDescriptionFocused && styles.inputFocused]}>
+          <TextInput
+              placeholder="Item Description"
+              placeholderTextColor="#9E8B8D" 
+              onChangeText={(text) => setInputDescription(text)}
+              onFocus={() => setDescriptionFocused(true)}
+              onBlur={() => setDescriptionFocused(false)}
+              style={styles.inputText}
+          />
+        </View>
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
         <DropDownPicker 
-          style={styles.dropdown}
+          style={{
+          borderColor: 'transparent',
+          borderRadius: 15,
+          width: "100%",
+          }}
           items={categories}
           value={value}
           open={open}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setCategories}
-
+          labelStyle={{
+            color: '#342F2F',
+            fontWeight: 'bold',
+            fontSize: 18,
+          }}
+          dropDownContainerStyle={{
+            borderColor: 'transparent',
+            borderRadius: 15,
+          }}
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
              My initial thought was to make the scroll bar always visible (instead of just while scrolling), but I
              haven't gotten that to work yet. */
@@ -175,7 +199,12 @@ function AddPage({ route }) {
         </MapView>
       </View>
        
-      <Button title="Submit Item" onPress={() => handleCreateItem()} />
+      {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
+          <Text style={styles.submitButtonText}>Submit Item</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -183,13 +212,15 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //alignItems: 'center',
+    justifyContent: 'center', // Add this
+    alignItems: 'center',     // Add this
     backgroundColor: '#EDE7E7',
   },
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
     alignItems: 'center',
+    width: '90%',
   },
   // inputContainer: {
   //   borderRadius: 15,
@@ -206,7 +237,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: '#f5f0f0',
     borderRadius: 15,
-    width: '90%'
+    
   },
 
   inputText:{
@@ -271,13 +302,33 @@ const styles = StyleSheet.create({
     color: '#00000099',
   },
   dropdown: {
-    
+    backgroundColor: 'fff',
+    borderColor: 'fff',
   },
   map: {
     width: '100%',
     height: '35%',
     borderRadius: 20,
-  }
+  },
+  submitButton: {
+    flex: 1,
+    backgroundColor: '#FFAF66',
+    borderRadius: 50,
+    width: 100,
+    padding: 18,
+    alignItems: 'center',
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+  },
+
+  submitButtonText: {
+    color: '#342F2F',
+    fontWeight: '900',
+    fontSize: 20,
+  },
 });
 
 export default AddPage;
