@@ -147,9 +147,14 @@ function AddPage({ route }) {
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
         <DropDownPicker 
           style={{
-          borderColor: 'transparent',
-          borderRadius: 15,
-          width: "100%",
+            borderColor: 'transparent',
+            width: "100%",
+            //padding: 5,
+          }}
+          containerStyle={{
+            backgroundColor: '#fff',
+            borderRadius: 15,
+            padding: 5,
           }}
           items={categories}
           value={value}
@@ -158,6 +163,25 @@ function AddPage({ route }) {
           setValue={setValue}
           setItems={setCategories}
           placeholder="Select a category"
+          placeholderStyle={{   // <-- Added this prop
+            fontSize: 20,       // Change to your desired font size
+            fontWeight: '900',  // Change to your desired font weight
+            color: '#342F2F',
+          }}
+          labelStyle={{  
+            fontSize: 20,       // Change to your desired font size
+            fontWeight: '900',  // Change to your desired font weight
+            color: '#342F2F',
+          }}
+          listItemLabelStyle={{
+            fontSize: 16,       // Change to your desired font size for items
+            fontWeight: '900',   // Change to your desired font weight for items
+            color: '#342F2F',
+          }}
+          dropDownContainerStyle={{
+            borderColor: 'transparent',
+          }}
+          
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
              My initial thought was to make the scroll bar always visible (instead of just while scrolling), but I
              haven't gotten that to work yet. */
