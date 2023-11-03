@@ -167,11 +167,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //alignItems: 'center',
-    justifyContent: 'flex-start',
     backgroundColor: '#EDE7E7',
   },
   inputContainer: {
-    marginBottom: '0%',
+    flex: 1,
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
