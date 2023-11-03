@@ -157,15 +157,7 @@ function AddPage({ route }) {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setCategories}
-          labelStyle={{
-            color: '#342F2F',
-            fontWeight: 'bold',
-            fontSize: 18,
-          }}
-          dropDownContainerStyle={{
-            borderColor: 'transparent',
-            borderRadius: 15,
-          }}
+          placeholder="Select a category"
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
              My initial thought was to make the scroll bar always visible (instead of just while scrolling), but I
              haven't gotten that to work yet. */
