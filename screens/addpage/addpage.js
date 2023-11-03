@@ -103,15 +103,16 @@ function AddPage({ route }) {
       {/* A list of options for what kinds of things the user can add 
         (an item they lost or something they found). */}
       <View style={styles.inputContainer}>
-        <View style={styles.switchContainer}>
-          {/* Text and a switch */}
-          <Text style={!isEnabled ? styles.selectText : styles.unselectText}>I Lost...</Text>
-          <Switch
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-          <Text style={isEnabled ? styles.selectText : styles.unselectText}>I Found...</Text>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.loginButton}>
+            <Text style={styles.loginButtonText}>I Lost</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.signupButton}>
+            <Text style={styles.buttonText}>I Found</Text>
+          </TouchableOpacity>
         </View>
+
         <InputField header="Title" bodySize={50} changeText={setName} />
         <InputField header="Description" bodySize={100} changeText={setDescription} />
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
@@ -171,6 +172,44 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: '0%',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    bottom: 15,
+    color: '#FAF2F2',
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
+    maxWidth: 350,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+  },
+  loginButton: {
+    flex: 1,
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
+    width: 100,
+    padding: 18,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#C2A3A3',
+    fontWeight: '900',
+    fontSize: 20,
+  },
+  signupButton: {
+    flex: 1,
+    backgroundColor: '#FFAF66',
+    borderRadius: 50,
+    padding: 18,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#342F2F',
+    fontWeight: '900',
+    fontSize: 20,
   },
   switchContainer: {
     flexDirection: 'row', 
