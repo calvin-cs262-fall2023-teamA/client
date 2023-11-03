@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, Text, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -29,7 +29,6 @@ function AddPage({ route }) {
   ]); 
 
   const [location, setLocation] = useState(null);
-
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   //for Switch (selecting lost/found)
@@ -88,7 +87,8 @@ function AddPage({ route }) {
     }
   }
 
-  
+  const [isEmailFocused, setEmailFocused] = useState(false);
+  const [isPasswordFocused, setPasswordFocused] = useState(false);
   
 
   return (
@@ -121,7 +121,16 @@ function AddPage({ route }) {
 
       </View>
 
-        <InputField header="Title" bodySize={50} changeText={setName} />
+      <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
+          <TextInput
+              placeholder="1 to 2 words to describe Title"
+              placeholderTextColor="#9E8B8D" 
+              onChangeText={(text) => setEmail(text)}
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
+              style={styles.inputText}
+          />
+        </View>
         <InputField header="Description" bodySize={50} changeText={setDescription} />
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
         <DropDownPicker 
@@ -181,6 +190,36 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     alignItems: 'center',
+  },
+  // inputContainer: {
+  //   borderRadius: 15,
+  //   width: '100%',
+  //   marginBottom: 20,
+  // },
+  
+  input: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 0,
+    marginBottom: 30,
+    padding: 3,
+    paddingHorizontal: 15,
+    backgroundColor: '#f5f0f0',
+    borderRadius: 15,
+    width: '90%'
+  },
+
+  inputText:{
+    flex: 1,
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#2F2E41',
+    height: 60,
+  },
+
+  inputFocused: {
+    backgroundColor: 'white',
+    
   },
   buttonContainer: {
     flexDirection: 'row',
