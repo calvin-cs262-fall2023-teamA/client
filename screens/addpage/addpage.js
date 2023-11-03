@@ -87,7 +87,7 @@ function AddPage({ route }) {
     }
   }
 
-  const [isEmailFocused, setEmailFocused] = useState(false);
+  const [isInputFieldFocused, setInputFieldEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   
 
@@ -121,13 +121,13 @@ function AddPage({ route }) {
 
       </View>
 
-      <View style={[styles.input, isEmailFocused && styles.inputFocused]}>
+      <View style={[styles.input, isInputFieldFocused && styles.inputFocused]}>
           <TextInput
               placeholder="1 to 2 words to describe Title"
               placeholderTextColor="#9E8B8D" 
               onChangeText={(text) => setEmail(text)}
-              onFocus={() => setEmailFocused(true)}
-              onBlur={() => setEmailFocused(false)}
+              onFocus={() => setInputFieldEmailFocused(true)}
+              onBlur={() => setInputFieldEmailFocused(false)}
               style={styles.inputText}
           />
         </View>
