@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -91,7 +91,8 @@ function AddPage({ route }) {
   const [isDescriptionFocused, setDescriptionFocused] = useState(false);
   const [title, setTitle] = useState('');
   const [inputDescription, setInputDescription] = useState('');
-  
+  const [isMapVisible, setMapVisible] = useState(false);
+
 
   return (
     <View style={styles.container}>
@@ -196,23 +197,36 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
-        <MapView
-          style={styles.map}
-          //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
-          /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
-          region={{
-            latitude: 42.93105829800732,
-            longitude: -85.58688823855098,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.005,
+        <Button title="Select Location" onPress={() => setMapVisible(true)} />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={isMapVisible}
+          onRequestClose={() => {
+            setMapVisible(!isMapVisible);
           }}
-          mapType='hybrid'
-          minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
-          //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
         >
-           {/* Space for Markers (and other components that can be in maps). */}
-            {MarkerList()}
-        </MapView>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <MapView
+              style={styles.map}
+              //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
+              /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
+              region={{
+                latitude: 42.93105829800732,
+                longitude: -85.58688823855098,
+                latitudeDelta: 0.007,
+                longitudeDelta: 0.005,
+              }}
+              mapType='hybrid'
+              minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
+              //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
+            >
+              {/* Space for Markers (and other components that can be in maps). */}
+              {MarkerList()}
+            </MapView>
+            <Button title="Close Map" onPress={() => setMapVisible(false)} />
+          </View>
+        </Modal>
               {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
         <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
           <Text style={styles.submitButtonText}>Submit Item</Text>
@@ -323,8 +337,9 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: '35%',
+    height: '90%',
     borderRadius: 20,
+    flex: 1,
   },
   submitButton: {
     alignItems: 'center',
