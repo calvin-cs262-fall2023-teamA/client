@@ -155,7 +155,7 @@ function AddPage({ route }) {
           containerStyle={{
             backgroundColor: '#fff',
             borderRadius: 15,
-            padding: 5,
+            paddingVertical: 5,
           }}
           items={categories}
           value={value}
@@ -163,7 +163,7 @@ function AddPage({ route }) {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setCategories}
-          placeholder="Select a category"
+          placeholder=" Select a category"
           placeholderStyle={{   // <-- Added this prop
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
@@ -181,6 +181,7 @@ function AddPage({ route }) {
           }}
           dropDownContainerStyle={{
             borderColor: 'transparent',
+            zIndex: 999,
           }}
           
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
@@ -332,8 +333,9 @@ const styles = StyleSheet.create({
     color: '#00000099',
   },
   dropdown: {
-    backgroundColor: 'fff',
-    borderColor: 'fff',
+    // backgroundColor: 'fff',
+    // borderColor: 'fff',
+    // zIndex: 9,
   },
   map: {
     width: '100%',
@@ -341,6 +343,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flex: 1,
   },
+
   submitButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
