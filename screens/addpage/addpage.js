@@ -214,11 +214,11 @@ function AddPage({ route }) {
             {MarkerList()}
         </MapView>
               {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
-      </View>
-
         <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
           <Text style={styles.submitButtonText}>Submit Item</Text>
         </TouchableOpacity>
+      </View>
+
        
 
     </View>
