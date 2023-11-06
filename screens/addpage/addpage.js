@@ -167,7 +167,7 @@ function AddPage({ route }) {
           placeholderStyle={{   // <-- Added this prop
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
-            color: '#4b4a45',
+            color: '#9E8B8D',
           }}
           labelStyle={{  
             fontSize: 20,       // Change to your desired font size
@@ -227,7 +227,15 @@ function AddPage({ route }) {
               {/* Space for Markers (and other components that can be in maps). */}
               {MarkerList()}
             </MapView>
-            <Button title="Close Map" onPress={() => setMapVisible(false)} />
+
+            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
+              <Text style={styles.primaryButtonText}>Set Location</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
+              <Text style={styles.primaryButtonText}>Close Map</Text>
+            </TouchableOpacity>
+
           </View>
         </Modal>
         <View style={styles.buttonContainer}>
@@ -309,6 +317,7 @@ const styles = StyleSheet.create({
     width: '85%',
     flexDirection: 'row',
     color: '#FAF2F2',
+    zIndex: -1,
     //backgroundColor: '#FAF2F2',
    //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
@@ -404,6 +413,10 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
+  },
+  closeMapButton: {
+    marginBottom: 20,
+    marginTop: 10,
   },
   primaryButtonText: {
     color: '#342F2F',
