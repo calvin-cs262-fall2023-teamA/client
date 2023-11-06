@@ -108,7 +108,7 @@ function AddPage({ route }) {
         (an item they lost or something they found). */}
       <View style={styles.inputContainer}>
 
-        <View style={styles.buttonContainer}>
+        <View style={styles.switchButtonContainer}>
           <TouchableOpacity 
             style={[styles.button, lostorfound === "found" ? styles.activeButton : styles.inactiveButton]} 
             onPress={() => toggleSwitch("found")}
@@ -167,7 +167,7 @@ function AddPage({ route }) {
           placeholderStyle={{   // <-- Added this prop
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
-            color: '#342F2F',
+            color: '#4b4a45',
           }}
           labelStyle={{  
             fontSize: 20,       // Change to your desired font size
@@ -198,7 +198,9 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
-        <Button title="Select Location" onPress={() => setMapVisible(true)} />
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
+          <Text style={styles.primaryButtonText}>Select Location</Text>
+        </TouchableOpacity>
         <Modal
           animationType="slide"
           transparent={false}
@@ -228,10 +230,28 @@ function AddPage({ route }) {
             <Button title="Close Map" onPress={() => setMapVisible(false)} />
           </View>
         </Modal>
-              {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
-        <TouchableOpacity style={styles.primaryButton} onPress={() => handleCreateItem()}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={[styles.button, styles.inactiveButton]} 
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={[styles.buttonText, styles.inactiveButtonText]}>Discard</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.button, styles.activeButton ]} 
+            onPress={() => handleCreateItem()}
+          >
+            <Text style={[styles.buttonText, styles.activeButtonText, styles.submitButton]}>Submit</Text>
+          </TouchableOpacity>
+
+        </View>
+        {/* <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.primaryButtonText}>Discard</Text>
+        </TouchableOpacity> */}
+        {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
+        {/* <TouchableOpacity style={styles.primaryButton} onPress={() => handleCreateItem()}>
           <Text style={styles.primaryButtonText}>Submit Item</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
        
@@ -247,7 +267,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE7E7',
   },
   inputContainer: {
-    marginTop: 30,
     flex: 1,
     // justifyContent: 'center',
     // justifyContent: 'flex-end', 
@@ -285,8 +304,19 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
+    marginTop: 30,
+    marginBottom: 30,
+    width: '85%',
     flexDirection: 'row',
-    bottom: 15,
+    color: '#FAF2F2',
+    //backgroundColor: '#FAF2F2',
+   //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+  },
+  switchButtonContainer: {
+    marginTop: 30,
+    marginBottom: 30,
+    width: '85%',
+    flexDirection: 'row',
     color: '#FAF2F2',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
@@ -311,13 +341,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFAF66',
   },
   inactiveButton: {
-    backgroundColor: '#FAF2F2',
+    backgroundColor: 'transparent',
   },
   activeButtonText: {
     color: '#342F2F',
   },
   inactiveButtonText: {
-    color: '#C2A3A3',
+    color: '#9E8B8D',
   },
   switchContainer: {
     flexDirection: 'row', 
@@ -349,9 +379,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFAF66',
     borderRadius: 50,
-    width: '80%',
+    width: '85%',
     padding: 18,
-    marginBottom: 30,
+    marginBottom: 10,
+    marginTop: 10,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
@@ -359,7 +390,21 @@ const styles = StyleSheet.create({
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
-
+  secondaryButton: {
+    alignItems: 'center',
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
+    width: '85%',
+    padding: 18,
+    marginBottom: 10,
+    marginTop: 30,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    zIndex: -1,
+  },
   primaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',
