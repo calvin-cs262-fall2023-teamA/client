@@ -228,15 +228,15 @@ const MainPage = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="Search for an item"
+                    placeholder="Type to search item"
                     placeholderTextColor="#9E8B8D" 
                     value={searchedItem}
                     onChangeText={(text) => searchItem(text)}
                 />
                 {/* handles search bar and account icon */}
-                <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
+                {/* <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             )}
 
