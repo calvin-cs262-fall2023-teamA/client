@@ -3,8 +3,12 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   // Add your styles here to format the feed items, headers, images, etc.
   // This is a simplified example, and you may need to customize it further.
+  itemContainer: {
+    flex: 1,  
+  },
+
   container: {
-    flex: 1,
+    minHeight: '100%',
     backgroundColor: '#EDE7E7',
   },
   

@@ -128,7 +128,7 @@ const MainPage = ({ navigation, route }) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={handleDetailsOpen}>
-      <View style={styles.container}>
+      <View style={styles.itemContainer}>
         <View style={styles.postContainer}>
             <View style={styles.row}>  
                 <View style={styles.nameDescription}>
@@ -163,7 +163,7 @@ const MainPage = ({ navigation, route }) => {
   );
 
   return (
-    <View>
+    <View style={styles.container}>
         <FlatList
         data={data}
         keyExtractor={({id}) => id} //{(item) => item.id} //old
