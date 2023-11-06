@@ -34,6 +34,7 @@ const Profile = ({  }) => {
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
           onPress={pickImageAsync} //click on image to modify.
+          style={styles.ImageViewerStyle}
         />
       </TouchableOpacity>
       
@@ -81,6 +82,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#EDE7E7',
     padding: 35,
+  },
+  ImageViewerStyle: {
+    width: 150,
+    height: 150,
+    borderRadius: 200,
   },
   userName: {
     flexDirection: 'row',
