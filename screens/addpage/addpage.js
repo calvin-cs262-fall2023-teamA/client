@@ -229,8 +229,8 @@ function AddPage({ route }) {
           </View>
         </Modal>
               {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
-        <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
-          <Text style={styles.submitButtonText}>Submit Item</Text>
+        <TouchableOpacity style={styles.primaryButton} onPress={() => handleCreateItem()}>
+          <Text style={styles.primaryButtonText}>Submit Item</Text>
         </TouchableOpacity>
       </View>
 
@@ -243,13 +243,14 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Add this
-    alignItems: 'center',     // Add this
+    alignItems: 'center',    
     backgroundColor: '#EDE7E7',
   },
   inputContainer: {
+    marginTop: 30,
     flex: 1,
     // justifyContent: 'center',
+    // justifyContent: 'flex-end', 
     alignItems: 'center',
     width: '90%',
   },
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  submitButton: {
+  primaryButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
     borderRadius: 50,
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
 
-  submitButtonText: {
+  primaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
