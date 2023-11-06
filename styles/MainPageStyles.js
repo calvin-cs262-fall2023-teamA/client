@@ -5,11 +5,13 @@ const styles = StyleSheet.create({
   // This is a simplified example, and you may need to customize it further.
   itemContainer: {
     flex: 1,  
+    
   },
 
   container: {
     minHeight: '100%',
     backgroundColor: '#EDE7E7',
+    paddingBottom: 110,  //make the bottom bar not covering the last item 
   },
   
   postContainer: {
