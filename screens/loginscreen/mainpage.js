@@ -128,7 +128,7 @@ const MainPage = ({ navigation, route }) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={handleDetailsOpen}>
-      <View style={styles.itemContainer}>
+      <View style={styles.container}>
         <View style={styles.postContainer}>
             <View style={styles.row}>  
                 <View style={styles.nameDescription}>
@@ -163,7 +163,7 @@ const MainPage = ({ navigation, route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <View>
         <FlatList
         data={data}
         keyExtractor={({id}) => id} //{(item) => item.id} //old
@@ -228,15 +228,15 @@ const MainPage = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="Type to search item"
+                    placeholder="Search for an item"
                     placeholderTextColor="#9E8B8D" 
                     value={searchedItem}
                     onChangeText={(text) => searchItem(text)}
                 />
                 {/* handles search bar and account icon */}
-                {/* <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
+                <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
             )}
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -91,8 +91,7 @@ function AddPage({ route }) {
   const [isDescriptionFocused, setDescriptionFocused] = useState(false);
   const [title, setTitle] = useState('');
   const [inputDescription, setInputDescription] = useState('');
-  const [isMapVisible, setMapVisible] = useState(false);
-
+  
 
   return (
     <View style={styles.container}>
@@ -108,7 +107,7 @@ function AddPage({ route }) {
         (an item they lost or something they found). */}
       <View style={styles.inputContainer}>
 
-        <View style={styles.switchButtonContainer}>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity 
             style={[styles.button, lostorfound === "found" ? styles.activeButton : styles.inactiveButton]} 
             onPress={() => toggleSwitch("found")}
@@ -155,7 +154,7 @@ function AddPage({ route }) {
           containerStyle={{
             backgroundColor: '#fff',
             borderRadius: 15,
-            paddingVertical: 5,
+            padding: 5,
           }}
           items={categories}
           value={value}
@@ -163,11 +162,11 @@ function AddPage({ route }) {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setCategories}
-          placeholder=" Select a category"
+          placeholder="Select a category"
           placeholderStyle={{   // <-- Added this prop
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
-            color: '#9E8B8D',
+            color: '#342F2F',
           }}
           labelStyle={{  
             fontSize: 20,       // Change to your desired font size
@@ -181,7 +180,6 @@ function AddPage({ route }) {
           }}
           dropDownContainerStyle={{
             borderColor: 'transparent',
-            zIndex: 999,
           }}
           
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
@@ -198,70 +196,29 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
-        <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
-          <Text style={styles.primaryButtonText}>Select Location</Text>
-        </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={isMapVisible}
-          onRequestClose={() => {
-            setMapVisible(!isMapVisible);
+        <MapView
+          style={styles.map}
+          //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
+          /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
+          region={{
+            latitude: 42.93105829800732,
+            longitude: -85.58688823855098,
+            latitudeDelta: 0.007,
+            longitudeDelta: 0.005,
           }}
+          mapType='hybrid'
+          minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
+          //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
         >
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <MapView
-              style={styles.map}
-              //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
-              /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
-              region={{
-                latitude: 42.93105829800732,
-                longitude: -85.58688823855098,
-                latitudeDelta: 0.007,
-                longitudeDelta: 0.005,
-              }}
-              mapType='hybrid'
-              minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
-              //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
-            >
-              {/* Space for Markers (and other components that can be in maps). */}
-              {MarkerList()}
-            </MapView>
-
-            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
-              <Text style={styles.primaryButtonText}>Set Location</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
-              <Text style={styles.primaryButtonText}>Close Map</Text>
-            </TouchableOpacity>
-
-          </View>
-        </Modal>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity 
-            style={[styles.button, styles.inactiveButton]} 
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={[styles.buttonText, styles.inactiveButtonText]}>Discard</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={[styles.button, styles.activeButton ]} 
-            onPress={() => handleCreateItem()}
-          >
-            <Text style={[styles.buttonText, styles.activeButtonText, styles.submitButton]}>Submit</Text>
-          </TouchableOpacity>
-
-        </View>
-        {/* <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.primaryButtonText}>Discard</Text>
-        </TouchableOpacity> */}
-        {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
-        {/* <TouchableOpacity style={styles.primaryButton} onPress={() => handleCreateItem()}>
-          <Text style={styles.primaryButtonText}>Submit Item</Text>
-        </TouchableOpacity> */}
+           {/* Space for Markers (and other components that can be in maps). */}
+            {MarkerList()}
+        </MapView>
+              {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
       </View>
 
+        <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
+          <Text style={styles.submitButtonText}>Submit Item</Text>
+        </TouchableOpacity>
        
 
     </View>
@@ -271,13 +228,13 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',    
+    justifyContent: 'center', // Add this
+    alignItems: 'center',     // Add this
     backgroundColor: '#EDE7E7',
   },
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
-    // justifyContent: 'flex-end', 
     alignItems: 'center',
     width: '90%',
   },
@@ -312,20 +269,8 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
-    marginTop: 30,
-    marginBottom: 30,
-    width: '85%',
     flexDirection: 'row',
-    color: '#FAF2F2',
-    zIndex: -1,
-    //backgroundColor: '#FAF2F2',
-   //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-  },
-  switchButtonContainer: {
-    marginTop: 30,
-    marginBottom: 30,
-    width: '85%',
-    flexDirection: 'row',
+    bottom: 15,
     color: '#FAF2F2',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
@@ -350,13 +295,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFAF66',
   },
   inactiveButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#FAF2F2',
   },
   activeButtonText: {
     color: '#342F2F',
   },
   inactiveButtonText: {
-    color: '#9E8B8D',
+    color: '#C2A3A3',
   },
   switchContainer: {
     flexDirection: 'row', 
@@ -373,52 +318,29 @@ const styles = StyleSheet.create({
     color: '#00000099',
   },
   dropdown: {
-    // backgroundColor: 'fff',
-    // borderColor: 'fff',
-    // zIndex: 9,
+    backgroundColor: 'fff',
+    borderColor: 'fff',
   },
   map: {
     width: '100%',
-    height: '90%',
+    height: '35%',
     borderRadius: 20,
-    flex: 1,
   },
-
-  primaryButton: {
+  submitButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
     borderRadius: 50,
-    width: '85%',
+    width: '80%',
     padding: 18,
-    marginBottom: 10,
-    marginTop: 10,
+    marginBottom: 30,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-    zIndex: -1,
   },
-  secondaryButton: {
-    alignItems: 'center',
-    backgroundColor: '#FAF2F2',
-    borderRadius: 50,
-    width: '85%',
-    padding: 18,
-    marginBottom: 10,
-    marginTop: 30,
-    shadowColor: '#A59D95',
-    shadowOffset: {width: 0, height: 8},
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-    zIndex: -1,
-  },
-  closeMapButton: {
-    marginBottom: 20,
-    marginTop: 10,
-  },
-  primaryButtonText: {
+
+  submitButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
