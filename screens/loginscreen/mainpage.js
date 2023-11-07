@@ -17,6 +17,7 @@ const MainPage = ({ navigation, route }) => {
   const [detailsVisible, setDetailsVisible] = useState(false);
 
   const [searchActive, setSearchActive] = useState(true);  
+  const { userID } = useUser();
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
@@ -81,7 +82,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/Edom@gmail.com'); //hardcoded for demo
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/${userID}'); //hardcoded for demo
       const json = await response.json();
       setData(json);
     } catch (error) {

@@ -20,7 +20,8 @@ const LoginScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const { userName, setUserName } = useUser();
+  const { userID, setUserID} = useUser();
+  const [data, setData] = useState([]);
 
 
   
@@ -53,13 +54,24 @@ const LoginScreen = () => {
     
       if (response.ok) {
         // User authentication was successful
-        const userData = await response.json();
-
-
-        if (userData.userID) {
-          setUserName(userData.userID); // Set the userName from the response
+        //const userData = await response.json();
+        try {
+          // Fetch user data from the API
+          const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
+          if (userDataResponse.ok) {
+            // If the user data was successfully retrieved
+            const userData = await userDataResponse.json();
+            setUserID(userData.id);
+          } else {
+            // Handle the case when user data retrieval fails
+            console.error('Failed to fetch user data');
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          navigation.navigate('MainPage', { prevRoute: 'Login' });
         }
-        navigation.navigate('MainPage', { prevRoute: 'Login' });
+        // navigation.navigate('MainPage', { prevRoute: 'Login' });
       } else {
         // Authentication failed
         alert('Login failed. Please check your credentials.');

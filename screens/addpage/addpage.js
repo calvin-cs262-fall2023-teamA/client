@@ -74,7 +74,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, lostFound: lostorfound, postUser: {userID}, claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
+            name: title, description: inputDescription, category: value, location: location, lostFound: lostorfound, postUser: userID, claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
           }),
          
         })
