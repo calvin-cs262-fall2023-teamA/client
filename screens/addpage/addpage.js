@@ -128,7 +128,7 @@ function AddPage({ route }) {
           <TextInput
               placeholder="1 to 2 words for title"
               placeholderTextColor="#9E8B8D" 
-              onChangeText={(text) => setTitle(text)}
+              onChangeText={(text) => setName(text)}
               onFocus={() => setInputFieldFocused(true)}
               onBlur={() => setInputFieldFocused(false)}
               style={styles.inputText}
@@ -139,7 +139,7 @@ function AddPage({ route }) {
           <TextInput
               placeholder="Item Description"
               placeholderTextColor="#9E8B8D" 
-              onChangeText={(text) => setInputDescription(text)}
+              onChangeText={(text) => setDescription(text)}
               onFocus={() => setDescriptionFocused(true)}
               onBlur={() => setDescriptionFocused(false)}
               style={styles.inputText}
