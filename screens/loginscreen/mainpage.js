@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
+import { useUser } from '../../context/UserContext'; // Import the useUser hook
+
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
+import { useUser } from '../../context/UserContext'; // Import the useUser hook
 
 
 
@@ -19,6 +20,7 @@ const LoginScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const { userName, setUserName } = useUser();
 
 
   
@@ -51,6 +53,12 @@ const LoginScreen = () => {
     
       if (response.ok) {
         // User authentication was successful
+        const userData = await response.json();
+
+
+        if (userData.userID) {
+          setUserName(userData.userID); // Set the userName from the response
+        }
         navigation.navigate('MainPage', { prevRoute: 'Login' });
       } else {
         // Authentication failed

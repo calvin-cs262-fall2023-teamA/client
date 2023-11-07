@@ -8,6 +8,8 @@ import InputField from '../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
+import { useUser } from '../../context/UserContext'; // Import the useUser hook
+
 
 function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
@@ -15,7 +17,7 @@ function AddPage({ route }) {
   //information entered by the user that needs to be sent to the database for an Item.
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  
+  const { userID } = useUser();
 
   //Main categories. May have subcategories in a different dropdown/selection tool (color? etc.) later.
   const [categories, setCategories] = useState([
@@ -64,7 +66,7 @@ function AddPage({ route }) {
 
 
   const handleCreateItem = async () => {
-    if (name != "") { //item MUST have a name
+    if (title != "") { //item MUST have a name
       //send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
@@ -72,7 +74,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, lostFound: lostorfound, postUser: 'Edom@gmail.com', claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
+            name: name, description: description, category: value, location: location, lostFound: lostorfound, postUser: {userID}, claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
           }),
          
         })
