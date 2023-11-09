@@ -45,7 +45,7 @@ const Profile = ({  }) => {
         />
       </TouchableOpacity>
       
-      <Text style={styles.userName}>{userID}</Text>
+      <Text style={styles.userName}>{userName}</Text>
       <Text style={styles.userEmail}>Edom@gmail.com</Text>
 
       <View style={styles.flexContainer}>
