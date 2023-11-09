@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styles from '../../styles/detailsStyles';
+import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 
 const Details = ({ navigation, route }) => {
   const [comment, setComment] = useState(''); // State to store the entered comment
   const [displayedComment, setDisplayedComment] = useState(''); // State to store the comment to be displayed
+  const {itemData} = route.params; //json information passed to the details page
+  //console.log(itemData);
 
   const handleSendPress = () => {
     // Update the displayedComment with the comment from the TextInput
@@ -19,14 +22,18 @@ const Details = ({ navigation, route }) => {
         {/* ... other components ... */}
         <View style={styles.contentContainer}>
           <Image
-            source={require('../../assets/placeholder.jpg')} // Placeholder image for post
+          //TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
+            source={itemData.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
             style={styles.postImage}
           />
           <View style={styles.row}>
-            <Text style={styles.itemName}>Item Name</Text>
+            <View>
+              <Text>I {itemData.lostfound} a...</Text>
+              <Text style={styles.itemName}>{itemData.name}</Text>
+            </View>
             <View>
               <Text style={styles.location}>Location:</Text>
-              <Text style={styles.locationName}>Johnny's</Text>
+              <Text style={styles.locationName}>{itemData.location}</Text>
             </View>
           </View>
           <View style={styles.commentContainer}>
@@ -72,7 +79,7 @@ const Details = ({ navigation, route }) => {
               <Image source={require('../../assets/user2.jpg')} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>User1</Text>
+              <Text style={styles.userName}>President Boer</Text>
               <Text style={styles.userComment}>I think this is Brandon's</Text>
             </View>
           </View>
@@ -95,7 +102,7 @@ const Details = ({ navigation, route }) => {
             <Image source={require('../../assets/user3.jpg')} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>User2</Text>
+              <Text style={styles.userName}>Harry</Text>
               <Text style={styles.userComment}>I think this is Caden's</Text>
             </View>
           </View>
@@ -145,6 +152,9 @@ const Details = ({ navigation, route }) => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
+              <Text style={styles.primaryButtonText}>Delete</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
               <Text style={styles.primaryButtonText}>Go Back</Text>
             </TouchableOpacity>

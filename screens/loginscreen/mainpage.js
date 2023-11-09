@@ -115,7 +115,7 @@ const MainPage = ({ navigation, route }) => {
     return placeholderData;
   };
 
-  const handleDetailsOpen = () => {
+  const handleDetailsOpen = (selectedItem) => {
         //send information to the main (current) page to "reset" the pop up.
         //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
         navigation.navigate({
@@ -124,11 +124,11 @@ const MainPage = ({ navigation, route }) => {
             merge: true,
         }),
         //navigate to the AddPage (where the user will actually end up)
-        navigation.navigate('Details')
+        navigation.navigate('Details', { itemData: selectedItem }) //pass json data of a given item as itemData
     } 
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={handleDetailsOpen}>
+    <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
       <View style={styles.itemContainer}>
         <View style={styles.postContainer}>
             <View style={styles.row}>  
