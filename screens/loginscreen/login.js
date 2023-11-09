@@ -20,7 +20,7 @@ const LoginScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const { userID, setUserID} = useUser();
+  const { userData, setUserID, setUserName } = useUser();
   const [data, setData] = useState([]);
 
 
@@ -62,6 +62,11 @@ const LoginScreen = () => {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
             setUserID(userData.id);
+            setUserName(userData.name);
+            console.log(userData);
+            console.log(userData.id);
+            console.log(userData.name);
+
           } else {
             // Handle the case when user data retrieval fails
             console.error('Failed to fetch user data');

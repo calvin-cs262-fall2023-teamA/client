@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
+import { useUser } from '../../context/UserContext'; // Import the useUser hook
+
 
 const Profile = ({  }) => {
   const navigation = useNavigation();
@@ -12,7 +14,13 @@ const Profile = ({  }) => {
 
   const PlaceholderImage = require('../../assets/user.png');
   const [selectedImage, setSelectedImage] = useState(null);
-
+  const { userData } = useUser();
+  const { userID, userName } = userData;
+  useEffect(() => {
+    // Log the user data after the component has re-rendered
+    console.log('UserID:', userID);
+    console.log('UserName:', userName);
+  }, [userID, userName]);
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -37,7 +45,7 @@ const Profile = ({  }) => {
         />
       </TouchableOpacity>
       
-      <Text style={styles.userName}>Edom</Text>
+      <Text style={styles.userName}>{userID}</Text>
       <Text style={styles.userEmail}>Edom@gmail.com</Text>
 
       <View style={styles.flexContainer}>

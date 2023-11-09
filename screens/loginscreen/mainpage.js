@@ -17,7 +17,10 @@ const MainPage = ({ navigation, route }) => {
   const [detailsVisible, setDetailsVisible] = useState(false);
 
   const [searchActive, setSearchActive] = useState(true);  
-  const { userID } = useUser();
+  const { userData } = useUser();
+  const { userID, userName } = userData;
+  const [itemWithUsernames, setItemWithUsernames] = useState([]);
+
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
@@ -57,7 +60,9 @@ const MainPage = ({ navigation, route }) => {
     try {
     const response = await fetch('https://calvinfinds.azurewebsites.net/items');
       const json = await response.json();
+
       setData(json);
+      
     } catch (error) {
       //console.error(error);
       setData([]);
@@ -82,8 +87,9 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/${userID}'); //hardcoded for demo
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/' + userID); //hardcoded for demo
       const json = await response.json();
+      console.log('Response data:', json);
       setData(json);
     } catch (error) {
       //console.error(error);
@@ -95,8 +101,9 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsClaimed = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/claim/Edom@gmail.com'); //hardcoded for demo
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/claim/${userID}`); //hardcoded for demo
       const json = await response.json();
+      console.log('Response data:', json);
       setData(json);
     } catch (error) {
       //console.error(error);
@@ -145,7 +152,7 @@ const MainPage = ({ navigation, route }) => {
 
                 <View style={styles.userDate}>
                     <Text style={styles.username}>
-                        Edom {/* placeholder for now. */}
+                      Edom {/* placeholder for now. */}
                     </Text>
                     <Text style={styles.date}>
                         11/3/23 {/* placeholder, not currently stored in database */}
