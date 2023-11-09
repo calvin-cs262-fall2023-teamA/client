@@ -145,7 +145,8 @@ const MainPage = ({ navigation, route }) => {
                         Edom {/* placeholder for now. */}
                     </Text>
                     <Text style={styles.date}>
-                        11/3/23 {/* placeholder, not currently stored in database */}
+                        {item.dateposted}
+                        {console.log(item.itemimage)}
                     </Text>
                     {/* comments should be only visible in item page*/}
                     {/* <Text style={styles.comments}>
@@ -154,7 +155,7 @@ const MainPage = ({ navigation, route }) => {
                 </View>
             </View>
             <Image
-                source={require('../../assets/placeholder.jpg')} // Placeholder image for post
+                source={item.itemimage == null ? require('../../assets/placeholder.jpg') : {uri: item.itemimage}} // Placeholder image for post. item.itemimage is everything between the quotes
                 style={styles.postImage}
             />
         </View>
