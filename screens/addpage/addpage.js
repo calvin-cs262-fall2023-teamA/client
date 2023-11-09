@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
-    marginTop: 30,
+    marginTop: 10,
     marginBottom: 30,
     width: '85%',
     flexDirection: 'row',
