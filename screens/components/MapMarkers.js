@@ -20,5 +20,23 @@ export default function MarkerList() {
     }}
     title={"North Hall"}
    />
+   <Marker
+    key={2} //each marker in a map must have a unique key
+    coordinate={{
+      //Commons: 42.93105581120554, -85.58725210052256
+      latitude: 42.93105581120554,
+      longitude: -85.58725210052256,
+    }}
+    title={"Commons"}
+   />
+   <Marker
+    key={3} //each marker in a map must have a unique key
+    coordinate={{
+      //Library: 42.929871969093156, -85.58744064026993
+      latitude: 42.929871969093156,
+      longitude: -85.58744064026993,
+    }}
+    title={"Hekman Library"}
+   />
   </>)
 }

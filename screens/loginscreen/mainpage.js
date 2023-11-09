@@ -80,7 +80,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/Edom@gmail.com'); //hardcoded for demo
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/2'); //hardcoded for demo
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -93,7 +93,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsClaimed = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/claim/Edom@gmail.com'); //hardcoded for demo
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items/claim/2'); //hardcoded for demo, will do archived items instead of claimed
       const json = await response.json();
       setData(json);
     } catch (error) {
