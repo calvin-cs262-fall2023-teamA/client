@@ -31,6 +31,8 @@ function AddPage({ route }) {
   const [location, setLocation] = useState(null);
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
+  let date = new Date().toLocaleDateString();
+
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = (status) => {
@@ -57,7 +59,6 @@ function AddPage({ route }) {
       setSelectedImage(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
-      console.log(lostorfound);
     }
   }
 
@@ -72,7 +73,8 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, lostFound: lostorfound, postUser: 'Edom@gmail.com', claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
+            name: name, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: 'Edom@gmail.com', claimUser: null, 
+            archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
         })
