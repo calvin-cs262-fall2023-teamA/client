@@ -73,7 +73,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: 'Edom@gmail.com', claimUser: null, 
+            name: name, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
             archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
