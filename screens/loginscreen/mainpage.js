@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
+import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -124,7 +125,7 @@ const MainPage = ({ navigation, route }) => {
         }),
         //navigate to the AddPage (where the user will actually end up)
         navigation.navigate('Details')
-    }
+    } 
 
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={handleDetailsOpen}>
@@ -146,7 +147,6 @@ const MainPage = ({ navigation, route }) => {
                     </Text>
                     <Text style={styles.date}>
                         {item.dateposted}
-                        {console.log(item.itemimage)}
                     </Text>
                     {/* comments should be only visible in item page*/}
                     {/* <Text style={styles.comments}>
@@ -155,7 +155,8 @@ const MainPage = ({ navigation, route }) => {
                 </View>
             </View>
             <Image
-                source={item.itemimage == null ? require('../../assets/placeholder.jpg') : {uri: item.itemimage}} // Placeholder image for post. item.itemimage is everything between the quotes
+                //TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
+                source={item.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(item.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
                 style={styles.postImage}
             />
         </View>

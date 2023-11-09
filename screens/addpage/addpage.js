@@ -59,7 +59,6 @@ function AddPage({ route }) {
       setSelectedImage(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
-      console.log(lostorfound);
     }
   }
 
@@ -75,7 +74,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
             name: name, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: 'Edom@gmail.com', claimUser: null, 
-            archieved: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg' //replace with data from image-picker later. currently makes all new posts have the image for the demo.
+            archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
         })
