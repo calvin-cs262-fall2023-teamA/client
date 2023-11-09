@@ -8,6 +8,7 @@ import InputField from '../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
+import * as FileSystem from 'expo-file-system'; //upload and store images in database
 
 function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
@@ -80,8 +81,21 @@ function AddPage({ route }) {
         .catch(error => {
           console.error(error);
         });
+          //think about how the current default images are displayed when thinking about posting/fetching image data. see mainpage
+          //need to pass along an item id so that we know where to send a reference to the photo to. does response.json contain id? make a usestate, setData(orwhatevername) and test console.log.
+        //image -> server: sources (not all necessarily used.)
+        //https://docs.expo.dev/versions/latest/sdk/filesystem/#filesystemuploadasyncurl-fileuri-options //mainly
+        //https://docs.expo.dev/versions/latest/sdk/filesystem/#server-handling-multipart-requests
+        //https://stackoverflow.com/questions/71819433/how-to-upload-react-native-image-from-expo-image-picker-to-express-js-backend-th?rq=3
+        //https://stackoverflow.com/questions/65542645/file-upload-from-react-native-expo-to-node-multer
+        // const uploadResult = await FileSystem.uploadAsync('https://calvinfinds.azurewebsites.net/item/upload/image', selectedImage, { //selectedImage = uri or null
+        //   fieldName: 'file',
+        //   httpMethod: 'PATCH',
+        //   uploadType: FileSystem.FileSystemUploadType.BINARY_CONTENT,
+        // })
+        // console.log(JSON.stringify(uploadResult, null, 4)); //included in the example. included here for testing.
       //navigate back to the main page. Send back which route it is coming from.
-      navigation.navigate('MainPage', { prevRoute: route.name })
+      navigation.navigate('MainPage', { prevRoute: route.name }) //send back success/fail results of uploading item.
     } else {
       alert('Your post MUST include a title.')
     }
