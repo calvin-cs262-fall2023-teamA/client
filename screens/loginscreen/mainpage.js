@@ -3,6 +3,7 @@ import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, Sty
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import { useUser } from '../../context/UserContext'; // Import the useUser hook
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const MainPage = ({ navigation, route }) => {
@@ -17,10 +18,32 @@ const MainPage = ({ navigation, route }) => {
   const [detailsVisible, setDetailsVisible] = useState(false);
 
   const [searchActive, setSearchActive] = useState(true);  
-  const { userData } = useUser();
-  const { userID, userName } = userData;
+  // const { userData } = useUser();
+  // const { userID, userName } = userData;
   const [itemWithUsernames, setItemWithUsernames] = useState([]);
 
+  const [email, setEmail] = useState('');
+  const [userID, setUserID] = useState('');
+  const [userName, setUsername] = useState('');
+  
+  useEffect(() => {
+    // Retrieve user data from AsyncStorage
+    const retrieveUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData) {
+                const { ID, userName, email, username, password } = JSON.parse(userData);
+                setUserID(ID)
+                setEmail(email);
+                setUsername(userName);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    retrieveUserData();
+}, []);
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
@@ -45,9 +68,11 @@ const MainPage = ({ navigation, route }) => {
       //load data
       if(prevRoute === "post") {
         //if coming from profile page looking for user.postUser (that user's posts) 
+        console.log("Post");
         getItemsPosted();
       } else if (prevRoute === "claim") {
         //if coming from profile page looking for user.claimUser (that user's claimed items)
+        console.log("Post");
         getItemsClaimed();
       } else {
         getItems();
@@ -88,6 +113,7 @@ const MainPage = ({ navigation, route }) => {
   const getItemsPosted = async () => {
     try {
     const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+    const json = await response.json();
       console.log('Response data:', json);
       setData(json);
     } catch (error) {

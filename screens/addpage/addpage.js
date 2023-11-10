@@ -9,15 +9,16 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import { useUser } from '../../context/UserContext'; // Import the useUser hook
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
 
   //information entered by the user that needs to be sent to the database for an Item.
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const { userID } = useUser();
+  // const { userID } = useUser();
 
   //Main categories. May have subcategories in a different dropdown/selection tool (color? etc.) later.
   const [categories, setCategories] = useState([
@@ -43,6 +44,27 @@ function AddPage({ route }) {
   //useStates for dropdown (category)
   const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
   const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
+
+  onst [userID, setUserID] = useState('');
+  const [userName, setUsername] = useState('');
+  
+  useEffect(() => {
+    // Retrieve user data from AsyncStorage
+    const retrieveUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData) {
+                const { ID, userName, email, username, password } = JSON.parse(userData);
+                setUserID(ID)
+                setUsername(userName);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    retrieveUserData();
+}, []);
 
   //image handled below
 

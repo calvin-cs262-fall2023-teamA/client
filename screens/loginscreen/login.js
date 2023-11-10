@@ -4,7 +4,7 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'rea
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import { useUser } from '../../context/UserContext'; // Import the useUser hook
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -66,7 +66,8 @@ const LoginScreen = () => {
             console.log(userData);
             console.log(userData.id);
             console.log(userData.name);
-
+            // Store user information in AsyncStorage
+            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password }));
           } else {
             // Handle the case when user data retrieval fails
             console.error('Failed to fetch user data');

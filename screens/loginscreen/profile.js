@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
 import { useUser } from '../../context/UserContext'; // Import the useUser hook
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Profile = ({  }) => {
@@ -14,13 +15,37 @@ const Profile = ({  }) => {
 
   const PlaceholderImage = require('../../assets/user.png');
   const [selectedImage, setSelectedImage] = useState(null);
-  const { userData } = useUser();
-  const { userID, userName } = userData;
+  // const { userData } = useUser();
+  // const { userID, userName } = userData;
+  const [email, setEmail] = useState('');
+  const [userID, setUserID] = useState('');
+  const [userName, setUsername] = useState('');
+  
   useEffect(() => {
-    // Log the user data after the component has re-rendered
-    console.log('UserID:', userID);
-    console.log('UserName:', userName);
-  }, [userID, userName]);
+    // Retrieve user data from AsyncStorage
+    const retrieveUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData) {
+                const { ID, userName, email, username, password } = JSON.parse(userData);
+                setUserID(ID)
+                setEmail(email);
+                setUsername(userName);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    retrieveUserData();
+}, []);
+
+  // useEffect(() => {
+  //   // Log the user data after the component has re-rendered
+  //   console.log('UserID:', userID);
+  //   console.log('UserName:', userName);
+  // }, [userID, userName]);
+  
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -46,7 +71,7 @@ const Profile = ({  }) => {
       </TouchableOpacity>
       
       <Text style={styles.userName}>{userName}</Text>
-      <Text style={styles.userEmail}>Edom@gmail.com</Text>
+      <Text style={styles.userEmail}>{email}</Text>
 
       <View style={styles.flexContainer}>
 
