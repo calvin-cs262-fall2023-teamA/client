@@ -45,13 +45,13 @@ const Profile = ({  }) => {
 
         {/* this Button should lead to item page for user */}
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post" })}>
-          <Text style={styles.tertiaryButtonTitle}>10</Text>
+          <Text style={styles.tertiaryButtonTitle}>7</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim" })}>
-          <Text style={styles.tertiaryButtonTitle}>0</Text>
-          <Text style={styles.tertiaryButtonText}>Claimed</Text>
+          <Text style={styles.tertiaryButtonTitle}>2</Text>
+          <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
       </View>
