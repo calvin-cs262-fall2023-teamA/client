@@ -38,8 +38,8 @@ const Profile = ({  }) => {
         />
       </TouchableOpacity>
       
-      <Text style={styles.userName}>Edom</Text>
-      <Text style={styles.userEmail}>Edom@gmail.com</Text>
+      <Text style={styles.userName}>Aishwarya Joshi</Text>
+      <Text style={styles.userEmail}>aj37@calvin.edu</Text>
 
       <View style={styles.flexContainer}>
 

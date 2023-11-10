@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
+import * as demoUser from './demoUsers.js'; //also placeholders. simpler than fetching
 
 const Details = ({ navigation, route }) => {
   const [comment, setComment] = useState(''); // State to store the entered comment
@@ -53,8 +54,8 @@ const Details = ({ navigation, route }) => {
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>User Name</Text>
-              <Text style={styles.userComment}>I found some socks in Johnny’s</Text>
+              <Text style={styles.userName}>{demoUser.getUsername(itemData.postuser)}</Text>
+              <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
           </View>
         </View>
