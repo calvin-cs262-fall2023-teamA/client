@@ -87,8 +87,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/' + userID); //hardcoded for demo
-      const json = await response.json();
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
       console.log('Response data:', json);
       setData(json);
     } catch (error) {
@@ -101,7 +100,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsClaimed = async () => {
     try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/claim/${userID}`); //hardcoded for demo
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/claim/${userID}`);
       const json = await response.json();
       console.log('Response data:', json);
       setData(json);
