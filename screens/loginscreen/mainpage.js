@@ -3,6 +3,7 @@ import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, Sty
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
+import * as demoUser from './demoUsers.js'; //also placeholders. simpler than fetching
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -143,7 +144,7 @@ const MainPage = ({ navigation, route }) => {
 
                 <View style={styles.userDate}>
                     <Text style={styles.username}>
-                        Edom {/* placeholder for now. */}
+                        {demoUser.getUsername(item.postuser)}
                     </Text>
                     <Text style={styles.date}>
                         {item.dateposted}
