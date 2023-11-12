@@ -3,7 +3,6 @@ import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, Sty
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
-import * as demoUser from './demoUsers.js'; //also placeholders. simpler than fetching
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +43,7 @@ const MainPage = ({ navigation, route }) => {
         getItemsPosted();
       } else if (prevRoute === "claim") {
         //if coming from profile page looking for user.claimUser (that user's claimed items)
-        getItemsClaimed();
+        getItemsArchived();
       } else {
         getItems();
         //setIsLoading(false);
@@ -92,9 +91,9 @@ const MainPage = ({ navigation, route }) => {
     }
   };
 
-  const getItemsClaimed = async () => {
+  const getItemsArchived = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/claim/2'); //hardcoded for demo, will do archived items instead of claimed
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items/archived/2'); //hardcoded for demo
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -135,7 +134,7 @@ const MainPage = ({ navigation, route }) => {
             <View style={styles.row}>  
                 <View style={styles.nameDescription}>
                     <Text style={styles.itemName}>
-                        {item.name}
+                        {item.title}
                     </Text>
                     <Text style={styles.description}>
                         {item.description}
@@ -144,7 +143,7 @@ const MainPage = ({ navigation, route }) => {
 
                 <View style={styles.userDate}>
                     <Text style={styles.username}>
-                        {demoUser.getUsername(item.postuser)}
+                        {item.name}
                     </Text>
                     <Text style={styles.date}>
                         {item.dateposted}
