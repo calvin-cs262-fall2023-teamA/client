@@ -30,7 +30,7 @@ const Details = ({ navigation, route }) => {
           <View style={styles.row}>
             <View>
               <Text>I {itemData.lostfound} a...</Text>
-              <Text style={styles.itemName}>{itemData.name}</Text>
+              <Text style={styles.itemName}>{itemData.title}</Text>
             </View>
             <View>
               <Text style={styles.location}>Location:</Text>
@@ -54,7 +54,7 @@ const Details = ({ navigation, route }) => {
               <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>{demoUser.getUsername(itemData.postuser)}</Text>
+              <Text style={styles.userName}>{itemData.name}</Text>
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
           </View>

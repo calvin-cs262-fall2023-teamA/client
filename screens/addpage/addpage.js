@@ -13,7 +13,7 @@ function AddPage({ route }) {
   const navigation = useNavigation(); //used for navigation.navigate()
 
   //information entered by the user that needs to be sent to the database for an Item.
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   
 
@@ -65,7 +65,7 @@ function AddPage({ route }) {
 
 
   const handleCreateItem = async () => {
-    if (name != "") { //item MUST have a name
+    if (title != "") { //item MUST have a title
       //send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
@@ -73,7 +73,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: name, description: description, category: value, location: 'Science Building', lostFound: lostorfound, datePosted: '11/10/2023', postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
+            title: title, description: description, category: value, location: 'Science Building', lostFound: lostorfound, datePosted: '11/10/2023', postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
             archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
@@ -91,7 +91,6 @@ function AddPage({ route }) {
 
   const [isInputFieldFocused, setInputFieldFocused] = useState(false);
   const [isDescriptionFocused, setDescriptionFocused] = useState(false);
-  const [title, setTitle] = useState('');
   const [inputDescription, setInputDescription] = useState('');
   const [isMapVisible, setMapVisible] = useState(false);
 
@@ -130,7 +129,7 @@ function AddPage({ route }) {
           <TextInput
               placeholder="1 to 2 words for title"
               placeholderTextColor="#9E8B8D" 
-              onChangeText={(text) => setName(text)}
+              onChangeText={(text) => setTitle(text)}
               onFocus={() => setInputFieldFocused(true)}
               onBlur={() => setInputFieldFocused(false)}
               style={styles.inputText}
