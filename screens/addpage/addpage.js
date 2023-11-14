@@ -212,7 +212,6 @@ function AddPage({ route }) {
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <MapView
               style={styles.map}
-              //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
               /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
               region={{
                 latitude: 42.93105829800732,
@@ -222,7 +221,6 @@ function AddPage({ route }) {
               }}
               mapType='hybrid'
               minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
-              //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
             >
               {/* Space for Markers (and other components that can be in maps). */}
               {MarkerList()}
