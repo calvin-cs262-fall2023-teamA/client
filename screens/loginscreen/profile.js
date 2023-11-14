@@ -38,12 +38,6 @@ const Profile = ({  }) => {
 
     retrieveUserData();
 }, []);
-
-  // useEffect(() => {
-  //   // Log the user data after the component has re-rendered
-  //   console.log('UserID:', userID);
-  //   console.log('UserName:', userName);
-  // }, [userID, userName]);
   
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

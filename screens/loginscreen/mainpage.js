@@ -65,7 +65,6 @@ const MainPage = ({ navigation, route }) => {
       //load data
       if(prevRoute === "post") {
         //if coming from profile page looking for user.postUser (that user's posts) 
-        console.log("Post");
         getItemsPosted();
       } else if (prevRoute === "claim") {
         //if coming from profile page looking for user.claimUser (that user's claimed items)
@@ -108,7 +107,6 @@ const MainPage = ({ navigation, route }) => {
     try {
     const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
     const json = await response.json();
-      console.log('Response data:', json);
       setData(json);
     } catch (error) {
       //console.error(error);
@@ -122,7 +120,6 @@ const MainPage = ({ navigation, route }) => {
     try {
     const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
       const json = await response.json();
-      console.log('Response data:', json);
       setData(json);
     } catch (error) {
       //console.error(error);
