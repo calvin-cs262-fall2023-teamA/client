@@ -26,3 +26,4 @@ The app currently contains a login/signup screen, a main screen, a details scree
 - expo-status-bar
 - react-native-dropdown-picker
 - react-native-maps
+- react-native-async-storage/async-storage
