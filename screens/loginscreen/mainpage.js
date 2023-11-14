@@ -69,8 +69,7 @@ const MainPage = ({ navigation, route }) => {
         getItemsPosted();
       } else if (prevRoute === "claim") {
         //if coming from profile page looking for user.claimUser (that user's claimed items)
-        console.log("Post");
-        getItemsClaimed();
+        getItemsArchived();
       } else {
         getItems();
         //setIsLoading(false);
@@ -119,9 +118,9 @@ const MainPage = ({ navigation, route }) => {
     }
   };
 
-  const getItemsClaimed = async () => {
+  const getItemsArchived = async () => {
     try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/claim/${userID}`);
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
       const json = await response.json();
       console.log('Response data:', json);
       setData(json);
