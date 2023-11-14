@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
-import { useUser } from '../../context/UserContext'; // Import the useUser hook
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -20,9 +19,8 @@ const LoginScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const { userData, setUserID, setUserName } = useUser();
-  const [data, setData] = useState([]);
-
+  // const [userID, setUserID] = useState('');
+  // const [userName, setUsername] = useState('')
 
   
   const handleLogin = async() => {
@@ -61,8 +59,8 @@ const LoginScreen = () => {
           if (userDataResponse.ok) {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
-            setUserID(userData.id);
-            setUserName(userData.name);
+            // setUserID(userData.id);
+            // setUserName(userData.name);
             console.log(userData);
             console.log(userData.id);
             console.log(userData.name);

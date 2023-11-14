@@ -163,7 +163,7 @@ const MainPage = ({ navigation, route }) => {
             <View style={styles.row}>  
                 <View style={styles.nameDescription}>
                     <Text style={styles.itemName}>
-                        {item.name}
+                        {item.title}
                     </Text>
                     <Text style={styles.description}>
                         {item.description}
