@@ -31,7 +31,7 @@ function AddPage({ route }) {
   const [location, setLocation] = useState(null);
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
-  let date = new Date().toLocaleDateString();
+  let date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
 
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
@@ -73,8 +73,8 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            title: title, description: description, category: value, location: 'Science Building', lostFound: lostorfound, datePosted: '11/10/2023', postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
-            archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
+            title: title, description: description, category: value, location: 'Science Building', lostFound: lostorfound, datePosted: date, postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
+            archived: false, itemImage: '../../assets/placeholder.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
         })
@@ -198,7 +198,6 @@ function AddPage({ route }) {
         {/* Location Field */}
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
-        {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
           <Text style={styles.primaryButtonText}>Select Location</Text>
         </TouchableOpacity>
