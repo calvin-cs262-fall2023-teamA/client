@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
-import { useUser } from '../../context/UserContext'; // Import the useUser hook
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -18,8 +17,6 @@ const MainPage = ({ navigation, route }) => {
   const [detailsVisible, setDetailsVisible] = useState(false);
 
   const [searchActive, setSearchActive] = useState(true);  
-  // const { userData } = useUser();
-  // const { userID, userName } = userData;
   const [itemWithUsernames, setItemWithUsernames] = useState([]);
 
   const [email, setEmail] = useState('');
@@ -85,9 +82,7 @@ const MainPage = ({ navigation, route }) => {
     try {
     const response = await fetch('https://calvinfinds.azurewebsites.net/items');
       const json = await response.json();
-
       setData(json);
-      
     } catch (error) {
       //console.error(error);
       setData([]);

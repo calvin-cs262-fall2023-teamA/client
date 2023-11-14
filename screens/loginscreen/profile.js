@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
-import { useUser } from '../../context/UserContext'; // Import the useUser hook
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

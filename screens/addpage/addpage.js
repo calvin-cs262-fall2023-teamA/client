@@ -8,7 +8,6 @@ import InputField from '../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
-import { useUser } from '../../context/UserContext'; // Import the useUser hook
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
