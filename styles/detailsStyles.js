@@ -165,7 +165,24 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     },
-
+    commentButtonsContainer: {
+        flexDirection: 'row', // Arrange children horizontally
+        justifyContent: 'space-between', // Add space between children
+      },
+    exit: {
+        marginLeft: 20, // Align to the left
+        fontWeight: '600',
+        // padding: 16,
+        fontSize: 15,
+        color: '#2F2E41',
+    },
+    open: {
+        marginRight: 20, // Align to the right
+        fontWeight: '600',
+        // padding: 16,
+        fontSize: 15,
+        color: '#2F2E41',
+    },
     primaryButtonText: {
         color: '#342F2F',
         fontWeight: '900',
