@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styles from '../../styles/detailsStyles';
-import DropDownPicker from 'react-native-dropdown-picker';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 import * as demoUser from './demoUsers.js'; //also placeholders. simpler than fetching
 
@@ -68,7 +67,7 @@ const Details = ({ navigation, route }) => {
             </View>
 
 
-            {/* dropdown for close and open bottomContainer to see all comments */} 
+            {/* dropdown for close and open bottomContainer to see all comments. */} 
           </View>
           <View style={styles.commentButtonsContainer}>
             <TouchableOpacity style={styles.exit} onPress={() => {
