@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styles from '../../styles/detailsStyles';
+import DropDownPicker from 'react-native-dropdown-picker';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 import * as demoUser from './demoUsers.js'; //also placeholders. simpler than fetching
 
@@ -9,6 +10,14 @@ const Details = ({ navigation, route }) => {
   const [displayedComment, setDisplayedComment] = useState(''); // State to store the comment to be displayed
   const {itemData} = route.params; //json information passed to the details page
   //console.log(itemData);
+  const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
+
+  //useStates for dropdown (category)
+  const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
+  const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
+  
+
+  
 
   const handleSendPress = () => {
     // Update the displayedComment with the comment from the TextInput
@@ -35,7 +44,7 @@ const Details = ({ navigation, route }) => {
             <View>
               <Text style={styles.location}>Location:</Text>
               <Text style={styles.locationName}>{itemData.location}</Text>
-            </View>
+            </View>   
           </View>
           <View style={styles.commentContainer}>
             <TouchableOpacity
@@ -57,10 +66,28 @@ const Details = ({ navigation, route }) => {
               <Text style={styles.userName}>{itemData.name}</Text>
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
+
+
+            {/* dropdown for close and open bottomContainer to see all comments */} 
           </View>
+          <View style={styles.commentButtonsContainer}>
+            <TouchableOpacity style={styles.exit} onPress={() => {
+            // Hide the bottomContainer
+              setBottomContainerVisibility(false);
+    }}>
+              <Text style={styles.exit}>Read</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.open} onPress={() => {
+            // Show the bottomContainer
+            setBottomContainerVisibility(true);
+    }}>
+              <Text style={styles.open}>Comment</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
         {/* Implement scroll for comments with ScrollView I took it out fro now because I had a bug*/}
-        {/*<ScrollView style={styles.commentsContainer}>*/}
+        <ScrollView style={styles.commentsContainer}>
           {/* Comment 1 */}
           <View style={styles.commentContainer}>
             <TouchableOpacity
@@ -118,10 +145,11 @@ const Details = ({ navigation, route }) => {
               </View>
             </View>
           ) : null}
-        {/*</ScrollView>*/}
-
+        </ScrollView>
+        {isBottomContainerVisible && ( 
         <View style={styles.bottomContainer}>
           {/* user input */}
+          
           <View style={styles.commentContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -161,6 +189,7 @@ const Details = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
         </View>
+         )} 
       </ScrollView>
     </TouchableWithoutFeedback>
   );
