@@ -44,7 +44,7 @@ function AddPage({ route }) {
   const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
   const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
 
-  onst [userID, setUserID] = useState('');
+  const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
   
   useEffect(() => {
