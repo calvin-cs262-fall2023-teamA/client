@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,6 +16,8 @@ function AddPage({ route }) {
 
   //information entered by the user that needs to be sent to the database for an Item.
   // const [name, setName] = useState("");
+
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   // const { userID } = useUser();
 
@@ -33,6 +35,8 @@ function AddPage({ route }) {
   const [location, setLocation] = useState(null);
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
+  let date = new Date().toLocaleDateString();
+
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = (status) => {
@@ -86,7 +90,7 @@ function AddPage({ route }) {
 
 
   const handleCreateItem = async () => {
-    if (title != "") { //item MUST have a name
+    if (title != "") { //item MUST have a title
       //send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
@@ -94,7 +98,8 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            name: title, description: inputDescription, category: value, location: location, lostFound: lostorfound, postUser: userID, claimUser: null //still need image. postUser is hardcoded for 11/3 demo.
+            title: title, description: inputDescription, category: value, location: location, lostFound: lostorfound, datePosted: '11/10/2023', postUser: userID, claimUser: null,
+            archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
         })
@@ -111,9 +116,9 @@ function AddPage({ route }) {
 
   const [isInputFieldFocused, setInputFieldFocused] = useState(false);
   const [isDescriptionFocused, setDescriptionFocused] = useState(false);
-  const [title, setTitle] = useState('');
   const [inputDescription, setInputDescription] = useState('');
-  
+  const [isMapVisible, setMapVisible] = useState(false);
+
 
   return (
     <View style={styles.container}>
@@ -129,7 +134,7 @@ function AddPage({ route }) {
         (an item they lost or something they found). */}
       <View style={styles.inputContainer}>
 
-        <View style={styles.buttonContainer}>
+        <View style={styles.switchButtonContainer}>
           <TouchableOpacity 
             style={[styles.button, lostorfound === "found" ? styles.activeButton : styles.inactiveButton]} 
             onPress={() => toggleSwitch("found")}
@@ -160,7 +165,7 @@ function AddPage({ route }) {
           <TextInput
               placeholder="Item Description"
               placeholderTextColor="#9E8B8D" 
-              onChangeText={(text) => setInputDescription(text)}
+              onChangeText={(text) => setDescription(text)}
               onFocus={() => setDescriptionFocused(true)}
               onBlur={() => setDescriptionFocused(false)}
               style={styles.inputText}
@@ -176,7 +181,7 @@ function AddPage({ route }) {
           containerStyle={{
             backgroundColor: '#fff',
             borderRadius: 15,
-            padding: 5,
+            paddingVertical: 5,
           }}
           items={categories}
           value={value}
@@ -184,11 +189,11 @@ function AddPage({ route }) {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setCategories}
-          placeholder="Select a category"
+          placeholder=" Select a category"
           placeholderStyle={{   // <-- Added this prop
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
-            color: '#342F2F',
+            color: '#9E8B8D',
           }}
           labelStyle={{  
             fontSize: 20,       // Change to your desired font size
@@ -202,6 +207,7 @@ function AddPage({ route }) {
           }}
           dropDownContainerStyle={{
             borderColor: 'transparent',
+            zIndex: 999,
           }}
           
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
@@ -218,29 +224,70 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
-        <MapView
-          style={styles.map}
-          //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
-          /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
-          region={{
-            latitude: 42.93105829800732,
-            longitude: -85.58688823855098,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.005,
+        <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
+          <Text style={styles.primaryButtonText}>Select Location</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={isMapVisible}
+          onRequestClose={() => {
+            setMapVisible(!isMapVisible);
           }}
-          mapType='hybrid'
-          minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
-          //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
         >
-           {/* Space for Markers (and other components that can be in maps). */}
-            {MarkerList()}
-        </MapView>
-              {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <MapView
+              style={styles.map}
+              //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
+              /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
+              region={{
+                latitude: 42.93105829800732,
+                longitude: -85.58688823855098,
+                latitudeDelta: 0.007,
+                longitudeDelta: 0.005,
+              }}
+              mapType='hybrid'
+              minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
+              //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
+            >
+              {/* Space for Markers (and other components that can be in maps). */}
+              {MarkerList()}
+            </MapView>
+
+            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
+              <Text style={styles.primaryButtonText}>Set Location</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
+              <Text style={styles.primaryButtonText}>Close Map</Text>
+            </TouchableOpacity>
+
+          </View>
+        </Modal>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={[styles.button, styles.inactiveButton]} 
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={[styles.buttonText, styles.inactiveButtonText]}>Discard</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.button, styles.activeButton ]} 
+            onPress={() => handleCreateItem()}
+          >
+            <Text style={[styles.buttonText, styles.activeButtonText, styles.submitButton]}>Submit</Text>
+          </TouchableOpacity>
+
+        </View>
+        {/* <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.primaryButtonText}>Discard</Text>
+        </TouchableOpacity> */}
+        {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
+        {/* <TouchableOpacity style={styles.primaryButton} onPress={() => handleCreateItem()}>
+          <Text style={styles.primaryButtonText}>Submit Item</Text>
+        </TouchableOpacity> */}
       </View>
 
-        <TouchableOpacity style={styles.submitButton} onPress={() => handleCreateItem()}>
-          <Text style={styles.submitButtonText}>Submit Item</Text>
-        </TouchableOpacity>
        
 
     </View>
@@ -250,13 +297,13 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Add this
-    alignItems: 'center',     // Add this
+    alignItems: 'center',    
     backgroundColor: '#EDE7E7',
   },
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
+    // justifyContent: 'flex-end', 
     alignItems: 'center',
     width: '90%',
   },
@@ -291,8 +338,20 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
+    marginTop: 10,
+    marginBottom: 30,
+    width: '85%',
     flexDirection: 'row',
-    bottom: 15,
+    color: '#FAF2F2',
+    zIndex: -1,
+    //backgroundColor: '#FAF2F2',
+   //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+  },
+  switchButtonContainer: {
+    marginTop: 30,
+    marginBottom: 30,
+    width: '85%',
+    flexDirection: 'row',
     color: '#FAF2F2',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
@@ -317,13 +376,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFAF66',
   },
   inactiveButton: {
-    backgroundColor: '#FAF2F2',
+    backgroundColor: 'transparent',
   },
   activeButtonText: {
     color: '#342F2F',
   },
   inactiveButtonText: {
-    color: '#C2A3A3',
+    color: '#9E8B8D',
   },
   switchContainer: {
     flexDirection: 'row', 
@@ -340,29 +399,52 @@ const styles = StyleSheet.create({
     color: '#00000099',
   },
   dropdown: {
-    backgroundColor: 'fff',
-    borderColor: 'fff',
+    // backgroundColor: 'fff',
+    // borderColor: 'fff',
+    // zIndex: 9,
   },
   map: {
     width: '100%',
-    height: '35%',
+    height: '90%',
     borderRadius: 20,
+    flex: 1,
   },
-  submitButton: {
+
+  primaryButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
     borderRadius: 50,
-    width: '80%',
+    width: '85%',
     padding: 18,
-    marginBottom: 30,
+    marginBottom: 10,
+    marginTop: 10,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    zIndex: -1,
   },
-
-  submitButtonText: {
+  secondaryButton: {
+    alignItems: 'center',
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
+    width: '85%',
+    padding: 18,
+    marginBottom: 10,
+    marginTop: 30,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    zIndex: -1,
+  },
+  closeMapButton: {
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  primaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,

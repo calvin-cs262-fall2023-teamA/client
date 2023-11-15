@@ -3,7 +3,7 @@ import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, Sty
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -168,7 +168,7 @@ const MainPage = ({ navigation, route }) => {
     return placeholderData;
   };
 
-  const handleDetailsOpen = () => {
+  const handleDetailsOpen = (selectedItem) => {
         //send information to the main (current) page to "reset" the pop up.
         //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
         navigation.navigate({
@@ -177,12 +177,12 @@ const MainPage = ({ navigation, route }) => {
             merge: true,
         }),
         //navigate to the AddPage (where the user will actually end up)
-        navigation.navigate('Details')
-    }
+        navigation.navigate('Details', { itemData: selectedItem }) //pass json data of a given item as itemData
+    } 
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={handleDetailsOpen}>
-      <View style={styles.container}>
+    <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+      <View style={styles.itemContainer}>
         <View style={styles.postContainer}>
             <View style={styles.row}>  
                 <View style={styles.nameDescription}>
@@ -195,11 +195,11 @@ const MainPage = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.userDate}>
-                    <Text style={styles.username}>
-                      Edom {/* placeholder for now. */}
+                    <Text style={styles.username}> 
+                        {item.name}
                     </Text>
                     <Text style={styles.date}>
-                        11/3/23 {/* placeholder, not currently stored in database */}
+                        {item.dateposted}
                     </Text>
                     {/* comments should be only visible in item page*/}
                     {/* <Text style={styles.comments}>
@@ -208,7 +208,8 @@ const MainPage = ({ navigation, route }) => {
                 </View>
             </View>
             <Image
-                source={require('../../assets/placeholder.jpg')} // Placeholder image for post
+                //TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
+                source={item.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(item.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
                 style={styles.postImage}
             />
         </View>
@@ -217,7 +218,7 @@ const MainPage = ({ navigation, route }) => {
   );
 
   return (
-    <View>
+    <View style={styles.container}>
         <FlatList
         data={data}
         keyExtractor={({id}) => id} //{(item) => item.id} //old
@@ -282,15 +283,15 @@ const MainPage = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="Search for an item"
+                    placeholder="Type to search item"
                     placeholderTextColor="#9E8B8D" 
                     value={searchedItem}
                     onChangeText={(text) => searchItem(text)}
                 />
                 {/* handles search bar and account icon */}
-                <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
+                {/* <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             )}
 
