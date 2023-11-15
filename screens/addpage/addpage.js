@@ -73,7 +73,7 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            title: title, description: description, category: value, location: 'Science Building', lostFound: lostorfound, datePosted: date, postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
+            title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: 2, claimUser: null, //replace postUser: 2 with a variable for user.id
             archived: false, itemImage: '../../assets/placeholder.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
@@ -87,6 +87,12 @@ function AddPage({ route }) {
     } else {
       alert('Your post MUST include a title.')
     }
+  }
+
+  const updateLocation = (markerTitle) => {
+    //TODO: This returns undefined (this.title -> undefined). that is why i made my own objects, but that caused stack overflow. Work on this.
+    setLocation(markerTitle);
+    console.log(location);
   }
 
   const [isInputFieldFocused, setInputFieldFocused] = useState(false);
@@ -222,8 +228,46 @@ function AddPage({ route }) {
               mapType='hybrid'
               minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
             >
+              {/* might move markers to another file at some point and import them in, but would have to handle updating location in that file. */}
               {/* Space for Markers (and other components that can be in maps). */}
-              {MarkerList()}
+              <Marker
+                key={0} //each marker in a map must have a unique key
+                coordinate={{
+                  //SB: 42.93107760891151, -85.58893946700456
+                  latitude: 42.93107760891151,
+                  longitude: -85.58893946700456,
+                }}
+                title={"Science Building"}
+                onPress={() => updateLocation(this.title)}
+              />
+              <Marker
+                key={1} //each marker in a map must have a unique key
+                coordinate={{
+                  //NH: 42.931645391618126, -85.5888143897278
+                  latitude: 42.931645391618126,
+                  longitude: -85.5888143897278,
+                }}
+                title={"North Hall"}
+              />
+              <Marker
+                key={2} //each marker in a map must have a unique key
+                coordinate={{
+                  //Commons: 42.93105581120554, -85.58725210052256
+                  latitude: 42.93105581120554,
+                  longitude: -85.58725210052256,
+                }}
+                title={"Commons"}
+              />
+              <Marker
+                key={3} //each marker in a map must have a unique key
+                coordinate={{
+                  //Library: 42.929871969093156, -85.58744064026993
+                  latitude: 42.929871969093156,
+                  longitude: -85.58744064026993,
+                }}
+                title={"Hekman Library"}
+              />
+              {/* end of markers */}
             </MapView>
 
             <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
