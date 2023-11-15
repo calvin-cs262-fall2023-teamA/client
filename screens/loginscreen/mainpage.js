@@ -62,19 +62,43 @@ const MainPage = ({ navigation, route }) => {
 
 
   useEffect(() => {
-      //load data
-      if(prevRoute === "post") {
-        //if coming from profile page looking for user.postUser (that user's posts) 
-        getItemsPosted();
-      } else if (prevRoute === "claim") {
-        //if coming from profile page looking for user.claimUser (that user's claimed items)
-        getItemsArchived();
-      } else {
-        getItems();
-        //setIsLoading(false);
-        //setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
+    const fetchData = async () => {
+      try {
+        // Load data based on the previous route
+        if (prevRoute === "post") {
+          // If coming from the profile page looking for user.postUser (that user's posts)
+          const postData = await getItemsPosted();
+          // Handle empty array only when the data retrieval is complete
+          if (postData.length === 0) {
+            alert("No posted items found.");
+            navigation.navigate('Profile');
+          }
+        } else if (prevRoute === "claim") {
+          // If coming from the profile page looking for user.claimUser (that user's claimed items)
+          const archivedData = await getItemsArchived();
+          // Handle empty array only when the data retrieval is complete
+          if (archivedData.length === 0) {
+            alert("No archived items found.");
+            navigation.navigate('Profile');
+          }
+        } else {
+          // Default case, e.g., loading all items
+          const allData = await getItems();
+          console.log(allData);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        // Set loading to false
+        setIsLoading(false);
       }
+    };
+  
+    // Fetch data when the component mounts or when the previous route changes
+    fetchData();
   }, [prevRoute]);
+  
+  
 
   const getItems = async () => {
     try {
@@ -108,9 +132,11 @@ const MainPage = ({ navigation, route }) => {
     const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
     const json = await response.json();
       setData(json);
+      return json;
     } catch (error) {
       //console.error(error);
       setData([]);
+      return [];
     } finally {
       setIsLoading(false);
     }
@@ -121,9 +147,11 @@ const MainPage = ({ navigation, route }) => {
     const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
       const json = await response.json();
       setData(json);
+      return json;
     } catch (error) {
       //console.error(error);
       setData([]);
+      return [];
     } finally {
       setIsLoading(false);
     }

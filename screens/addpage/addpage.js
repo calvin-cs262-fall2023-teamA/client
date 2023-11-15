@@ -80,7 +80,6 @@ function AddPage({ route }) {
       setSelectedImage(result.assets[0].uri);
     } else {
       alert('You did not select any image.');
-      console.log(lostorfound);
     }
   }
 
