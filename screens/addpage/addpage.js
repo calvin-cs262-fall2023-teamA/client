@@ -28,7 +28,7 @@ function AddPage({ route }) {
     {label: 'Other', value: 'other'}, //catch-all
   ]); 
 
-  const [location, setLocation] = useState(null);
+  let location = { name: ""} //const [location, setLocation] = useState(null);
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   let date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
@@ -89,10 +89,8 @@ function AddPage({ route }) {
     }
   }
 
-  const updateLocation = (markerTitle) => {
-    //TODO: This returns undefined (this.title -> undefined). that is why i made my own objects, but that caused stack overflow. Work on this.
-    setLocation(markerTitle);
-    console.log(location);
+  function GetMarkerList() {
+    return MarkerList(location);
   }
 
   const [isInputFieldFocused, setInputFieldFocused] = useState(false);
@@ -228,46 +226,8 @@ function AddPage({ route }) {
               mapType='hybrid'
               minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
             >
-              {/* might move markers to another file at some point and import them in, but would have to handle updating location in that file. */}
               {/* Space for Markers (and other components that can be in maps). */}
-              <Marker
-                key={0} //each marker in a map must have a unique key
-                coordinate={{
-                  //SB: 42.93107760891151, -85.58893946700456
-                  latitude: 42.93107760891151,
-                  longitude: -85.58893946700456,
-                }}
-                title={"Science Building"}
-                onPress={() => updateLocation(this.title)}
-              />
-              <Marker
-                key={1} //each marker in a map must have a unique key
-                coordinate={{
-                  //NH: 42.931645391618126, -85.5888143897278
-                  latitude: 42.931645391618126,
-                  longitude: -85.5888143897278,
-                }}
-                title={"North Hall"}
-              />
-              <Marker
-                key={2} //each marker in a map must have a unique key
-                coordinate={{
-                  //Commons: 42.93105581120554, -85.58725210052256
-                  latitude: 42.93105581120554,
-                  longitude: -85.58725210052256,
-                }}
-                title={"Commons"}
-              />
-              <Marker
-                key={3} //each marker in a map must have a unique key
-                coordinate={{
-                  //Library: 42.929871969093156, -85.58744064026993
-                  latitude: 42.929871969093156,
-                  longitude: -85.58744064026993,
-                }}
-                title={"Hekman Library"}
-              />
-              {/* end of markers */}
+              {GetMarkerList()}
             </MapView>
 
             <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
