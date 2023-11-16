@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 //use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 
 const MainPage = ({ navigation, route }) => {
@@ -16,6 +17,30 @@ const MainPage = ({ navigation, route }) => {
   const [detailsVisible, setDetailsVisible] = useState(false);
 
   const [searchActive, setSearchActive] = useState(true);  
+  const [itemWithUsernames, setItemWithUsernames] = useState([]);
+
+  const [email, setEmail] = useState('');
+  const [userID, setUserID] = useState('');
+  const [userName, setUsername] = useState('');
+  
+  useEffect(() => {
+    // Retrieve user data from AsyncStorage
+    const retrieveUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData) {
+                const { ID, userName, email, username, password } = JSON.parse(userData);
+                setUserID(ID)
+                setEmail(email);
+                setUsername(userName);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    retrieveUserData();
+}, []);
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
@@ -37,19 +62,43 @@ const MainPage = ({ navigation, route }) => {
 
 
   useEffect(() => {
-      //load data
-      if(prevRoute === "post") {
-        //if coming from profile page looking for user.postUser (that user's posts) 
-        getItemsPosted();
-      } else if (prevRoute === "claim") {
-        //if coming from profile page looking for user.claimUser (that user's claimed items)
-        getItemsArchived();
-      } else {
-        getItems();
-        //setIsLoading(false);
-        //setData(generatePlaceholderData(5)); // Generate 10 placeholder posts
+    const fetchData = async () => {
+      try {
+        // Load data based on the previous route
+        if (prevRoute === "post") {
+          // If coming from the profile page looking for user.postUser (that user's posts)
+          const postData = await getItemsPosted();
+          // Handle empty array only when the data retrieval is complete
+          if (postData.length === 0) {
+            alert("No posted items found.");
+            navigation.navigate('Profile');
+          }
+        } else if (prevRoute === "claim") {
+          // If coming from the profile page looking for user.claimUser (that user's claimed items)
+          const archivedData = await getItemsArchived();
+          // Handle empty array only when the data retrieval is complete
+          if (archivedData.length === 0) {
+            alert("No archived items found.");
+            navigation.navigate('Profile');
+          }
+        } else {
+          // Default case, e.g., loading all items
+          const allData = await getItems();
+          console.log(allData);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        // Set loading to false
+        setIsLoading(false);
       }
+    };
+  
+    // Fetch data when the component mounts or when the previous route changes
+    fetchData();
   }, [prevRoute]);
+  
+  
 
   const getItems = async () => {
     try {
@@ -80,12 +129,14 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/post/2'); //hardcoded for demo
-      const json = await response.json();
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+    const json = await response.json();
       setData(json);
+      return json;
     } catch (error) {
       //console.error(error);
       setData([]);
+      return [];
     } finally {
       setIsLoading(false);
     }
@@ -93,12 +144,14 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsArchived = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items/archived/2'); //hardcoded for demo
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
       const json = await response.json();
       setData(json);
+      return json;
     } catch (error) {
       //console.error(error);
       setData([]);
+      return [];
     } finally {
       setIsLoading(false);
     }
@@ -142,7 +195,7 @@ const MainPage = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.userDate}>
-                    <Text style={styles.username}>
+                    <Text style={styles.username}> 
                         {item.name}
                     </Text>
                     <Text style={styles.date}>
