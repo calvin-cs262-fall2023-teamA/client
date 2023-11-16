@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Profile = ({  }) => {
   const navigation = useNavigation();
@@ -12,7 +14,31 @@ const Profile = ({  }) => {
 
   const PlaceholderImage = require('../../assets/user.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  // const { userData } = useUser();
+  // const { userID, userName } = userData;
+  const [email, setEmail] = useState('');
+  const [userID, setUserID] = useState('');
+  const [userName, setUsername] = useState('');
+  
+  useEffect(() => {
+    // Retrieve user data from AsyncStorage
+    const retrieveUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData) {
+                const { ID, userName, email, username, password } = JSON.parse(userData);
+                setUserID(ID)
+                setEmail(email);
+                setUsername(userName);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
+    retrieveUserData();
+}, []);
+  
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -38,8 +64,8 @@ const Profile = ({  }) => {
         />
       </TouchableOpacity>
       
-      <Text style={styles.userName}>Aishwarya Joshi</Text>
-      <Text style={styles.userEmail}>aj37@calvin.edu</Text>
+      <Text style={styles.userName}>{userName}</Text>
+      <Text style={styles.userEmail}>{email}</Text>
 
       <View style={styles.flexContainer}>
 

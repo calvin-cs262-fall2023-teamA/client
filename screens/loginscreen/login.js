@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -19,7 +19,8 @@ const LoginScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
   const [isPasswordVisible, setPasswordVisible] = useState(false);
-
+  // const [userID, setUserID] = useState('');
+  // const [userName, setUsername] = useState('')
 
   
   const handleLogin = async() => {
@@ -51,7 +52,30 @@ const LoginScreen = () => {
     
       if (response.ok) {
         // User authentication was successful
-        navigation.navigate('MainPage', { prevRoute: 'Login' });
+        //const userData = await response.json();
+        try {
+          // Fetch user data from the API
+          const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
+          if (userDataResponse.ok) {
+            // If the user data was successfully retrieved
+            const userData = await userDataResponse.json();
+            // setUserID(userData.id);
+            // setUserName(userData.name);
+            console.log(userData);
+            console.log(userData.id);
+            console.log(userData.name);
+            // Store user information in AsyncStorage
+            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password }));
+          } else {
+            // Handle the case when user data retrieval fails
+            console.error('Failed to fetch user data');
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          navigation.navigate('MainPage', { prevRoute: 'Login' });
+        }
+        // navigation.navigate('MainPage', { prevRoute: 'Login' });
       } else {
         // Authentication failed
         alert('Login failed. Please check your credentials.');
