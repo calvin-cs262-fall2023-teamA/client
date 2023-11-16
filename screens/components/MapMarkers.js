@@ -2,7 +2,8 @@ import MapView, { Marker } from 'react-native-maps';
 
 
 /* A list of Markers for Calvin's campus */
-export default function MarkerList(location) {
+//setLocation is a function from the useState for "location" in addpage
+export default function MarkerList(setLocation) {
   const titles =  //a hardcoded list of locations, because getting the title prop out of a marker was a pain.
   ["Science Building", //key 0
   "North Hall", //key 1
@@ -18,7 +19,7 @@ export default function MarkerList(location) {
       longitude: -85.58893946700456,
     }}
     title={titles[0]}
-    onPress={e => location.name = titles[0]} //contents of e (event info) don't matter. It just acts as a trigger
+    onPress={e => setLocation(titles[0])} //contents of e (event info) don't matter. It just acts as a trigger
   />
    <Marker
     key={1} //each marker in a map must have a unique key
@@ -28,7 +29,7 @@ export default function MarkerList(location) {
       longitude: -85.5888143897278,
     }}
     title={titles[1]}
-    onPress={e => location.name = titles[1]}
+    onPress={e => setLocation(titles[1])}
    />
    <Marker
     key={2} //each marker in a map must have a unique key
@@ -38,7 +39,7 @@ export default function MarkerList(location) {
       longitude: -85.58725210052256,
     }}
     title={titles[2]}
-    onPress={e => location.name = titles[2]}
+    onPress={e => setLocation(titles[2])}
    />
    <Marker
     key={3} //each marker in a map must have a unique key
@@ -48,7 +49,7 @@ export default function MarkerList(location) {
       longitude: -85.58744064026993,
     }}
     title={titles[3]}
-    onPress={e => location.name = titles[3]}
+    onPress={e => setLocation(titles[3])}
    />
     
   </>)
