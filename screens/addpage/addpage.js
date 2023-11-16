@@ -99,7 +99,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
 
-            title: title, description: inputDescription, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, //replace postUser: 2 with a variable for user.id
+            title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, //replace postUser: 2 with a variable for user.id
             archived: false, itemImage: '../../assets/placeholder.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
