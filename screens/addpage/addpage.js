@@ -32,10 +32,10 @@ function AddPage({ route }) {
     {label: 'Other', value: 'other'}, //catch-all
   ]); 
 
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState("N/A"); //TODO: no way to reset location after it has been selected.
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
-  let date = new Date().toLocaleDateString();
+  let date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
 
   //for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
@@ -98,8 +98,9 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            title: title, description: inputDescription, category: value, location: location, lostFound: lostorfound, datePosted: '11/10/2023', postUser: userID, claimUser: null,
-            archived: false, itemImage: '../../assets/DemoPlaceholders/demobottle.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
+
+            title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, //replace postUser: 2 with a variable for user.id
+            archived: false, itemImage: '../../assets/placeholder.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
           }),
          
         })
@@ -112,6 +113,10 @@ function AddPage({ route }) {
     } else {
       alert('Your post MUST include a title.')
     }
+  }
+
+  function GetMarkerList() {
+    return MarkerList(setLocation);
   }
 
   const [isInputFieldFocused, setInputFieldFocused] = useState(false);
@@ -223,7 +228,6 @@ function AddPage({ route }) {
         {/* Location Field */}
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
-        {/* Currently a very small map. Might even make sense to put it on another page (or expand it on the current page) so that it is easier to navigate/interact with */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
           <Text style={styles.primaryButtonText}>Select Location</Text>
         </TouchableOpacity>
@@ -238,7 +242,6 @@ function AddPage({ route }) {
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <MapView
               style={styles.map}
-              //provider='google' //would force use of google maps (according to docs). Might use if accommodating both google and apple maps is too time-consuming.
               /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
               region={{
                 latitude: 42.93105829800732,
@@ -248,10 +251,9 @@ function AddPage({ route }) {
               }}
               mapType='hybrid'
               minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
-              //onMarkerPress={e => console.log(e.nativeEvent)} //eventually set to the name of the selected marker (or the id if the details page shows same map (main page > click on a listing/card > shows more details on details page))
             >
               {/* Space for Markers (and other components that can be in maps). */}
-              {MarkerList()}
+              {GetMarkerList()}
             </MapView>
 
             <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >

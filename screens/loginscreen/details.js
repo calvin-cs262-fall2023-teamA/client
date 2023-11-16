@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
-import * as demoUser from './demoUsers.js'; //also placeholders. simpler than fetching
 
 const Details = ({ navigation, route }) => {
   const [comment, setComment] = useState(''); // State to store the entered comment
