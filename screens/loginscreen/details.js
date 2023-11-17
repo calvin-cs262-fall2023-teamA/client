@@ -9,7 +9,6 @@ const Details = ({ navigation, route }) => {
   const [displayedComment, setDisplayedComment] = useState([]); // State to store the comment to be displayed
   const {itemData} = route.params; //json information passed to the details page
   //console.log(itemData);
-  const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
   // these states are used to display username for comments
   const [userName, setUsername] = useState('');
@@ -89,20 +88,6 @@ const Details = ({ navigation, route }) => {
 
             {/* dropdown for close and open bottomContainer to see all comments. */} 
           </View>
-          <View style={styles.commentButtonsContainer}>
-            <TouchableOpacity style={[styles.exit, styles.buttonWithBorder]} onPress={() => {
-            // Hide the bottomContainer
-              setBottomContainerVisibility(false);
-    }}>       
-              <Text style={styles.exit}>Read</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.open, styles.buttonWithBorder]} onPress={() => {
-            // Show the bottomContainer
-            setBottomContainerVisibility(true);
-    }}>       
-              <Text style={styles.open}>Comment</Text>
-            </TouchableOpacity>
-          </View>
 
         </View>
         {/* Implement scroll for comments with ScrollView */}
@@ -132,7 +117,6 @@ const Details = ({ navigation, route }) => {
           </View>
         ))}  
         </ScrollView>
-        {isBottomContainerVisible && ( 
         <View style={styles.bottomContainer}>
           {/* user input */}
           
@@ -175,7 +159,6 @@ const Details = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
         </View>
-         )} 
       </ScrollView>
     </TouchableWithoutFeedback>
   );
