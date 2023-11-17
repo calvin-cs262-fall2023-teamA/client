@@ -8,6 +8,8 @@ const Details = ({ navigation, route }) => {
   const [comment, setComment] = useState(''); // State to store the entered comment
   const [displayedComment, setDisplayedComment] = useState([]); // State to store the comment to be displayed
   const {itemData} = route.params; //json information passed to the details page
+
+  const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   //console.log(itemData);
   
   // these states are used to display username for comments

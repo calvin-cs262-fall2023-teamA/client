@@ -81,19 +81,19 @@ const Profile = ({  }) => {
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post" })}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>7</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim" })}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>2</Text>
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
       </View>
 
-      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('MainPage')}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
 
