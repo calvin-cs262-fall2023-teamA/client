@@ -9,7 +9,6 @@ const Details = ({ navigation, route }) => {
   const [displayedComment, setDisplayedComment] = useState([]); // State to store the comment to be displayed
   const {itemData} = route.params; //json information passed to the details page
   //console.log(itemData);
-  const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
   // these states are used to display username for comments
   const [userName, setUsername] = useState('');
@@ -89,24 +88,10 @@ const Details = ({ navigation, route }) => {
 
             {/* dropdown for close and open bottomContainer to see all comments. */} 
           </View>
-          <View style={styles.commentButtonsContainer}>
-            <TouchableOpacity style={[styles.exit, styles.buttonWithBorder]} onPress={() => {
-            // Hide the bottomContainer
-              setBottomContainerVisibility(false);
-    }}>       
-              <Text style={styles.exit}>Read</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.open, styles.buttonWithBorder]} onPress={() => {
-            // Show the bottomContainer
-            setBottomContainerVisibility(true);
-    }}>       
-              <Text style={styles.open}>Comment</Text>
-            </TouchableOpacity>
-          </View>
 
         </View>
         {/* Implement scroll for comments with ScrollView */}
-        <ScrollView style={styles.commentsContainer}>
+        <ScrollView style={styles.ScrollViewContainer}>
           {/* makes comments appear seperate from each other so it looks like two posts and not one when someone comments twice */}
           {displayedComment.map((comment, index) => (
             <View key={index} style={styles.commentContainer}>
@@ -121,8 +106,8 @@ const Details = ({ navigation, route }) => {
                 });
                 // Navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
-      }}
-    >
+          }}
+        >
                 <Image source={require('../../assets/user2.jpg')} style={styles.userIconStyle} />
               </TouchableOpacity>
             <View style={styles.textContainer}>
@@ -132,7 +117,6 @@ const Details = ({ navigation, route }) => {
           </View>
         ))}  
         </ScrollView>
-        {isBottomContainerVisible && ( 
         <View style={styles.bottomContainer}>
           {/* user input */}
           
@@ -168,14 +152,13 @@ const Details = ({ navigation, route }) => {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.primaryButtonText}>Delete</Text>
+              <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
               <Text style={styles.primaryButtonText}>Go Back</Text>
             </TouchableOpacity>
           </View>
         </View>
-         )} 
       </ScrollView>
     </TouchableWithoutFeedback>
   );

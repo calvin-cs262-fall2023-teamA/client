@@ -1,4 +1,4 @@
-import { Dimensions, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -76,7 +76,11 @@ const LoginScreen = () => {
   return (    
     //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+    >
       <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
       </View>
@@ -167,7 +171,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
       </View>
 
-    </View>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
