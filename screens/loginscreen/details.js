@@ -45,6 +45,25 @@ const Details = ({ navigation, route }) => {
     setComment('');
   };
 
+  const deleteBackButton = () => {
+    if (userID == itemData.id) {
+      return ( <>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.primaryButtonText}>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.primaryButtonText}>Go Back</Text>
+          </TouchableOpacity>
+        </>)
+    } else {
+      return ( <>
+        <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.primaryButtonText}>Go Back</Text>
+        </TouchableOpacity>
+      </>)
+    }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -167,12 +186,7 @@ const Details = ({ navigation, route }) => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.primaryButtonText}>Delete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.primaryButtonText}>Go Back</Text>
-            </TouchableOpacity>
+            {deleteBackButton()}
           </View>
         </View>
          )} 
