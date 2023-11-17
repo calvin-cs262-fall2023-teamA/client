@@ -184,17 +184,16 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         flex: 1,
-        backgroundColor: '#FB8282', //same as primaryButton but with a red button
+        Color: '#FB8282', //same as primaryButton but with a red button
         borderRadius: 50,
         width: 100,
         padding: 18,
         alignItems: 'center',
-        shadowColor: '#A59D95',
-        shadowOffset: {width: 0, height: 8},
-        shadowOpacity: 0.2,
-        shadowRadius: 24,
-        elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-
+    },
+    deleteButtonText: {
+        color: '#f03a3a', //same as primaryButton but with a red button
+        fontWeight: '900',
+        fontSize: 20,
     },
 
 });

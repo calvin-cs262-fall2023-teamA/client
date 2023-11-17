@@ -153,7 +153,7 @@ const Details = ({ navigation, route }) => {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.primaryButtonText}>Delete</Text>
+              <Text style={styles.deleteButtonText}>Delete</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
               <Text style={styles.primaryButtonText}>Go Back</Text>
