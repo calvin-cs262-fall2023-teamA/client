@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         marginHorizontal: 25,
-        marginBottom: 10,
-        marginTop: 14,
+        marginBottom: 5,
+        marginTop: 12,
       },
     
     postImage: {
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'left',
         paddingHorizontal: 15,
-        paddingVertical: 10,
         alignItems: 'center',
     },
     textContainer: {
@@ -82,12 +81,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    ScrollViewContainer: {
+        marginBottom: 180,
+    },
     userIconStyle: {
         width: 60, // or whatever size you want
         height: 60, // or whatever size you want
         borderRadius: 50,
         marginHorizontal: 10,
-        marginBottom: 30,
+        marginBottom: 20,
         marginTop: 5,
       },
     userName: {
@@ -165,38 +167,7 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     },
-    commentButtonsContainer: {
-        flexDirection: 'row', // Arrange children horizontally
-        justifyContent: 'space-between', // Add space between children
-        alignItems: 'center', // Align items vertically in the center
-        padding: 10, // Add padding to create space between the border and content
-        borderWidth: 1, // Add a border
-        borderColor: '#ccc', // Border color
-        borderRadius: 8, // Border radius for rounded corners
-        marginBottom: 10, // Add margin between comment containers
-      },
-      buttonWithBorder: {
-        borderRightWidth: 1, // Add a right border to "Read" button
-        borderRightColor: '#ccc', // Border color
-        borderLeftWidth: 1, // Add a left border to "Comment" button
-        borderLeftColor: '#ccc', // Border color
-      },
-    exit: {
-        marginLeft: 20, // Align to the left
-        fontWeight: '600',
-        marginHorizontal: 20,
-        // padding: 16,
-        fontSize: 15,
-        color: '#2F2E41',
-    },
-    open: {
-        marginRight: 20, // Align to the right
-        fontWeight: '600',
-        marginHorizontal: 20,
-        // padding: 16,
-        fontSize: 15,
-        color: '#2F2E41',
-    },
+
     primaryButtonText: {
         color: '#342F2F',
         fontWeight: '900',
