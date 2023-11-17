@@ -13,7 +13,6 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
-  //const { prevRoute } = route.params;
   const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
   //detect if email or password input is focused
