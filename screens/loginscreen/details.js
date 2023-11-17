@@ -8,7 +8,6 @@ const Details = ({ navigation, route }) => {
   const [comment, setComment] = useState(''); // State to store the entered comment
   const [displayedComment, setDisplayedComment] = useState(''); // State to store the comment to be displayed
   const {itemData} = route.params; //json information passed to the details page
-  //console.log(itemData);
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
 
   //useStates for dropdown (category)

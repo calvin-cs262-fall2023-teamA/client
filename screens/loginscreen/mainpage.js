@@ -61,12 +61,9 @@ const MainPage = ({ navigation, route }) => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
   }, [prevRoute]); //If prevRoute changes (which it does when navigating to this page), run the function.
 
-  console.log("Before fetchData");
-  console.log(prevRoute);
 
   const fetchData = async () => {
     try {
-      console.log("FetchData");
       // Load data based on the previous route
       if (prevRoute === "post") {
         // If coming from the profile page looking for user.postUser (that user's posts)
@@ -76,7 +73,6 @@ const MainPage = ({ navigation, route }) => {
           alert("No posted items found.");
           navigation.navigate('Profile');
         }
-        console.log("Post items");
       } else if (prevRoute === "claim") {
         // If coming from the profile page looking for user.claimUser (that user's claimed items)
         const archivedData = await getItemsArchived();
@@ -85,7 +81,6 @@ const MainPage = ({ navigation, route }) => {
           alert("No archived items found.");
           navigation.navigate('Profile');
         }
-        console.log("Archive items");
       } else {
         // Default case, e.g., loading all items
         const allData = await getItems();

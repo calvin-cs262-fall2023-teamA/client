@@ -59,11 +59,7 @@ const LoginScreen = () => {
           if (userDataResponse.ok) {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
-            // setUserID(userData.id);
-            // setUserName(userData.name);
-            console.log(userData);
-            console.log(userData.id);
-            console.log(userData.name);
+
             // Store user information in AsyncStorage
             await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password }));
           } else {
