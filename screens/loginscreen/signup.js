@@ -76,7 +76,11 @@ const LoginScreen = () => {
   return (    
     //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+    >
       <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
       </View>
@@ -167,7 +171,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
       </View>
 
-    </View>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
