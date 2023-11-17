@@ -10,7 +10,7 @@ const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchedItem, setSearchedItem] = useState('');
-  const {prevRoute} = route.params;   //Used by the useEffect for the popup.
+  const {prevRoute} = route.params|| {};   //Used by the useEffect for the popup.
   /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen.*/
 
@@ -66,8 +66,7 @@ const MainPage = ({ navigation, route }) => {
 
   const fetchData = async () => {
     try {
-      console.log("Inside fetchData");
-      console.log(prevRoute);
+      console.log("FetchData");
       // Load data based on the previous route
       if (prevRoute === "post") {
         // If coming from the profile page looking for user.postUser (that user's posts)
@@ -75,7 +74,7 @@ const MainPage = ({ navigation, route }) => {
         // Handle empty array only when the data retrieval is complete
         if (postData.length === 0) {
           alert("No posted items found.");
-          navigation.navigate({name:'Profile', params: { prevRoute: 'reset'}, merge: true,});
+          navigation.navigate('Profile');
         }
         console.log("Post items");
       } else if (prevRoute === "claim") {
@@ -84,13 +83,12 @@ const MainPage = ({ navigation, route }) => {
         // Handle empty array only when the data retrieval is complete
         if (archivedData.length === 0) {
           alert("No archived items found.");
-          navigation.navigate({name:'Profile', params: { prevRoute: 'reset'}, merge: true,});
+          navigation.navigate('Profile');
         }
         console.log("Archive items");
       } else {
         // Default case, e.g., loading all items
         const allData = await getItems();
-        console.log(allData);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -98,13 +96,12 @@ const MainPage = ({ navigation, route }) => {
       // Set loading to false
       setIsLoading(false);
     }
-    console.log(prevRoute);
   };
 
   useEffect(() => {
     // Fetch data when the component mounts or when the previous route changes
     fetchData();
-  }, [prevRoute]);
+  }, [prevRoute, route.params?.key]);
 
   
 
