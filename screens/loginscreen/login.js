@@ -1,7 +1,7 @@
 import { Dimensions, Image ,TouchableWithoutFeedback, Keyboard} from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -12,6 +12,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const route = useRoute();
   const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
   //detect if email or password input is focused
@@ -59,11 +60,7 @@ const LoginScreen = () => {
           if (userDataResponse.ok) {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
-            // setUserID(userData.id);
-            // setUserName(userData.name);
-            console.log(userData);
-            console.log(userData.id);
-            console.log(userData.name);
+
             // Store user information in AsyncStorage
             await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password }));
           } else {
@@ -87,6 +84,11 @@ const LoginScreen = () => {
     
   };
 
+  useEffect(() => {
+    // Clear email and password when navigating to the login screen
+    setEmail('');
+    setPassword('');
+  }, [route.params]);
   return (    
     //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
