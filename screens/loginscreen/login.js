@@ -1,4 +1,4 @@
-import { Dimensions, Image, TouchableWithoutFeedback, Keyboard, View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Illustration from '../../assets/login-vector.svg'
