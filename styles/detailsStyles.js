@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         marginHorizontal: 25,
-        marginBottom: 10,
-        marginTop: 14,
+        marginBottom: 5,
+        marginTop: 12,
       },
     
     postImage: {
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'left',
         paddingHorizontal: 15,
-        paddingVertical: 10,
         alignItems: 'center',
     },
     textContainer: {
@@ -82,12 +81,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    ScrollViewContainer: {
+        marginBottom: 180,
+    },
     userIconStyle: {
         width: 60, // or whatever size you want
         height: 60, // or whatever size you want
         borderRadius: 50,
         marginHorizontal: 10,
-        marginBottom: 30,
+        marginBottom: 20,
         marginTop: 5,
       },
     userName: {
@@ -165,24 +167,7 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     },
-    commentButtonsContainer: {
-        flexDirection: 'row', // Arrange children horizontally
-        justifyContent: 'space-between', // Add space between children
-      },
-    exit: {
-        marginLeft: 20, // Align to the left
-        fontWeight: '600',
-        // padding: 16,
-        fontSize: 15,
-        color: '#2F2E41',
-    },
-    open: {
-        marginRight: 20, // Align to the right
-        fontWeight: '600',
-        // padding: 16,
-        fontSize: 15,
-        color: '#2F2E41',
-    },
+
     primaryButtonText: {
         color: '#342F2F',
         fontWeight: '900',
@@ -201,17 +186,16 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         flex: 1,
-        backgroundColor: '#FB8282', //same as primaryButton but with a red button
+        Color: '#FB8282', //same as primaryButton but with a red button
         borderRadius: 50,
         width: 100,
         padding: 18,
         alignItems: 'center',
-        shadowColor: '#A59D95',
-        shadowOffset: {width: 0, height: 8},
-        shadowOpacity: 0.2,
-        shadowRadius: 24,
-        elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-
+    },
+    deleteButtonText: {
+        color: '#f03a3a', //same as primaryButton but with a red button
+        fontWeight: '900',
+        fontSize: 20,
     },
 
 });

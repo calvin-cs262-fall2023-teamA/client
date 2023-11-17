@@ -52,6 +52,17 @@ const Profile = ({  }) => {
       
     }
   }
+
+  const handleLogout = async () => {
+    try {
+      // Clear all stored data in AsyncStorage
+      await AsyncStorage.clear();
+      // Navigate to the login page
+      navigation.navigate('Login', { prevRoute: 'Login' });
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
   
   return (
     <View style={styles.container}>
@@ -86,7 +97,7 @@ const Profile = ({  }) => {
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.secondaryButton} onPress={handleLogout}>
         <Text style={styles.secondaryButtonText}>Log Out</Text>
       </TouchableOpacity>
 
