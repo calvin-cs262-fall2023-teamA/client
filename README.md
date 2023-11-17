@@ -1,5 +1,5 @@
 # CalvinFinds Client
-This is the client application for the CalvinFinds project.
+This is the client application for the [CalvinFinds project](https://github.com/calvin-cs262-fall2023-teamA/project).
 
 The app currently contains a login/signup screen, a main screen, a details screen, an add (item) screen, and a user profile screen.
 - **Login/Signup page:**  
@@ -27,3 +27,5 @@ The app currently contains a login/signup screen, a main screen, a details scree
 - react-native-dropdown-picker
 - react-native-maps
 - react-native-async-storage/async-storage
+
+The data service is hosted on Azure (see the [CalvinFinds service](https://github.com/calvin-cs262-fall2023-teamA/service)).
