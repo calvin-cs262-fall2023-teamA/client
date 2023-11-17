@@ -4,6 +4,7 @@ import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, Sty
 import styles from '../../styles/MainPageStyles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
+import { useFocusEffect } from '@react-navigation/native';
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,44 +61,51 @@ const MainPage = ({ navigation, route }) => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
   }, [prevRoute]); //If prevRoute changes (which it does when navigating to this page), run the function.
 
+  console.log("Before fetchData");
+  console.log(prevRoute);
+
+  const fetchData = async () => {
+    try {
+      console.log("Inside fetchData");
+      console.log(prevRoute);
+      // Load data based on the previous route
+      if (prevRoute === "post") {
+        // If coming from the profile page looking for user.postUser (that user's posts)
+        const postData = await getItemsPosted();
+        // Handle empty array only when the data retrieval is complete
+        if (postData.length === 0) {
+          alert("No posted items found.");
+          navigation.navigate({name:'Profile', params: { prevRoute: 'reset'}, merge: true,});
+        }
+        console.log("Post items");
+      } else if (prevRoute === "claim") {
+        // If coming from the profile page looking for user.claimUser (that user's claimed items)
+        const archivedData = await getItemsArchived();
+        // Handle empty array only when the data retrieval is complete
+        if (archivedData.length === 0) {
+          alert("No archived items found.");
+          navigation.navigate({name:'Profile', params: { prevRoute: 'reset'}, merge: true,});
+        }
+        console.log("Archive items");
+      } else {
+        // Default case, e.g., loading all items
+        const allData = await getItems();
+        console.log(allData);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      // Set loading to false
+      setIsLoading(false);
+    }
+    console.log(prevRoute);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Load data based on the previous route
-        if (prevRoute === "post") {
-          // If coming from the profile page looking for user.postUser (that user's posts)
-          const postData = await getItemsPosted();
-          // Handle empty array only when the data retrieval is complete
-          if (postData.length === 0) {
-            alert("No posted items found.");
-            navigation.navigate('Profile');
-          }
-        } else if (prevRoute === "claim") {
-          // If coming from the profile page looking for user.claimUser (that user's claimed items)
-          const archivedData = await getItemsArchived();
-          // Handle empty array only when the data retrieval is complete
-          if (archivedData.length === 0) {
-            alert("No archived items found.");
-            navigation.navigate('Profile');
-          }
-        } else {
-          // Default case, e.g., loading all items
-          const allData = await getItems();
-          console.log(allData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        // Set loading to false
-        setIsLoading(false);
-      }
-    };
-  
     // Fetch data when the component mounts or when the previous route changes
     fetchData();
   }, [prevRoute]);
-  
+
   
 
   const getItems = async () => {
