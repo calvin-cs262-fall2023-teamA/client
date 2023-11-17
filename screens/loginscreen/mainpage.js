@@ -22,6 +22,12 @@ const MainPage = ({ navigation, route }) => {
   const [email, setEmail] = useState('');
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
+  const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
+
+
+  const toggleLostOrFoundFilter = () => {
+    setLostOrFoundFilter(lostOrFoundFilter === 'Found' ? 'Lost' : 'Found');
+  };
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -255,13 +261,13 @@ const MainPage = ({ navigation, route }) => {
                 {/* Found/lost item toggle */}
                 
                   
-                  <TouchableOpacity style={styles.toggleButton} onPress={handleSearch}>
-                    <Image source={require('../../assets/switch.png')} style={styles.toggleIconStyle} />
-                    <View>
-                      <Text style={styles.toggleButtonText}>Found</Text>
-                      <Text style={styles.toggleButtonText}>Items</Text>
-                    </View>
-                  </TouchableOpacity>
+                <TouchableOpacity style={styles.toggleButton} onPress={toggleLostOrFoundFilter}>
+                  <Image source={require('../../assets/switch.png')} style={styles.toggleIconStyle} />
+                  <View>
+                    <Text style={styles.toggleButtonText}>{lostOrFoundFilter}</Text>
+                    <Text style={styles.toggleButtonText}>Items</Text>
+                  </View>
+                </TouchableOpacity>
                 
 
 
