@@ -91,7 +91,7 @@ const Details = ({ navigation, route }) => {
 
         </View>
         {/* Implement scroll for comments with ScrollView */}
-        <ScrollView style={styles.commentsContainer}>
+        <ScrollView style={styles.ScrollViewContainer}>
           {/* makes comments appear seperate from each other so it looks like two posts and not one when someone comments twice */}
           {displayedComment.map((comment, index) => (
             <View key={index} style={styles.commentContainer}>
@@ -106,8 +106,8 @@ const Details = ({ navigation, route }) => {
                 });
                 // Navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
-      }}
-    >
+          }}
+        >
                 <Image source={require('../../assets/user2.jpg')} style={styles.userIconStyle} />
               </TouchableOpacity>
             <View style={styles.textContainer}>

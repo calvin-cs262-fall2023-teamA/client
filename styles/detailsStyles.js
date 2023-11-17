@@ -81,6 +81,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    ScrollViewContainer: {
+        marginBottom: 180,
+    },
     userIconStyle: {
         width: 60, // or whatever size you want
         height: 60, // or whatever size you want
