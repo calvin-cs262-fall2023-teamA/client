@@ -128,7 +128,6 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
 
-
       </View>
 
       <View style={styles.buttonContainer}>
@@ -145,8 +144,8 @@ const LoginScreen = () => {
 
     </View>
     </TouchableWithoutFeedback>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -154,19 +153,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EDE7E7',
-    padding: 35,
+    padding: 35
   },
 
   // login illustration
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 80,
+    marginBottom: 80
   },
 
   // heading styling
   headingContainer: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
 
   },
   headingTop: {
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     marginBottom: -20,
     color: '#2F2E41',
-    textAlignVertical: 'center' 
+    textAlignVertical: 'center'
   },
   headingBottom: {
     fontSize: 60,
@@ -210,20 +209,20 @@ const styles = StyleSheet.create({
   },
 
   inputFocused: {
-    backgroundColor: 'white',
+    backgroundColor: 'white'
 
   },
   inputIconStyle: {
     marginRight: 8,
     width: 25, // or whatever size you want
-    height: 25, // or whatever size you want
+    height: 25 // or whatever size you want
   },
 
   buttonContainer: {
     flexDirection: 'row',
     bottom: 15,
     maxWidth: 350,
-    margin: 10,
+    margin: 10
     // color: '#FAF2F2',
     // backgroundColor: '#FAF2F2',
     // borderRadius: 50,
@@ -242,7 +241,7 @@ const styles = StyleSheet.create({
     padding: 18,
     alignItems: 'center',
     shadowColor: '#A59D95',
-    shadowOffset: {width: 0, height: 8},
+    shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7 // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
