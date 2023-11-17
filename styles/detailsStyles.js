@@ -168,10 +168,23 @@ const styles = StyleSheet.create({
     commentButtonsContainer: {
         flexDirection: 'row', // Arrange children horizontally
         justifyContent: 'space-between', // Add space between children
+        alignItems: 'center', // Align items vertically in the center
+        padding: 10, // Add padding to create space between the border and content
+        borderWidth: 1, // Add a border
+        borderColor: '#ccc', // Border color
+        borderRadius: 8, // Border radius for rounded corners
+        marginBottom: 10, // Add margin between comment containers
+      },
+      buttonWithBorder: {
+        borderRightWidth: 1, // Add a right border to "Read" button
+        borderRightColor: '#ccc', // Border color
+        borderLeftWidth: 1, // Add a left border to "Comment" button
+        borderLeftColor: '#ccc', // Border color
       },
     exit: {
         marginLeft: 20, // Align to the left
         fontWeight: '600',
+        marginHorizontal: 20,
         // padding: 16,
         fontSize: 15,
         color: '#2F2E41',
@@ -179,6 +192,7 @@ const styles = StyleSheet.create({
     open: {
         marginRight: 20, // Align to the right
         fontWeight: '600',
+        marginHorizontal: 20,
         // padding: 16,
         fontSize: 15,
         color: '#2F2E41',
