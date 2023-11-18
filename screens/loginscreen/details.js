@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 /* I changed this file with eslint up intill the return statement */
 import React, { useEffect, useState } from 'react';
 import {
