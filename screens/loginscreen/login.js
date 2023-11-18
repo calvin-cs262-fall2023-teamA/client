@@ -1,9 +1,13 @@
-import { Dimensions, Image ,TouchableWithoutFeedback, Keyboard} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Illustration from '../../assets/login-vector.svg';
+/* eslint-disable global-require */
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/jsx-filename-extension */
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
+
+import Illustration from '../../assets/login-vector.svg';
+
 
 
 function LoginScreen() {
@@ -159,14 +163,14 @@ const styles = StyleSheet.create({
     padding: 35,
   },
   
-  //login illustration
+  // login illustration
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 80,
   },
   
-  //heading styling
+  // heading styling
   headingContainer: {
     alignItems: 'flex-end',
     
@@ -248,7 +252,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
   primaryButtonText: {
