@@ -1,6 +1,9 @@
+
+/* I changed this file with eslint up intill the return statement */
 import React, { useEffect, useState } from 'react';
 import {
-  ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard,
+  ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform,
+  TouchableWithoutFeedback, Keyboard,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../../styles/detailsStyles';
@@ -8,15 +11,18 @@ import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
-  const [displayedComment, setDisplayedComment] = useState([]); // State to store the comment to be displayed
+  const [displayedComment, setDisplayedComment] = useState([]);
+  // State to store the comment to be displayed
   const { itemData } = route.params;
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   // these states are used to display username for comments
   const [userName, setUsername] = useState('');
   const [userID, setUserID] = useState('');
   // useStates for dropdown (category)
-  const [value, setValue] = useState(null); // value stored in dropdown (see categories item label/value)
-  const [open, setOpen] = useState(false); // handles user clicking on dropdown. Opens/closes the dropdown menu.
+  const [value, setValue] = useState(null);
+  // value stored in dropdown (see categories item label/value)
+  const [open, setOpen] = useState(false);
+  // handles user clicking on dropdown. Opens/closes the dropdown menu.
   useEffect(() => {
     // Retrieve user data from AsyncStorage
     const retrieveUserData = async () => {
