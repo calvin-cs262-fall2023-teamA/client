@@ -24,6 +24,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "indent" : "off",
+    'indent' : 'off',
+    'prettier/prettier': 'off',
   },
 };

@@ -6,16 +6,14 @@ import Illustration from '../../assets/login-vector.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-
-
-const LoginScreen = () => {
+function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
-  const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
+  const screenWidth = Dimensions.get('window').width; // get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
-  //detect if email or password input is focused
+  // detect if email or password input is focused
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
@@ -23,7 +21,6 @@ const LoginScreen = () => {
   // const [userID, setUserID] = useState('');
   // const [userName, setUsername] = useState('')
 
-  
   const handleLogin = async() => {
     // Implement the login, verify email and password
     // if (email === 'admin' && password === 'password') {
@@ -34,14 +31,13 @@ const LoginScreen = () => {
       alert('Email and password are required.');
       return;
     }
-  
     try {
       // Create an object with the email and password
       const credentials = {
         emailAddress: email,
         password: password,
       };
-    
+
       // Send a POST request to your server for user authentication
       const response = await fetch('https://calvinfinds.azurewebsites.net/login', {
         method: 'POST',
@@ -53,7 +49,7 @@ const LoginScreen = () => {
     
       if (response.ok) {
         // User authentication was successful
-        //const userData = await response.json();
+        // const userData = await response.json();
         try {
           // Fetch user data from the API
           const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
@@ -90,7 +86,7 @@ const LoginScreen = () => {
     setPassword('');
   }, [route.params]);
   return (    
-    //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
+    // TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
     <View style={styles.container}>
 
@@ -152,7 +148,7 @@ const LoginScreen = () => {
     </View>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
