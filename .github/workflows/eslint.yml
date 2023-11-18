@@ -3,7 +3,7 @@ name: ESLint Check
 on: 
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   eslint:
@@ -16,7 +16,7 @@ jobs:
       - name: set up node
         uses: actions/setup-node@v3
         with:
-            node-version: 16
+            node-version: 20
 
       - name: npm install
         run: npm ci
