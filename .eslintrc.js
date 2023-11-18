@@ -5,7 +5,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: 'airbnb',
+  // extends: 'airbnb',
   overrides: [
     {
       env: {
@@ -24,5 +24,6 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    "indent" : "off",
   },
 };
