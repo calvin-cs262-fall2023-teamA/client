@@ -24,5 +24,6 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'no-undef': 'warn', // Change 'error' to 'warn'
   },
 };

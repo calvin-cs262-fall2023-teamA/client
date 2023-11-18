@@ -1,42 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import styles from '../../styles/detailsStyles';
-import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
+import {
+  ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from '../../styles/detailsStyles';
+import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 
-const Details = ({ navigation, route }) => {
+function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
   const [displayedComment, setDisplayedComment] = useState([]); // State to store the comment to be displayed
-  const {itemData} = route.params; //json information passed to the details page
-  //console.log(itemData);
+  const { itemData } = route.params;
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
-  
   // these states are used to display username for comments
   const [userName, setUsername] = useState('');
   const [userID, setUserID] = useState('');
-
-
-  //useStates for dropdown (category)
-  const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
-  const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
-  
+  // useStates for dropdown (category)
+  const [value, setValue] = useState(null); // value stored in dropdown (see categories item label/value)
+  const [open, setOpen] = useState(false); // handles user clicking on dropdown. Opens/closes the dropdown menu.
   useEffect(() => {
     // Retrieve user data from AsyncStorage
     const retrieveUserData = async () => {
-        try {
-            const userData = await AsyncStorage.getItem('userData');
-            if (userData) {
-                const { ID, userName } = JSON.parse(userData);
-                setUserID(ID)
-                setUsername(userName);
-            }
-        } catch (error) {
-            console.error(error);
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (userData) {
+          const { ID, userName } = JSON.parse(userData);
+          setUserID(ID);
+          setUsername(userName);
         }
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     retrieveUserData();
-}, []);
+  }, []);
 
   const handleSendPress = () => {
     // Add the new comment to the list of displayedComments
@@ -51,31 +48,36 @@ const Details = ({ navigation, route }) => {
         {/* ... other components ... */}
         <View style={styles.contentContainer}>
           <Image
-          //TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
+          // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
             source={itemData.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
             style={styles.postImage}
           />
           <View style={styles.row}>
             <View>
-              <Text>I {itemData.lostfound} a...</Text>
+              <Text>
+                I
+                {itemData.lostfound}
+                {' '}
+                a...
+              </Text>
               <Text style={styles.itemName}>{itemData.title}</Text>
             </View>
             <View>
               <Text style={styles.location}>Location:</Text>
               <Text style={styles.locationName}>{itemData.location}</Text>
-            </View>   
+            </View>
           </View>
           <View style={styles.commentContainer}>
             <TouchableOpacity
               onPress={() => {
-                //send information to the main (current) page to "reset" the pop-up.
-                //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                // send information to the main (current) page to "reset" the pop-up.
+                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
                 navigation.navigate({
                   name: 'Profile',
                   params: { prevRoute: 'reset' },
                   merge: true,
                 });
-                //navigate to the AddPage (where the user will actually end up)
+                // navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
               }}
             >
@@ -86,20 +88,25 @@ const Details = ({ navigation, route }) => {
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
 
-
-            {/* dropdown for close and open bottomContainer to see all comments. */} 
+            {/* dropdown for close and open bottomContainer to see all comments. */}
           </View>
           <View style={styles.commentButtonsContainer}>
-            <TouchableOpacity style={[styles.exit, styles.buttonWithBorder]} onPress={() => {
-            // Hide the bottomContainer
-              setBottomContainerVisibility(false);
-    }}>       
+            <TouchableOpacity
+              style={[styles.exit, styles.buttonWithBorder]}
+              onPress={() => {
+                // Hide the bottomContainer
+                setBottomContainerVisibility(false);
+              }}
+            >
               <Text style={styles.exit}>Read</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.open, styles.buttonWithBorder]} onPress={() => {
-            // Show the bottomContainer
-            setBottomContainerVisibility(true);
-    }}>       
+            <TouchableOpacity
+              style={[styles.open, styles.buttonWithBorder]}
+              onPress={() => {
+                // Show the bottomContainer
+                setBottomContainerVisibility(true);
+              }}
+            >
               <Text style={styles.open}>Comment</Text>
             </TouchableOpacity>
           </View>
@@ -114,28 +121,27 @@ const Details = ({ navigation, route }) => {
                 onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                navigation.navigate({
-                  name: 'Profile',
-                  params: { prevRoute: 'reset' },
-                  merge: true,
-                });
-                // Navigate to the AddPage (where the user will actually end up)
-                navigation.navigate('Profile');
-      }}
-    >
+                  navigation.navigate({
+                    name: 'Profile',
+                    params: { prevRoute: 'reset' },
+                    merge: true,
+                  });
+                  // Navigate to the AddPage (where the user will actually end up)
+                  navigation.navigate('Profile');
+                }}
+              >
                 <Image source={require('../../assets/user2.jpg')} style={styles.userIconStyle} />
               </TouchableOpacity>
-            <View style={styles.textContainer}>
-              <Text style={styles.userName}>{userName}</Text>
-              <Text style={styles.userComment}>{comment}</Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.userName}>{userName}</Text>
+                <Text style={styles.userComment}>{comment}</Text>
+              </View>
             </View>
-          </View>
-        ))}  
+          ))}
         </ScrollView>
-        {isBottomContainerVisible && ( 
+        {isBottomContainerVisible && (
         <View style={styles.bottomContainer}>
           {/* user input */}
-          
           <View style={styles.commentContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -157,7 +163,7 @@ const Details = ({ navigation, route }) => {
                 placeholder="Leave a comment here  "
                 placeholderTextColor="#9E8B8D"
                 style={styles.inputText}
-                autoCapitalize={'none'}
+                autoCapitalize="none"
                 value={comment}
                 onChangeText={(text) => setComment(text)} // Update the comment state
               />
@@ -175,12 +181,10 @@ const Details = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
         </View>
-         )} 
+        )}
       </ScrollView>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 export default Details;
-
-
