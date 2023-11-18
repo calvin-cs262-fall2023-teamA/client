@@ -5,7 +5,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  //extends: 'airbnb',
+  // extends: 'airbnb',
   overrides: [
     {
       env: {
@@ -24,11 +24,17 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-<<<<<<< HEAD
     'no-undef': 'warn', // Change 'error' to 'warn'
-=======
     'indent' : 'off',
     'prettier/prettier': 'off',
->>>>>>> a6bd026c7cf5bfa3af7f3f01c23466f24f37a267
+    'react/function-component-definition': 'off',
+    'no-plusplus': 'off',
+    'react/jsx-filename-extension': 'off',
+    'global-require': 'off',
+    'prefer-template': 'off',
+    'import/order': 'off', // wants imports in alphabetical order...
+    "react/prop-types": ['error', { 'ignore': ['navigation', 'route'] }] 
+    /* react/prop-types: I assume we are using react navigation fine, eslint just flags everything. 
+    I'd rather not define prop-type for every instance of react navigation being used */
   },
 };
