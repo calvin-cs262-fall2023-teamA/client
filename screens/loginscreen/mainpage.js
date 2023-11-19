@@ -45,7 +45,7 @@ const MainPage = ({ navigation, route }) => {
 
 const getItems = async () => {
   try {
-  const response = await fetch('https:// calvinfinds.azurewebsites.net/items');
+  const response = await fetch('https://calvinfinds.azurewebsites.net/items');
     const json = await response.json();
     setData(json);
   } catch (error) {
@@ -59,7 +59,7 @@ const getItems = async () => {
 const searchItem = async (text) => {
   setSearchedItem(text)
   try {
-    const response = await fetch('https:// calvinfinds.azurewebsites.net/items/search/' + text);
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}`);
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -72,7 +72,7 @@ const searchItem = async (text) => {
 
 const getItemsPosted = async () => {
   try {
-  const response = await fetch(`https:// calvinfinds.azurewebsites.net/items/post/${userID}`);
+  const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
   const json = await response.json();
     setData(json);
     return json;
@@ -87,7 +87,7 @@ const getItemsPosted = async () => {
 
 const getItemsArchived = async () => {
   try {
-  const response = await fetch(`https:// calvinfinds.azurewebsites.net/items/archived/${userID}`);
+  const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
     const json = await response.json();
     setData(json);
     return json;

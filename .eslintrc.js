@@ -31,7 +31,6 @@ module.exports = {
     'no-plusplus': 'off', // i++
     'react/jsx-filename-extension': 'off', // errors any time we render a component (jsx)
     'global-require': 'off', // sets rules about require(), would require (unnecessary, for now) restructuring of code to fix.
-    'prefer-template': 'off', // in main, prevents concatenation of strings in require(), but you can't use string variables in require()
     'import/order': 'off', // wants imports in alphabetical order...
     "react/prop-types": ['error', { 'ignore': ['navigation', 'route'] }] 
     /* react/prop-types: I assume we are using react navigation fine, eslint just flags everything. 
