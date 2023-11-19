@@ -10,9 +10,9 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
-  const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
+  const screenWidth = Dimensions.get('window').width; // get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
-  //detect if email or password input is focused
+  // detect if email or password input is focused
   const [isNameFocused, setNameFocused] = useState(false);
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
@@ -74,7 +74,7 @@ const LoginScreen = () => {
   };
 
   return (    
-    //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
+    // TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       <View style={styles.artContainer}>
@@ -181,14 +181,14 @@ const styles = StyleSheet.create({
     padding: 35,
   },
   
-  //login illustration
+  // login illustration
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
   },
   
-  //heading styling
+  // heading styling
   headingContainer: {
     alignItems: 'flex-end',
     
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
   primaryButtonText: {
