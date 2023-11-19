@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import {KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -100,7 +100,7 @@ function AddPage({ route }) {
           body: JSON.stringify({
 
             title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, //replace postUser: 2 with a variable for user.id
-            archived: false, itemImage: '../../assets/placeholder.jpg', //replace with data from image-picker later. currently makes all new posts have the image for the demo.
+            archived: false, itemImage: await selectedImage, 
           }),
          
         })
@@ -126,7 +126,12 @@ function AddPage({ route }) {
 
 
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+    >
       <TouchableOpacity onPress={pickImageAsync}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
@@ -292,7 +297,8 @@ function AddPage({ route }) {
 
        
 
-    </View>
+    </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -376,6 +382,11 @@ const styles = StyleSheet.create({
   },
   activeButton: {
     backgroundColor: '#FFAF66',
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   inactiveButton: {
     backgroundColor: 'transparent',
