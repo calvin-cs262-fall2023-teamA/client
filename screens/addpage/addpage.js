@@ -32,7 +32,7 @@ function AddPage({ route }) {
     {label: 'Other', value: 'other'}, //catch-all
   ]); 
 
-  const [location, setLocation] = useState("N/A"); //TODO: no way to reset location after it has been selected.
+  const [location, setLocation] = useState("Select Location"); //TODO: no way to reset location after it has been selected.
   const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
   
   let date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
@@ -234,7 +234,7 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
-          <Text style={styles.primaryButtonText}>Select Location</Text>
+          <Text style={styles.primaryButtonText}>{location}</Text>
         </TouchableOpacity>
         <Modal
           animationType="slide"
