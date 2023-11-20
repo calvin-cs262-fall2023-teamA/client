@@ -52,42 +52,41 @@ const Profile = ({  }) => {
 }, []);
   
   const pickImageAsync = async () => {
-    setIsLoading(true);
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
     });
 
     if (!result.canceled) {
-      awaitsetSelectedImage(result.assets[0].uri);
-      handleNewImage() //update in database/locally
+      setSelectedImage(result.assets[0].uri);
+      //handleNewImage() //update in database/locally //bugged for now, commented out.
     } else {
       alert('You did not select any image.'); 
     }
   }
 
-  const handleNewImage = async () => {
-    /* update in service */
+  // const handleNewImage = async () => {
+  //   /* update in service */
     
-    console.log(selectedImage);
-    fetch('https://calvinfinds.azurewebsites.net/users/image', {
-        method: 'POST', //actually PUT
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          id: userID, image: await selectedImage,
-        }),
-      })
-      /* update locally, add the new comment to the list of displayedComments via getComments() */
-      .then((response) => {response.json})
-      .catch(error => {
-        console.error(error);
-    });
-    /* update local information */
-    await AsyncStorage.mergeItem('userData', JSON.stringify({ profileimage: selectedImage }));
+  //   console.log(selectedImage);
+  //   fetch('https://calvinfinds.azurewebsites.net/users/image', {
+  //       method: 'POST', //actually PUT
+  //       headers: {
+  //         "Content-type": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         id: userID, image: await selectedImage,
+  //       }),
+  //     })
+  //     /* update locally, add the new comment to the list of displayedComments via getComments() */
+  //     .then((response) => {response.json})
+  //     .catch(error => {
+  //       console.error(error);
+  //   });
+  //   /* update local information */
+  //   await AsyncStorage.mergeItem('userData', JSON.stringify({ profileimage: selectedImage }));
 
-  }
+  // }
 
   //one update for changing db, one get for getting current image. the get might already be done in login.
   //also update locally (userData)
