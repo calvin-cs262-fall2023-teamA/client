@@ -46,7 +46,8 @@ const LoginScreen = () => {
       name: Name,
       email: email,
       password: password,
-      type: "Standard"
+      type: "Standard",
+      profileimage: '../../assets/profileIcon.png'
     };
 
 
