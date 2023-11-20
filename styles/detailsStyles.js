@@ -197,6 +197,9 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         fontSize: 20,
     },
+    loadingComments: {
+        paddingTop: '20%',
+    }
 
 });
 
