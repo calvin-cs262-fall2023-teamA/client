@@ -5,6 +5,7 @@ import styles from '../../styles/MainPageStyles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
+import ImageViewer from '../components/ImageViewer';
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +24,9 @@ const MainPage = ({ navigation, route }) => {
   const [email, setEmail] = useState('');
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
+  const [profileIcon, setProfileIcon] = useState(null);
+
+
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
 
 
@@ -36,10 +40,11 @@ const MainPage = ({ navigation, route }) => {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, userName, email, username, password } = JSON.parse(userData);
+                const { ID, userName, email, username, profileimage } = JSON.parse(userData);
                 setUserID(ID)
                 setEmail(email);
-                setUsername(userName);
+                setUsername(username);
+                setProfileIcon(profileimage)
             }
         } catch (error) {
             console.error(error);
@@ -289,7 +294,7 @@ const MainPage = ({ navigation, route }) => {
               //navigate to the AddPage (where the user will actually end up)
               navigation.navigate('Profile')
              }}>
-              <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
+              <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
             </TouchableOpacity>
             )}
 

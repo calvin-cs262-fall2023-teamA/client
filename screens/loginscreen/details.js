@@ -16,7 +16,7 @@ const Details = ({ navigation, route }) => {
   // these states are used to display username for comments
   const [userName, setUsername] = useState('');
   const [userID, setUserID] = useState('');
-  const [profileIcon, setProfileImage] = useState('');
+  const [profileIcon, setProfileIcon] = useState('');
   const [userLoading, setUserLoading] = useState(true);
 
 
@@ -37,7 +37,7 @@ const Details = ({ navigation, route }) => {
                 const { ID, userName, profileimage } = JSON.parse(userData);
                 setUserID(ID)
                 setUsername(userName);
-                setProfileImage(profileimage); // NOTE: only updates on login
+                setProfileIcon(profileimage); // NOTE: only updates on login
             }
         } catch (error) {
             console.error(error);
