@@ -16,6 +16,8 @@ const Details = ({ navigation, route }) => {
   // these states are used to display username for comments
   const [userName, setUsername] = useState('');
   const [userID, setUserID] = useState('');
+  const [profileIcon, setProfileImage] = useState('');
+  const [userLoading, setUserLoading] = useState(true);
 
 
   //useStates for dropdown (category)
@@ -32,13 +34,15 @@ const Details = ({ navigation, route }) => {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, userName } = JSON.parse(userData);
+                const { ID, userName, profileimage } = JSON.parse(userData);
                 setUserID(ID)
                 setUsername(userName);
+                setProfileImage(profileimage); // NOTE: only updates on login
             }
         } catch (error) {
             console.error(error);
         }
+        setUserLoading(false);
     };
 
     retrieveUserData();
@@ -122,7 +126,7 @@ const Details = ({ navigation, route }) => {
                 navigation.navigate('Profile');
               }}
             >
-              <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
+              <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{itemData.name}</Text>
@@ -140,6 +144,7 @@ const Details = ({ navigation, route }) => {
           {/* makes comments appear seperate from each other so it looks like two posts and not one when someone comments twice */}
           {/* only run if isLoading = false */}
           {!isLoading && displayedComment.map((commentData, index) => (
+            //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
             <View key={index} style={styles.commentContainer}>
               <TouchableOpacity
                 onPress={() => {
@@ -154,10 +159,11 @@ const Details = ({ navigation, route }) => {
                 navigation.navigate('Profile');
                 }}
               >
-                <Image source={require('../../assets/user2.jpg')} style={styles.userIconStyle} />
+                <Image source={commentData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(commentData.profileimage)} 
+                style={styles.userIconStyle} />
               </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>{userName}</Text>
+              <Text style={styles.userName}>{commentData.name}</Text>
               <Text style={styles.userComment}>{commentData.content}</Text>
             </View>
           </View>
@@ -182,7 +188,9 @@ const Details = ({ navigation, route }) => {
                 navigation.navigate('Profile');
               }}
             >
-              <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
+              {!userLoading && 
+              <Image source={profileIcon == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(profileIcon)} 
+              style={styles.userIconStyle} /> }
             </TouchableOpacity>
             <View style={styles.input}>
               <TextInput
