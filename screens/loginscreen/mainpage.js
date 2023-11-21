@@ -1,11 +1,11 @@
+/* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
+import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 
@@ -42,10 +42,10 @@ const MainPage = ({ navigation, route }) => {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, userName, email, username, profileimage } = JSON.parse(userData);
+                const { ID, name, userEmail, password, profileimage } = JSON.parse(userData);
                 setUserID(ID)
-                setEmail(email);
-                setUsername(username);
+                setEmail(userEmail);
+                setUsername(name);
                 setProfileIcon(profileimage)
             }
         } catch (error) {
@@ -119,7 +119,6 @@ const MainPage = ({ navigation, route }) => {
       const json = await response.json();
       setData(json);
     } catch (error) {
-      //console.error(error);
       setData([]);
     } finally {
       setIsLoading(false);
@@ -129,11 +128,10 @@ const MainPage = ({ navigation, route }) => {
   const searchItem = async (text) => {
     setSearchedItem(text)
     try {
-      const response = await fetch('https://calvinfinds.azurewebsites.net/items/search/' + text);
+      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}`);
         const json = await response.json();
         setData(json);
       } catch (error) {
-        //console.error(error);
         setData([]);
       } finally {
         setIsLoading(false);
@@ -147,7 +145,6 @@ const MainPage = ({ navigation, route }) => {
       setData(json);
       return json;
     } catch (error) {
-      //console.error(error);
       setData([]);
       return [];
     } finally {
@@ -162,7 +159,6 @@ const MainPage = ({ navigation, route }) => {
       setData(json);
       return json;
     } catch (error) {
-      //console.error(error);
       setData([]);
       return [];
     } finally {
