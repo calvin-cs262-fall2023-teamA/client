@@ -9,9 +9,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const Profile = ({}) => {
   const navigation = useNavigation()
 
-  //  image handled below
-  const PlaceholderImage = require('../../assets/user.png')
-  const [selectedImage, setSelectedImage] = useState(null)
+  // image handled below
+
+  const PlaceholderImage = require('../../assets/user.png');
+  const [selectedImage, setSelectedImage] = useState(null);
   // const { userData } = useUser();
   // const { userID, userName } = userData;
   const [email, setEmail] = useState('')
@@ -66,7 +67,7 @@ const Profile = ({}) => {
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          onPress={pickImageAsync} //  click on image to modify.
+          onPress={pickImageAsync} // click on image to modify.
           style={styles.ImageViewerStyle}
         />
       </TouchableOpacity>
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7 //  drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
   primaryButton: {

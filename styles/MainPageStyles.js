@@ -145,12 +145,6 @@ const styles = StyleSheet.create({
     width: 30, // or whatever size you want
     height: 30, // or whatever size you want
   },
-  toggleIconStyle: {
-    width: 30, // or whatever size you want
-    height: 30, // or whatever size you want
-    margin: 4,
-    marginLeft: -6,
-  },
   searchIconStyle: {
     width: 40, // or whatever size you want
     height: 40, // or whatever size you want
@@ -176,7 +170,7 @@ const styles = StyleSheet.create({
   searchButton: {
     backgroundColor: '#FFAF66', // Background color of the search button
     paddingVertical: 15,
-    paddingHorizontal: 15,
+    paddingHorizontal: 35,
     borderRadius: 50,
   },
   searchButtonActive: {
@@ -207,28 +201,13 @@ const styles = StyleSheet.create({
   },
 
   addButton: {
-    backgroundColor: '#fff', // Background color of the add button
+    backgroundColor: '#FAF2F2', // Background color of the add button
     paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 40,
     borderRadius: 50,
 
   },
 
-  toggleButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  toggleButtonText: {
-    fontSize: 16,
-    color: '#342F2F',
-    fontWeight: '900',
-    lineHeight: 17,
-    //marginBottom: -7,
-
-  },
 
   //for PostPopup
     //container for everything, makes space for it on the screen.
