@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
@@ -5,6 +6,17 @@ import * as ImagePicker from 'expo-image-picker'
 // import ImageButton from '../components/Buttons'
 import ImageViewer from '../components/ImageViewer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+=======
+/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import ImageButton from '../components/Buttons';
+import ImageViewer from '../components/ImageViewer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+>>>>>>> 376f5fa737333fd263fd8326cc99220ef7f8bbda
 
 const Profile = ({}) => {
   const navigation = useNavigation()
