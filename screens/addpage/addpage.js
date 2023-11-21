@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -12,16 +14,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 function AddPage({ route }) {
-  const navigation = useNavigation(); //used for navigation.navigate()
+  const navigation = useNavigation(); // used for navigation.navigate()
 
-  //information entered by the user that needs to be sent to the database for an Item.
+  // information entered by the user that needs to be sent to the database for an Item.
   // const [name, setName] = useState("");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   // const { userID } = useUser();
 
-  //Main categories. May have subcategories in a different dropdown/selection tool (color? etc.) later.
+  // Main categories. May have subcategories in a different dropdown/selection tool (color? etc.) later.
   const [categories, setCategories] = useState([
     {label: 'Books/Notebooks', value: 'books'},
     {label: 'Clothing/Accessories', value: 'clothing'},
@@ -29,24 +31,24 @@ function AddPage({ route }) {
     {label: 'Keys', value: 'keys'},
     {label: 'Personal Items (Umbrella, Water Bottle, etc.)', value: 'items'},
 
-    {label: 'Other', value: 'other'}, //catch-all
+    {label: 'Other', value: 'other'}, // catch-all
   ]); 
 
-  const [location, setLocation] = useState("N/A"); //TODO: no way to reset location after it has been selected.
-  const [lostorfound, setLostOrFound] = useState("found") //the user either lost or found this item. A string for now but could technically be a boolean.
+  const [location, setLocation] = useState("N/A"); // TODO: no way to reset location after it has been selected.
+  const [lostorfound, setLostOrFound] = useState("found") // the user either lost or found this item. A string for now but could technically be a boolean.
   
   let date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
 
-  //for Switch (selecting lost/found)
+  // for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = (status) => {
     setLostOrFound(status);
   }
   
 
-  //useStates for dropdown (category)
-  const [value, setValue] = useState(null); //value stored in dropdown (see categories item label/value)
-  const [open, setOpen] = useState(false); //handles user clicking on dropdown. Opens/closes the dropdown menu.
+  // useStates for dropdown (category)
+  const [value, setValue] = useState(null); // value stored in dropdown (see categories item label/value)
+  const [open, setOpen] = useState(false); // handles user clicking on dropdown. Opens/closes the dropdown menu.
 
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
@@ -69,7 +71,7 @@ function AddPage({ route }) {
     retrieveUserData();
 }, []);
 
-  //image handled below
+  // image handled below
 
   const PlaceholderImage = require('./assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
@@ -90,8 +92,8 @@ function AddPage({ route }) {
 
 
   const handleCreateItem = async () => {
-    if (title != "") { //item MUST have a title
-      //send information
+    if (title != "") { // item MUST have a title
+      // send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
           headers: {
@@ -99,7 +101,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
 
-            title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, //replace postUser: 2 with a variable for user.id
+            title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
             archived: false, itemImage: await selectedImage, 
           }),
          
@@ -108,7 +110,7 @@ function AddPage({ route }) {
         .catch(error => {
           console.error(error);
         });
-      //navigate back to the main page. Send back which route it is coming from.
+      // navigate back to the main page. Send back which route it is coming from.
       navigation.navigate('MainPage', { prevRoute: route.name })
     } else {
       alert('Your post MUST include a title.')
@@ -131,7 +133,7 @@ function AddPage({ route }) {
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          onPress={pickImageAsync} //click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
+          onPress={pickImageAsync} // click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
         />
       </TouchableOpacity>
 
@@ -181,7 +183,7 @@ function AddPage({ route }) {
           style={{
             borderColor: 'transparent',
             width: "100%",
-            //padding: 5,
+            // padding: 5,
           }}
           containerStyle={{
             backgroundColor: '#fff',
@@ -218,12 +220,12 @@ function AddPage({ route }) {
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
              My initial thought was to make the scroll bar always visible (instead of just while scrolling), but I
              haven't gotten that to work yet. */
-             //possible props I could modify [vvv] to accomplish [^^^]
-          //containerProps={{
-            //the dropdown container (a 'View')
-          //}}
-          //dropDownContainerStyle={{
-          //}}
+             // possible props I could modify [vvv] to accomplish [^^^]
+          // containerProps={{
+            // the dropdown container (a 'View')
+          // }}
+          // dropDownContainerStyle={{
+          // }}
         />
         {/* Location Field */}
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
@@ -250,7 +252,7 @@ function AddPage({ route }) {
                 longitudeDelta: 0.005,
               }}
               mapType='hybrid'
-              minZoomLevel={14} //prevents the user from zooming out too far. Keeps them in the context of the school.
+              minZoomLevel={14} // prevents the user from zooming out too far. Keeps them in the context of the school.
             >
               {/* Space for Markers (and other components that can be in maps). */}
               {GetMarkerList()}
@@ -346,8 +348,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     color: '#FAF2F2',
     zIndex: -1,
-    //backgroundColor: '#FAF2F2',
-   //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    // backgroundColor: '#FAF2F2',
+   // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   switchButtonContainer: {
     marginTop: 30,
@@ -362,7 +364,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   button: {
     flex: 1,
@@ -389,7 +391,7 @@ const styles = StyleSheet.create({
   switchContainer: {
     flexDirection: 'row', 
     justifyContent: 'space-between',
-    //marginHorizontal: '10%',
+    // marginHorizontal: '10%',
     alignItems: 'center',
   },
   selectText: {
@@ -424,7 +426,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
   secondaryButton: {
@@ -439,7 +441,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
   closeMapButton: {
