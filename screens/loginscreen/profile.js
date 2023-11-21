@@ -7,38 +7,51 @@ import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as demoImageGetter from '../addpage/demoimages.js'; //any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
 
 const Profile = ({}) => {
   const navigation = useNavigation()
 
   // image handled below
 
-  const PlaceholderImage = require('../../assets/user.png');
+  const [PlaceholderImage, setPlaceholderImage] = useState(require('../../assets/profileIcon.png')); //can be overwritten for now. will likely be reverted later
+  //const PlaceholderImage = require('../../assets/profileIcon.png');
   const [selectedImage, setSelectedImage] = useState(null);
   // const { userData } = useUser();
   // const { userID, userName } = userData;
-  const [email, setEmail] = useState('')
-  const [userID, setUserID] = useState('')
-  const [userName, setUsername] = useState('')
+  const [email, setEmail] = useState('');
+  const [userID, setUserID] = useState('');
+  const [userName, setUsername] = useState('');
+  // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
+  let profileIcon = '';
 
+  const [userLoading, setUserLoading] = useState(true);
+
+  
   useEffect(() => {
     // Retrieve user data from AsyncStorage
     const retrieveUserData = async () => {
-      try {
-        const userData = await AsyncStorage.getItem('userData')
-        if (userData) {
-          const { ID, userName, email, username, password } = JSON.parse(userData)
-          setUserID(ID)
-          setEmail(email)
-          setUsername(userName)
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData) {
+                const { ID, userName, email, profileimage } = JSON.parse(userData);
+                setUserID(ID);
+                setEmail(email);
+                setUsername(userName);
+                //setProfileIcon(profileimage); //empty values for some reason
+                profileIcon = profileimage;
+            }
+        } catch (error) {
+            console.error(error);
         }
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    retrieveUserData();
-  }, [])
-
+        if (profileIcon) {
+          setPlaceholderImage(demoImageGetter.getImage(profileIcon));
+          setUserLoading(false);
+        }
+      };
+      retrieveUserData();
+}, []);
+  
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
@@ -47,10 +60,37 @@ const Profile = ({}) => {
 
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
+      //handleNewImage() //update in database/locally //bugged for now, commented out.
     } else {
       alert('You did not select any image.');
     }
   }
+
+  // const handleNewImage = async () => {
+  //   /* update in service */
+    
+  //   console.log(selectedImage);
+  //   fetch('https://calvinfinds.azurewebsites.net/users/image', {
+  //       method: 'POST', //actually PUT
+  //       headers: {
+  //         "Content-type": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         id: userID, image: await selectedImage,
+  //       }),
+  //     })
+  //     /* update locally, add the new comment to the list of displayedComments via getComments() */
+  //     .then((response) => {response.json})
+  //     .catch(error => {
+  //       console.error(error);
+  //   });
+  //   /* update local information */
+  //   await AsyncStorage.mergeItem('userData', JSON.stringify({ profileimage: selectedImage }));
+
+  // }
+
+  //one update for changing db, one get for getting current image. the get might already be done in login.
+  //also update locally (userData)
 
   const handleLogout = async () => {
     try {
@@ -65,14 +105,16 @@ const Profile = ({}) => {
 
   return (
     <View style={styles.container}>
+      {!userLoading &&
       <TouchableOpacity onPress={pickImageAsync}>
-        <ImageViewer
+          <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
           onPress={pickImageAsync} // click on image to modify.
           style={styles.ImageViewerStyle}
-        />
+          />          
       </TouchableOpacity>
+      }
 
       <Text style={styles.userName}>{userName}</Text>
       <Text style={styles.userEmail}>{email}</Text>
@@ -80,19 +122,19 @@ const Profile = ({}) => {
       <View style={styles.flexContainer}>
 
         {/* this Button should lead to item page for user */}
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post" })}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>7</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim" })}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>2</Text>
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
       </View>
 
-      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('MainPage')}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
 
@@ -217,6 +259,12 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: 18,
     marginTop: -6,
-    marginBottom: 6
-  }
-})
+    marginBottom: 6,
+  },
+  profileimage: {
+    width: 400,
+    height: 200,
+    borderRadius: 20,
+  },
+});
+

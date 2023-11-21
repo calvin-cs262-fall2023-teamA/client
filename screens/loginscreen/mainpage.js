@@ -4,13 +4,16 @@ import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, Sty
 
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
-import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
+import { useFocusEffect } from '@react-navigation/native';
+import ImageViewer from '../components/ImageViewer';
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchedItem, setSearchedItem] = useState('');
-  const {prevRoute} = route.params;   //  Used by the useEffect for the popup.
+  const {prevRoute} = route.params|| {};   // Used by the useEffect for the popup.
   /* set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
   and is reset to "reset" if navigating to addpage from this screen. */
 
@@ -23,6 +26,15 @@ const MainPage = ({ navigation, route }) => {
   const [email, setEmail] = useState('');
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
+  const [profileIcon, setProfileIcon] = useState(null);
+
+
+  const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
+
+
+  const toggleLostOrFoundFilter = () => {
+    setLostOrFoundFilter(lostOrFoundFilter === 'Found' ? 'Lost' : 'Found');
+  };
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -30,10 +42,11 @@ const MainPage = ({ navigation, route }) => {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, name, userEmail, username, password } = JSON.parse(userData);
+                const { ID, userName, email, username, profileimage } = JSON.parse(userData);
                 setUserID(ID)
-                setEmail(name);
-                setUsername(userEmail);
+                setEmail(email);
+                setUsername(username);
+                setProfileIcon(profileimage)
             }
         } catch (error) {
             console.error(error);
@@ -42,63 +55,6 @@ const MainPage = ({ navigation, route }) => {
 
     retrieveUserData();
 }, []);
-
-const getItems = async () => {
-  try {
-  const response = await fetch('https://calvinfinds.azurewebsites.net/items');
-    const json = await response.json();
-    setData(json);
-  } catch (error) {
-    // console.error(error);
-    setData([]);
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-const searchItem = async (text) => {
-  setSearchedItem(text)
-  try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}`);
-      const json = await response.json();
-      setData(json);
-    } catch (error) {
-      // console.error(error);
-      setData([]);
-    } finally {
-      setIsLoading(false);
-    };
-};
-
-const getItemsPosted = async () => {
-  try {
-  const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
-  const json = await response.json();
-    setData(json);
-    return json;
-  } catch (error) {
-    // console.error(error);
-    setData([]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
-};
-
-const getItemsArchived = async () => {
-  try {
-  const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
-    const json = await response.json();
-    setData(json);
-    return json;
-  } catch (error) {
-    // console.error(error);
-    setData([]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
-};
 
   const handleSearch = () => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
@@ -119,42 +75,111 @@ const getItemsArchived = async () => {
   }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        //  Load data based on the previous route
-        if (prevRoute === "post") {
-          //  If coming from the profile page looking for user.postUser (that user's posts)
-          const postData = await getItemsPosted();
-          //  Handle empty array only when the data retrieval is complete
-          if (postData.length === 0) {
-            alert("No posted items found.");
-            navigation.navigate('Profile');
-          }
-        } else if (prevRoute === "claim") {
-          //  If coming from the profile page looking for user.claimUser (that user's claimed items)
-          const archivedData = await getItemsArchived();
-          //  Handle empty array only when the data retrieval is complete
-          if (archivedData.length === 0) {
-            alert("No archived items found.");
-            navigation.navigate('Profile');
-          }
-        } else {
-          //  Default case, e.g., loading all items
-          const allData = await getItems();
-          console.log(allData);
+  const fetchData = async () => {
+    try {
+      // Load data based on the previous route
+      if (prevRoute === "post") {
+        // If coming from the profile page looking for user.postUser (that user's posts)
+        const postData = await getItemsPosted();
+        // Handle empty array only when the data retrieval is complete
+        if (postData.length === 0) {
+          alert("No posted items found.");
+          navigation.navigate('Profile');
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        //  Set loading to false
-        setIsLoading(false);
+      } else if (prevRoute === "claim") {
+        // If coming from the profile page looking for user.claimUser (that user's claimed items)
+        const archivedData = await getItemsArchived();
+        // Handle empty array only when the data retrieval is complete
+        if (archivedData.length === 0) {
+          alert("No archived items found.");
+          navigation.navigate('Profile');
+        }
+      } else {
+        // Default case, e.g., loading all items
+        const allData = await getItems();
       }
-    };
-  
-    //  Fetch data when the component mounts or when the previous route changes
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      // Set loading to false
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch data when the component mounts or when the previous route changes
     fetchData();
-  }, [prevRoute]);
+  }, [prevRoute, route.params?.key]);
+
+  
+
+  const getItems = async () => {
+    try {
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items');
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      //console.error(error);
+      setData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const searchItem = async (text) => {
+    setSearchedItem(text)
+    try {
+      const response = await fetch('https://calvinfinds.azurewebsites.net/items/search/' + text);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        //console.error(error);
+        setData([]);
+      } finally {
+        setIsLoading(false);
+      };
+  };
+
+  const getItemsPosted = async () => {
+    try {
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+    const json = await response.json();
+      setData(json);
+      return json;
+    } catch (error) {
+      //console.error(error);
+      setData([]);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getItemsArchived = async () => {
+    try {
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
+      const json = await response.json();
+      setData(json);
+      return json;
+    } catch (error) {
+      //console.error(error);
+      setData([]);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const generatePlaceholderData = (count) => {
+    const placeholderData = [];
+    for (let i = 0; i < count; i++) {
+      placeholderData.push({
+        id: i.toString(),
+        loading: true, // Indicates that the post is still loading
+      });
+    }
+    return placeholderData;
+  };
 
   const handleDetailsOpen = (selectedItem) => {
         // send information to the main (current) page to "reset" the pop up.
@@ -258,7 +283,7 @@ const getItemsArchived = async () => {
               // navigate to the AddPage (where the user will actually end up)
               navigation.navigate('Profile')
              }}>
-              <Image source={require('../../assets/user.png')} style={styles.userIconStyle} />
+              <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
             </TouchableOpacity>
             )}
 

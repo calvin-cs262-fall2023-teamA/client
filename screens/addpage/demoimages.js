@@ -13,5 +13,9 @@ export function getImage(uri) {
     else if (uri == '../../assets/DemoPlaceholders/gloves.jpg') { return require('../../assets/DemoPlaceholders/gloves.jpg') }
     else if (uri == '../../assets/DemoPlaceholders/demobottle.jpg') {return require('../../assets/DemoPlaceholders/demobottle.jpg')}
     else if (uri == '../../assets/placeholder.jpg') {return require('../../assets/placeholder.jpg')}
+    else if (uri == '../../assets/profileIcon.png') {return require('../../assets/profileIcon.png')}
+    else if (uri == '../../assets/user.png') {return require('../../assets/user.png')}
+    else if (uri == '../../assets/user2.jpg') {return require('../../assets/user2.jpg')}
+    else if (uri == '../../assets/user3.jpg') {return require('../../assets/user3.jpg')}
     else return {uri: uri};//require('../../assets/placeholder.jpg'); //what will be shown when adding an item in the demo.
 }

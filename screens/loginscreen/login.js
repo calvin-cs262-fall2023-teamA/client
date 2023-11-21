@@ -62,7 +62,7 @@ function LoginScreen() {
             const userData = await userDataResponse.json();
 
             // Store user information in AsyncStorage
-            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password }));
+            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: userData.profileimage }));
           } else {
             // Handle the case when user data retrieval fails
             console.error('Failed to fetch user data');
