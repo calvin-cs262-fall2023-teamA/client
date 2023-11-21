@@ -2,6 +2,7 @@
 This is the client application for the [CalvinFinds project](https://github.com/calvin-cs262-fall2023-teamA/project).
 
 The app currently contains a login/signup screen, a main screen, a details screen, an add (item) screen, and a user profile screen.
+
 - **Login/Signup page:**  
    - Contains fields for entering a username/password and buttons to "log in" (or "sign up" to create a new account).
    - The "log in" button will navigate to the main page if the existing user credentials are correctly entered.
