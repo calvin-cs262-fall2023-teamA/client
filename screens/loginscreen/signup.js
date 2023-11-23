@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';

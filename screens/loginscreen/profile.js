@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
@@ -7,15 +8,15 @@ import * as ImagePicker from 'expo-image-picker';
 import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as demoImageGetter from '../addpage/demoimages.js'; //any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
+import * as demoImageGetter from '../addpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
 
 const Profile = ({}) => {
   const navigation = useNavigation()
 
   // image handled below
 
-  const [PlaceholderImage, setPlaceholderImage] = useState(require('../../assets/profileIcon.png')); //can be overwritten for now. will likely be reverted later
-  //const PlaceholderImage = require('../../assets/profileIcon.png');
+  const [PlaceholderImage, setPlaceholderImage] = useState(require('../../assets/profileIcon.png')); // can be overwritten for now. will likely be reverted later
+  // const PlaceholderImage = require('../../assets/profileIcon.png');
   const [selectedImage, setSelectedImage] = useState(null);
   // const { userData } = useUser();
   // const { userID, userName } = userData;
@@ -38,7 +39,7 @@ const Profile = ({}) => {
                 setUserID(ID);
                 setEmail(email);
                 setUsername(userName);
-                //setProfileIcon(profileimage); //empty values for some reason
+                // setProfileIcon(profileimage); //empty values for some reason
                 profileIcon = profileimage;
             }
         } catch (error) {
@@ -60,7 +61,7 @@ const Profile = ({}) => {
 
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
-      //handleNewImage() //update in database/locally //bugged for now, commented out.
+      // handleNewImage() //update in database/locally //bugged for now, commented out.
     } else {
       alert('You did not select any image.');
     }
@@ -89,8 +90,8 @@ const Profile = ({}) => {
 
   // }
 
-  //one update for changing db, one get for getting current image. the get might already be done in login.
-  //also update locally (userData)
+  // one update for changing db, one get for getting current image. the get might already be done in login.
+  // also update locally (userData)
 
   const handleLogout = async () => {
     try {
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
   primaryButton: {

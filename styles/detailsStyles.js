@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: '#EDE7E7',
         borderRadius: 20,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         paddingTop: 10,
         width: '100%',
-        //height: 100,
+        // height: 100,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
         shadowRadius: 24,
-        elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     },
     commentButtonsContainer: {
         flexDirection: 'row', // Arrange children horizontally
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         flex: 1,
-        backgroundColor: '#FB8282', //same as primaryButton but with a red button
+        backgroundColor: '#FB8282', // same as primaryButton but with a red button
         borderRadius: 50,
         width: 100,
         padding: 18,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
         shadowRadius: 24,
-        elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
 
     },
     loadingComments: {
