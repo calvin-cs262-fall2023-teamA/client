@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         marginHorizontal: 25,
-        marginBottom: 10,
-        marginTop: 14,
+        marginBottom: 5,
+        marginTop: 12,
       },
     
     postImage: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'left',
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         alignItems: 'center',
     },
     textContainer: {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         height: 60, // or whatever size you want
         borderRadius: 50,
         marginHorizontal: 10,
-        marginBottom: 30,
+        marginBottom: 20,
         marginTop: 5,
       },
     userName: {
