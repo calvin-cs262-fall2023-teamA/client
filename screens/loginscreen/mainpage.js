@@ -1,9 +1,11 @@
+/* eslint-disable import/namespace */
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
-//use external stylesheet
+
+// use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as demoImageGetter from '../addpage/demoimages.js'; //specifically for demo. final images will probably work differently
+import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 
@@ -11,9 +13,9 @@ const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchedItem, setSearchedItem] = useState('');
-  const {prevRoute} = route.params|| {};   //Used by the useEffect for the popup.
-  /*set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
-  and is reset to "reset" if navigating to addpage from this screen.*/
+  const {prevRoute} = route.params|| {};   // Used by the useEffect for the popup.
+  /* set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
+  and is reset to "reset" if navigating to addpage from this screen. */
 
   // Define state to control the visibility of the Details popup
   const [detailsVisible, setDetailsVisible] = useState(false);
@@ -40,10 +42,10 @@ const MainPage = ({ navigation, route }) => {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, userName, email, username, profileimage } = JSON.parse(userData);
+                const { ID, name, userEmail, password, profileimage } = JSON.parse(userData);
                 setUserID(ID)
-                setEmail(email);
-                setUsername(username);
+                setEmail(userEmail);
+                setUsername(name);
                 setProfileIcon(profileimage)
             }
         } catch (error) {
@@ -58,19 +60,19 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-  //clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
+  // clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
   const resetSearch = () => {
-    //called by "x" button displayed when search bar is open.
-    handleSearch() //what was originally called by that button
-    getItems() //reset the search results.
+    // called by "x" button displayed when search bar is open.
+    handleSearch() // what was originally called by that button
+    getItems() // reset the search results.
   }
 
-  /*Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
+  /* Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
     (from adddetails.js) to the database. 
-    Right now, that just means that the user made an item listing at the "addPage" screen.*/
+    Right now, that just means that the user made an item listing at the "addPage" screen. */
   useEffect(() => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
-  }, [prevRoute]); //If prevRoute changes (which it does when navigating to this page), run the function.
+  }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
   const fetchData = async () => {
@@ -117,7 +119,6 @@ const MainPage = ({ navigation, route }) => {
       const json = await response.json();
       setData(json);
     } catch (error) {
-      //console.error(error);
       setData([]);
     } finally {
       setIsLoading(false);
@@ -127,11 +128,10 @@ const MainPage = ({ navigation, route }) => {
   const searchItem = async (text) => {
     setSearchedItem(text)
     try {
-      const response = await fetch('https://calvinfinds.azurewebsites.net/items/search/' + text);
+      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}`);
         const json = await response.json();
         setData(json);
       } catch (error) {
-        //console.error(error);
         setData([]);
       } finally {
         setIsLoading(false);
@@ -145,7 +145,6 @@ const MainPage = ({ navigation, route }) => {
       setData(json);
       return json;
     } catch (error) {
-      //console.error(error);
       setData([]);
       return [];
     } finally {
@@ -160,7 +159,6 @@ const MainPage = ({ navigation, route }) => {
       setData(json);
       return json;
     } catch (error) {
-      //console.error(error);
       setData([]);
       return [];
     } finally {
@@ -180,15 +178,15 @@ const MainPage = ({ navigation, route }) => {
   };
 
   const handleDetailsOpen = (selectedItem) => {
-        //send information to the main (current) page to "reset" the pop up.
-        //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+        // send information to the main (current) page to "reset" the pop up.
+        // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
         navigation.navigate({
             name: 'MainPage',
             params: { prevRoute: 'reset'},
             merge: true,
         }),
-        //navigate to the AddPage (where the user will actually end up)
-        navigation.navigate('Details', { itemData: selectedItem }) //pass json data of a given item as itemData
+        // navigate to the AddPage (where the user will actually end up)
+        navigation.navigate('Details', { itemData: selectedItem }) // pass json data of a given item as itemData
     } 
 
   const renderItem = ({ item }) => (
@@ -212,15 +210,15 @@ const MainPage = ({ navigation, route }) => {
                     <Text style={styles.date}>
                         {item.dateposted}
                     </Text>
-                    {/* comments should be only visible in item page*/}
+                    {/* comments should be only visible in item page */}
                     {/* <Text style={styles.comments}>
                         Comments
                     </Text> */}
                 </View>
             </View>
             <Image
-                //TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
-                source={item.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(item.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
+                // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
+                source={item.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
                 style={styles.postImage}
             />
         </View>
@@ -232,7 +230,7 @@ const MainPage = ({ navigation, route }) => {
     <View style={styles.container}>
         <FlatList
         data={data}
-        keyExtractor={({id}) => id} //{(item) => item.id} //old
+        keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
         {/* Search for an item */}
@@ -240,7 +238,7 @@ const MainPage = ({ navigation, route }) => {
         <KeyboardAvoidingView 
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.writeTaskWrapper}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+            keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
         >
             {searchActive && (
             <View style={styles.searchContainer}>
@@ -249,32 +247,19 @@ const MainPage = ({ navigation, route }) => {
                 The current placeholder works but is not stylized. */}
                 <TouchableOpacity style={styles.addButton}
                     onPress={() => {
-                        //send information to the main (current) page to "reset" the pop up.
-                        //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                        // send information to the main (current) page to "reset" the pop up.
+                        // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
                         navigation.navigate({
                             name: 'MainPage',
                             params: { prevRoute: 'reset'},
                             merge: true,
                         }),
-                        //navigate to the AddPage (where the user will actually end up)
+                        // navigate to the AddPage (where the user will actually end up)
                         navigation.navigate('AddPage')
                     }}>
                     <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
                 </TouchableOpacity>
                 {/* END OF PLACEHOLDER */}
-
-                {/* Found/lost item toggle */}
-                
-                  
-                <TouchableOpacity style={styles.toggleButton} onPress={toggleLostOrFoundFilter}>
-                  <Image source={require('../../assets/switch.png')} style={styles.toggleIconStyle} />
-                  <View>
-                    <Text style={styles.toggleButtonText}>{lostOrFoundFilter}</Text>
-                    <Text style={styles.toggleButtonText}>Items</Text>
-                  </View>
-                </TouchableOpacity>
-                
-
 
                 <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                     <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
@@ -284,14 +269,14 @@ const MainPage = ({ navigation, route }) => {
             
             {searchActive && (
             <TouchableOpacity onPress={() => {
-              //send information to the main (current) page to "reset" the pop up.
-              //Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+              // send information to the main (current) page to "reset" the pop up.
+              // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
               navigation.navigate({
                   name: 'Profile',
                   params: { prevRoute: 'reset'},
                   merge: true,
               }),
-              //navigate to the AddPage (where the user will actually end up)
+              // navigate to the AddPage (where the user will actually end up)
               navigation.navigate('Profile')
              }}>
               <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />

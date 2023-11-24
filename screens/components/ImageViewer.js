@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/react-in-jsx-scope */
 // in ImageViewer.js
 import { StyleSheet, Image } from 'react-native';
 

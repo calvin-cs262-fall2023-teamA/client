@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/react-in-jsx-scope */
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
