@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -38,7 +38,7 @@ function AddPage({ route }) {
   const locationButtonTextStyle = location === "Select Location" ? styles.locationButtonTextUnselected : styles.locationButtonText;
   const [lostorfound, setLostOrFound] = useState("found") // the user either lost or found this item. A string for now but could technically be a boolean.
   
-  let date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
+  const date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
 
   // for Switch (selecting lost/found)
   const [isEnabled, setIsEnabled] = useState(false);
@@ -78,7 +78,7 @@ function AddPage({ route }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
     });
@@ -102,7 +102,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
 
-            title: title, description: description, category: value, location: location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
+            title, description, category: value, location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
             archived: false, itemImage: await selectedImage, 
           }),
          
@@ -129,7 +129,13 @@ function AddPage({ route }) {
 
 
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+    >
+      <View style={styles.container}>
       <TouchableOpacity onPress={pickImageAsync}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
@@ -293,9 +299,9 @@ function AddPage({ route }) {
         </TouchableOpacity> */}
       </View>
 
-       
-
-    </View>
+        </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
   );
 }
 
@@ -379,6 +385,11 @@ const styles = StyleSheet.create({
   },
   activeButton: {
     backgroundColor: '#FFAF66',
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   inactiveButton: {
     backgroundColor: 'transparent',

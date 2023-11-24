@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    ScrollViewContainer: {
+        marginBottom: 180,
+    },
     userIconStyle: {
         width: 60, // or whatever size you want
         height: 60, // or whatever size you want
@@ -220,6 +223,11 @@ const styles = StyleSheet.create({
         width: 100,
         padding: 18,
         alignItems: 'center',
+    },
+    deleteButtonText: {
+        color: '#f03a3a', // same as primaryButton but with a red button
+        fontWeight: '900',
+        fontSize: 20,
         shadowColor: '#A59D95',
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
