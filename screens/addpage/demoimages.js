@@ -1,7 +1,8 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable no-else-return */
 // used to store hardcoded demo images. require() functions cannot be used dynamically; the uri has to be static. That is why it is written this way.
 // it is messy but it is also only meant to be temporary.
-export default function getImage(uri) {
+export function getImage(uri) {
     if (uri === '../../assets/DemoPlaceholders/charger.jpg') { return require('../../assets/DemoPlaceholders/charger.jpg') }
     else if (uri === '../../assets/DemoPlaceholders/greenbottle.jpg') { return require('../../assets/DemoPlaceholders/greenbottle.jpg') }
     else if (uri === '../../assets/DemoPlaceholders/notebook.jpg') { return require('../../assets/DemoPlaceholders/notebook.jpg') }
