@@ -108,12 +108,7 @@ function Details({ navigation, route }) {
           />
           <View style={styles.row}>
             <View>
-              <Text>
-                I
-                {itemData.lostfound}
-                {' '}
-                a...
-              </Text>
+            <Text>I {itemData.lostfound} a...</Text>
               <Text style={styles.itemName}>{itemData.title}</Text>
             </View>
             <View>
@@ -142,27 +137,6 @@ function Details({ navigation, route }) {
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
 
-            {/* dropdown for close and open bottomContainer to see all comments. */}
-          </View>
-          <View style={styles.commentButtonsContainer}>
-            <TouchableOpacity
-              style={[styles.exit, styles.buttonWithBorder]}
-              onPress={() => {
-                // Hide the bottomContainer
-                setBottomContainerVisibility(false);
-              }}
-            >
-              <Text style={styles.exit}>Read</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.open, styles.buttonWithBorder]}
-              onPress={() => {
-                // Show the bottomContainer
-                setBottomContainerVisibility(true);
-              }}
-            >
-              <Text style={styles.open}>Comment</Text>
-            </TouchableOpacity>
           </View>
 
         </View>

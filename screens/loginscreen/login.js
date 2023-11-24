@@ -4,7 +4,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 
 import Illustration from '../../assets/login-vector.svg';
 
@@ -92,7 +92,11 @@ function LoginScreen() {
   return (    
     // TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+    >
 
       <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
@@ -149,10 +153,10 @@ function LoginScreen() {
         </TouchableOpacity>
       </View>
 
-    </View>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

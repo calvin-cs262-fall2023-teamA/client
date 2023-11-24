@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         marginHorizontal: 25,
-        marginBottom: 10,
-        marginTop: 14,
+        marginBottom: 5,
+        marginTop: 12,
       },
     
     postImage: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'left',
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         alignItems: 'center',
     },
     textContainer: {
@@ -82,12 +82,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    ScrollViewContainer: {
+        marginBottom: 180,
+    },
     userIconStyle: {
         width: 60, // or whatever size you want
         height: 60, // or whatever size you want
         borderRadius: 50,
         marginHorizontal: 10,
-        marginBottom: 30,
+        marginBottom: 20,
         marginTop: 5,
       },
     userName: {
@@ -220,6 +223,11 @@ const styles = StyleSheet.create({
         width: 100,
         padding: 18,
         alignItems: 'center',
+    },
+    deleteButtonText: {
+        color: '#f03a3a', // same as primaryButton but with a red button
+        fontWeight: '900',
+        fontSize: 20,
         shadowColor: '#A59D95',
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
