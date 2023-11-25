@@ -5,12 +5,6 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import bcrypt from 'react-native-bcrypt';
-// import crypto from 'react-native-crypto'; // Import crypto module
-
-// bcrypt.setRandomFallback((len) => {
-//   const buf = crypto.randomBytes(len);
-//   return new Uint8Array(buf);
-// });
 
 const LoginScreen = () => {
   const [Name, setName] = useState('')
@@ -46,21 +40,6 @@ const LoginScreen = () => {
       alert('Make sure you are using @calvin.edu email address.')
       return
     }
-    // bcrypt.hash(user.password, saltRounds, (err, hash) => {
-    //   if (err) {
-    //       console.error('Error hashing password:', err);
-    //       return;
-    //   }
-    // Create a user object with the entered data
-    // const user = {
-    //   name: Name,
-    //   email: email,
-    //   password: hash,
-    //   type: "Standard",
-    //   profileimage: '../../assets/profileIcon.png'
-    // };
-    // console.log(user);
-  // });
 
     try {
       bcrypt.hash(password, saltRounds, async (err, hash) => {
@@ -69,15 +48,13 @@ const LoginScreen = () => {
           return;
         }
         // Create a user object with the entered data
-        console.log(hash);
-      const user = {
-        name: Name,
-        email: email,
-        password: hash,
-        type: "Standard",
-        profileimage: '../../assets/profileIcon.png'
-      };
-      console.log(user);
+        const user = {
+          name: Name,
+          email: email,
+          password: hash,
+          type: "Standard",
+          profileimage: '../../assets/profileIcon.png'
+        };
       // Send a POST request to your API endpoint
       const response = await fetch('https://calvinfinds.azurewebsites.net/users', {
         method: 'POST',
@@ -86,7 +63,6 @@ const LoginScreen = () => {
         },
         body: JSON.stringify(user)
       })
-    console.log(JSON.stringify(response))
     if (response.ok) {
       // User registration was successful
       navigation.navigate('Login') // Redirect to the login screen

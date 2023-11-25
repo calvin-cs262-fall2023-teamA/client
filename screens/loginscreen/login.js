@@ -36,18 +36,12 @@ function LoginScreen() {
       return;
     }
     try {
-      // Create an object with the email and password
-      const credentials = {
-        emailAddress: email,
-        password: password,
-      };
     
           // Fetch user data from the API
           const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
           if (userDataResponse.ok) {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
-            console.log(userData);
             // Compare what the user inputted with the hashed password in the database
             const isPasswordCorrect = bcrypt.compareSync(password, userData.password);
             if (isPasswordCorrect) {
