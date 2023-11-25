@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import {KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Image, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -235,7 +235,11 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
-          <Text style={locationButtonTextStyle}>{location}</Text>
+          <View style={styles.row}>
+            <Image source={require('../../assets/pin.png')} style={styles.icon} />
+            <Text style={locationButtonTextStyle}>{location}</Text>
+          </View>
+          
         </TouchableOpacity>
         <Modal
           animationType="slide"
@@ -261,11 +265,14 @@ function AddPage({ route }) {
               {/* Space for Markers (and other components that can be in maps). */}
               {GetMarkerList()}
             </MapView>
-
-            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
-              <Text style={styles.primaryButtonText}>Set Location</Text>
-            </TouchableOpacity>
-
+            <View style={
+              {paddingVertical: 10}
+            }>
+              <View style={styles.row}>
+                <Text style={styles.primaryButtonText}>Selected Location: </Text>
+                <Text style={locationButtonTextStyle}>{location === "Select Location" ? "Not Selected" : location}</Text>
+              </View>
+            </View>
             <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
               <Text style={styles.primaryButtonText}>Close Map</Text>
             </TouchableOpacity>
@@ -439,6 +446,9 @@ const styles = StyleSheet.create({
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
+  row: {
+    flexDirection: 'row',
+  },
   secondaryButton: {
     alignItems: 'center',
     backgroundColor: '#FAF2F2',
@@ -453,6 +463,11 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
+  },
+  icon: {
+    marginRight: 8,
+    width: 25, // or whatever size you want
+    height: 25, // or whatever size you want
   },
   closeMapButton: {
     marginBottom: 20,
