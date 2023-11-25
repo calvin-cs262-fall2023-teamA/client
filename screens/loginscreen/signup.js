@@ -1,9 +1,16 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-no-undef */
-import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet } from 'react-native';
+import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
+import bcrypt from 'react-native-bcrypt';
+// import crypto from 'react-native-crypto'; // Import crypto module
 
+// bcrypt.setRandomFallback((len) => {
+//   const buf = crypto.randomBytes(len);
+//   return new Uint8Array(buf);
+// });
 
 const LoginScreen = () => {
   const [Name, setName] = useState('')
@@ -21,6 +28,7 @@ const LoginScreen = () => {
   const isFormFilled = Name !== '' && email !== '' && password !== '' && repeatPassword !== ''
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false)
+  const saltRounds = 5;
 
   const handleSignup = async () => {
     // Check if passwords match
@@ -38,18 +46,38 @@ const LoginScreen = () => {
       alert('Make sure you are using @calvin.edu email address.')
       return
     }
-
+    // bcrypt.hash(user.password, saltRounds, (err, hash) => {
+    //   if (err) {
+    //       console.error('Error hashing password:', err);
+    //       return;
+    //   }
     // Create a user object with the entered data
-    const user = {
-      name: Name,
-      email: email,
-      password: password,
-      type: "Standard",
-      profileimage: '../../assets/profileIcon.png'
-    };
-
+    // const user = {
+    //   name: Name,
+    //   email: email,
+    //   password: hash,
+    //   type: "Standard",
+    //   profileimage: '../../assets/profileIcon.png'
+    // };
+    // console.log(user);
+  // });
 
     try {
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) {
+          console.error('Error hashing password:', err);
+          return;
+        }
+        // Create a user object with the entered data
+        console.log(hash);
+      const user = {
+        name: Name,
+        email: email,
+        password: hash,
+        type: "Standard",
+        profileimage: '../../assets/profileIcon.png'
+      };
+      console.log(user);
       // Send a POST request to your API endpoint
       const response = await fetch('https://calvinfinds.azurewebsites.net/users', {
         method: 'POST',
@@ -58,13 +86,14 @@ const LoginScreen = () => {
         },
         body: JSON.stringify(user)
       })
-
-      if (response.ok) {
-        // User registration was successful
-        navigation.navigate('Login') // Redirect to the login screen
-      } else {
-        alert('Error: Registration failed')
-      }
+    console.log(JSON.stringify(response))
+    if (response.ok) {
+      // User registration was successful
+      navigation.navigate('Login') // Redirect to the login screen
+    } else {
+      alert('Error: Sign up failed')
+    }
+      });
     } catch (error) {
       console.error(error)
       alert('Error: Registration failed')
