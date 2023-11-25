@@ -45,7 +45,7 @@ const Details = ({ navigation, route }) => {
   };
 
   const deleteBackButton = () => {
-    if (userID == itemData.postuser) {
+    if (userID === itemData.postuser) {
       return ( <>
           <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
@@ -54,13 +54,15 @@ const Details = ({ navigation, route }) => {
             <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
         </>)
-    } else {
-      return ( <>
-        <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.primaryButtonText}>Go Back</Text>
-        </TouchableOpacity>
-      </>)
-    }
+    } 
+    // disabled for readability
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return ( <>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.primaryButtonText}>Go Back</Text>
+      </TouchableOpacity>
+    </>)
+    
   }
 
   return (
