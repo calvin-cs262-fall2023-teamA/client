@@ -96,6 +96,27 @@ function Details({ navigation, route }) {
     setComment('');
   };
 
+  const deleteBackButton = () => {
+    if (userID === itemData.postuser) {
+      return ( <>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.primaryButtonText}>Delete</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.primaryButtonText}>Go Back</Text>
+          </TouchableOpacity>
+        </>)
+    } 
+    // disabled for readability
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return ( <>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.primaryButtonText}>Go Back</Text>
+      </TouchableOpacity>
+    </>)
+    
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -209,12 +230,7 @@ function Details({ navigation, route }) {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.deleteButtonText}>Delete</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
-              <Text style={styles.primaryButtonText}>Go Back</Text>
-            </TouchableOpacity>
+            {deleteBackButton()}
           </View>
         </View>
         )}
