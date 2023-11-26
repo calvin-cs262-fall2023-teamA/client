@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,6 +11,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Camera } from 'expo-camera';
 
 
 function AddPage({ route }) {
@@ -53,6 +54,9 @@ function AddPage({ route }) {
 
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
+
+  // useStates for camera images
+  const [hasPermission, setHasPermission] = useState(true);
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -91,6 +95,37 @@ function AddPage({ route }) {
   }
 
 
+
+  // image selection from camera
+  const handleImageSelection = async (fromCamera) => {
+    if (hasPermission === null) {
+      return;
+    }
+    if (hasPermission === false) {
+      alert('No access to camera.');;
+    }
+
+    if (fromCamera) {
+      await takePhoto();
+    } else {
+      await pickImageAsync();
+    }
+  };
+
+
+  // Function to launch the camera to take a photo
+  const takePhoto = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert('You did not select any image.');
+    }
+  };
 
   const handleCreateItem = async () => {
     if (title != "") { // item MUST have a title
@@ -136,13 +171,23 @@ function AddPage({ route }) {
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
       <View style={styles.container}>
-      <TouchableOpacity onPress={pickImageAsync}>
+      <View style={styles.imageSelector}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          onPress={pickImageAsync} // click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
+          // onPress={() => handleImageSelection(true)} // click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
         />
-      </TouchableOpacity>
+
+        {/* buttons for using the camera or choosing from the gallery */}
+        <View style={styles.overlay}>
+          <TouchableOpacity style={styles.imageButton} onPress={() => handleImageSelection(true)}>
+            <Text style={styles.imageButtonText}>Take a Photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.imageButton} onPress={() => handleImageSelection(false)}>
+            <Text style={styles.imageButtonText}>Choose from Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       {/* A list of options for what kinds of things the user can add 
         (an item they lost or something they found). */}
@@ -474,6 +519,29 @@ const styles = StyleSheet.create({
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
+  },
+  imageSelector:{ 
+    flexDirection: 'row' 
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageButton: {
+    backgroundColor: '#EDE7E7',
+    padding: 8,
+    borderRadius: 8,
+    marginVertical: 8,
+  },
+  imageButtonText: {
+    color: '#342F2F',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
