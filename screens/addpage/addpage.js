@@ -56,7 +56,7 @@ function AddPage({ route }) {
   const [userName, setUsername] = useState('');
 
   // useStates for camera images
-  const [hasPermission, setHasPermission] = useState(true);
+  const [hasPermission, setHasPermission] = useState(null);
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -94,7 +94,13 @@ function AddPage({ route }) {
     }
   }
 
-
+  // set permissions to use camera
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
   // image selection from camera
   const handleImageSelection = async (fromCamera) => {
