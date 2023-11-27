@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
-import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet } from 'react-native';
+import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
