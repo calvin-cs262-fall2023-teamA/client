@@ -129,7 +129,7 @@ function AddPage({ route }) {
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
     } else {
-      alert('You did not select any image.');
+      alert('You did not take a photo.');
     }
   };
 
