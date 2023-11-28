@@ -235,6 +235,12 @@ const styles = StyleSheet.create({
         elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
 
     },
+    helpButton: {
+        color: 'blue', // Change the color to your preference
+        fontSize: 16,   // Change the font size to your preference
+        fontWeight: 'bold', // Add other styles as needed
+        // ... other styling properties
+      },
     loadingComments: {
         paddingTop: '20%',
     }

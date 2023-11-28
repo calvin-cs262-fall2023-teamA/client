@@ -6,6 +6,7 @@ import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
+import PopupScreen from './PopupScreen';
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
@@ -27,7 +28,12 @@ function Details({ navigation, route }) {
   const [value, setValue] = useState(null);
   //handles user clicking on dropdown. Opens/closes the dropdown menu.
   const [open, setOpen] = useState(false); 
+  // help page pop-up
+  const [isPopupVisible, setPopupVisibility] = useState(false);
 
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
+  };
   //comments
   let readComments = [];
   const [isLoading, setIsLoading] = useState(true); //for loading initial comment content. Will try to load "displayedComment" before it is defined otherwise.
@@ -107,6 +113,7 @@ function Details({ navigation, route }) {
           </TouchableOpacity>
         </>)
     } 
+    
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
@@ -156,8 +163,11 @@ function Details({ navigation, route }) {
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{itemData.name}</Text>
               <Text style={styles.userComment}>{itemData.description}</Text>
+              <TouchableOpacity onPress={togglePopup}> 
+                <Text style={styles.helpButton}>Help</Text>
+              </TouchableOpacity>
+              <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
             </View>
-
           </View>
 
         </View>
