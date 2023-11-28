@@ -99,7 +99,7 @@ function AddPage({ route }) {
     if (title != "") { // item MUST have a title
       try {
         // send information about item
-        // response should be the id of the item if used later in this function (handleCreateItem())
+        // Image data is handled in service
         const response = fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
           headers: {
@@ -113,9 +113,6 @@ function AddPage({ route }) {
       } catch (error) {
         console.error(error);
       }
-      // send image information to Image table. Stores a reference to the above item.
-      // fetch
-
       // navigate back to the main page. Send back which route it is coming from.
       navigation.navigate('MainPage', { prevRoute: route.name })
     } else {
