@@ -326,6 +326,9 @@ function AddPage({ route }) {
                 <Text style={locationButtonTextStyle}>{location === "Select Location" ? "Not Selected" : location}</Text>
               </View>
             </View>
+            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setLocation("Select Location")} >
+              <Text style={styles.primaryButtonText}>Reset Location</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
               <Text style={styles.primaryButtonText}>Close Map</Text>
             </TouchableOpacity>
@@ -392,7 +395,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     
   },
-
   inputText:{
     flex: 1,
     fontSize: 20,
@@ -552,7 +554,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageButton: {
-    backgroundColor: 'rgba(237,231,231, 0.7)',
+    backgroundColor: 'rgba(237,231,231, 0.6)',
     paddingHorizontal: 25,
     paddingVertical: 15,
     minWidth: 220,
