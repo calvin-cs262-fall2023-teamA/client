@@ -552,15 +552,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageButton: {
-    backgroundColor: '#EDE7E7',
-    padding: 8,
-    borderRadius: 8,
+    backgroundColor: 'rgba(237,231,231, 0.7)',
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+    minWidth: 220,
+    borderRadius: 50,
     marginVertical: 8,
+    alignItems: 'center',
   },
   imageButtonText: {
     color: '#342F2F',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '900',
   },
 });
 
