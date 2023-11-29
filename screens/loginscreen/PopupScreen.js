@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
-
+import * as styles from '../../styles/detailsStyles';
 const PopupScreen = ({ isVisible, onClose }) => {
 return (
     <Modal
@@ -14,7 +14,7 @@ return (
         <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
           <Text>Your Popup Content Goes Here</Text>
           <TouchableOpacity onPress={onClose}>
-            <Text>Close</Text>
+            <Text style={styles.helpButton}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
