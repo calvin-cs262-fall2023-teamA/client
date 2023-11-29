@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
@@ -175,7 +176,6 @@ function AddPage({ route }) {
       style={styles.container}
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
-      <View style={styles.container}>
       <View style={styles.imageSelector}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
@@ -356,7 +356,7 @@ function AddPage({ route }) {
         </TouchableOpacity> */}
       </View>
 
-        </View>
+
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
   );
@@ -507,7 +507,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginBottom: 10,
     marginTop: 30,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
