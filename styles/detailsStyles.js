@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: '#EDE7E7',
         borderRadius: 20,
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'left',
         paddingHorizontal: 15,
+        // paddingVertical: 10,
         alignItems: 'center',
     },
     textContainer: {
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         paddingTop: 10,
         width: '100%',
-        //height: 100,
+        // height: 100,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
@@ -165,9 +166,40 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
         shadowRadius: 24,
-        elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     },
-
+    commentButtonsContainer: {
+        flexDirection: 'row', // Arrange children horizontally
+        justifyContent: 'space-between', // Add space between children
+        alignItems: 'center', // Align items vertically in the center
+        padding: 10, // Add padding to create space between the border and content
+        borderWidth: 1, // Add a border
+        borderColor: '#ccc', // Border color
+        borderRadius: 8, // Border radius for rounded corners
+        marginBottom: 10, // Add margin between comment containers
+      },
+      buttonWithBorder: {
+        borderRightWidth: 1, // Add a right border to "Read" button
+        borderRightColor: '#ccc', // Border color
+        borderLeftWidth: 1, // Add a left border to "Comment" button
+        borderLeftColor: '#ccc', // Border color
+      },
+    exit: {
+        marginLeft: 20, // Align to the left
+        fontWeight: '600',
+        marginHorizontal: 20,
+        // padding: 16,
+        fontSize: 15,
+        color: '#2F2E41',
+    },
+    open: {
+        marginRight: 20, // Align to the right
+        fontWeight: '600',
+        marginHorizontal: 20,
+        // padding: 16,
+        fontSize: 15,
+        color: '#2F2E41',
+    },
     primaryButtonText: {
         color: '#342F2F',
         fontWeight: '900',
@@ -186,16 +218,22 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         flex: 1,
-        Color: '#FB8282', //same as primaryButton but with a red button
+        backgroundColor: '#FB8282', // same as primaryButton but with a red button
         borderRadius: 50,
         width: 100,
         padding: 18,
         alignItems: 'center',
     },
     deleteButtonText: {
-        color: '#f03a3a', //same as primaryButton but with a red button
+        color: '#f03a3a', // same as primaryButton but with a red button
         fontWeight: '900',
         fontSize: 20,
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+
     },
     loadingComments: {
         paddingTop: '20%',

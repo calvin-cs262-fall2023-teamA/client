@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   container: {
     minHeight: '100%',
     backgroundColor: '#EDE7E7',
-    paddingBottom: 110,  //make the bottom bar not covering the last item 
+    paddingBottom: 110,  // make the bottom bar not covering the last item 
   },
   
   postContainer: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7, //android shadow
+    elevation: 7, // android shadow
   },
   row: {
     flexDirection: 'row',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingTop: 10,
     width: '100%',
-    //height: 100,
+    // height: 100,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 
   addWrapper: {
     width: 50,
-    //height: 50,
+    // height: 50,
     backgroundColor: '#FFF',
     borderRadius: 60,
     justifyContent: 'center',
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7, //android shadow
+    elevation: 7, // android shadow
   },
 
   searchBarContainer: {
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7, //android shadow
+    elevation: 7, // android shadow
 
   },
 
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
 
   },
-
   toggleButton: {
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -226,22 +225,22 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     lineHeight: 17,
-    //marginBottom: -7,
+    // marginBottom: -7,
 
   },
 
-  //for PostPopup
-    //container for everything, makes space for it on the screen.
+  // for PostPopup
+    // container for everything, makes space for it on the screen.
   popupContainer: {
       order: 3,
-      //backgroundColor: 'red', //for testing, to see where it is and how big it is.
+      // backgroundColor: 'red', //for testing, to see where it is and how big it is.
   },
-  //the actual part the text goes in.
+  // the actual part the text goes in.
   popup: {
-      marginTop: '100%', //0% = top, 100% = center, 200% = bottom 
+      marginTop: '100%', // 0% = top, 100% = center, 200% = bottom 
       borderRadius: 7.5,
       paddingHorizontal: 20,
-      height: 60, //constant for now
+      height: 60, // constant for now
 
       alignSelf: 'center',
       backgroundColor: '#F04564',

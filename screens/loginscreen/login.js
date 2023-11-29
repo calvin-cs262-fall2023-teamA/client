@@ -1,21 +1,23 @@
-import {KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard} from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Illustration from '../../assets/login-vector.svg';
+/* eslint-disable global-require */
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/jsx-filename-extension */
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+
+import Illustration from '../../assets/login-vector.svg';
 
 
 
-
-const LoginScreen = () => {
+function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
-  const screenWidth = Dimensions.get('window').width; //get screen width so illustration can be resized according to screen size
+  const screenWidth = Dimensions.get('window').width; // get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8;  // Adjust the multiplier as needed
-  //detect if email or password input is focused
+  // detect if email or password input is focused
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const isFormFilled = email !== '' && password !== '';
@@ -23,7 +25,6 @@ const LoginScreen = () => {
   // const [userID, setUserID] = useState('');
   // const [userName, setUsername] = useState('')
 
-  
   const handleLogin = async() => {
     // Implement the login, verify email and password
     // if (email === 'admin' && password === 'password') {
@@ -34,14 +35,13 @@ const LoginScreen = () => {
       alert('Email and password are required.');
       return;
     }
-  
     try {
       // Create an object with the email and password
       const credentials = {
         emailAddress: email,
         password: password,
       };
-    
+
       // Send a POST request to your server for user authentication
       const response = await fetch('https://calvinfinds.azurewebsites.net/login', {
         method: 'POST',
@@ -53,7 +53,7 @@ const LoginScreen = () => {
     
       if (response.ok) {
         // User authentication was successful
-        //const userData = await response.json();
+        // const userData = await response.json();
         try {
           // Fetch user data from the API
           const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
@@ -90,15 +90,13 @@ const LoginScreen = () => {
     setPassword('');
   }, [route.params]);
   return (    
-    //TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
+    // TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
     <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
-    
-
 
       <View style={styles.artContainer}>
         <Illustration width={svgWidth} height={svgWidth} />
@@ -155,7 +153,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
       </View>
 
-      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
@@ -169,14 +167,14 @@ const styles = StyleSheet.create({
     padding: 35,
   },
   
-  //login illustration
+  // login illustration
   artContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 80,
   },
   
-  //heading styling
+  // heading styling
   headingContainer: {
     alignItems: 'flex-end',
     
@@ -258,7 +256,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
   primaryButtonText: {
