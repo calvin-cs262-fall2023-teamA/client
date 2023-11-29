@@ -107,7 +107,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
             title, description, category: value, location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
-            archived: false, imagedata: await selectedImage, // used to store image here, now store a reference in another table 
+            archived: false, imagedata: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
           }),
         })
       } catch (error) {
