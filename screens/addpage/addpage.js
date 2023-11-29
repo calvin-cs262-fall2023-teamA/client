@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
-    marginTop: -10,
+    marginTop: -20,
     marginBottom: 30,
     width: '85%',
     flexDirection: 'row',
