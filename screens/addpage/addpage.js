@@ -135,6 +135,7 @@ function AddPage({ route }) {
 
   const handleCreateItem = async () => {
     if (title != "") { // item MUST have a title
+      const finalLocation = location === "Select Location" ? "N/A" : location;
       // send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
@@ -143,7 +144,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
 
-            title, description, category: value, location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
+            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
             archived: false, itemImage: await selectedImage, 
           }),
          
