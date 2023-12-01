@@ -25,9 +25,11 @@ const Profile = ({}) => {
   const [userName, setUsername] = useState('');
   // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
+  const [postedCount, setPostedCount] = useState(0);
+  const [archivedCount, setArchivedCount] = useState(0);
 
   const [userLoading, setUserLoading] = useState(true);
-
+  const [data, setData] = useState([]);
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -49,9 +51,88 @@ const Profile = ({}) => {
           setPlaceholderImage(demoImageGetter.getImage(profileIcon));
           setUserLoading(false);
         }
+        try {
+        const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+        const postJson = await postResponse.json();
+        console.log(JSON.stringify(postJson));
+        setData(JSON.stringify(postJson));
+        setPostedCount(postJson.length);
+        await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
+        await AsyncStorage.setItem('postedCount', postJson.length.toString());
+        console.log("Posted count:", postJson.length);
+        } catch (error) {
+            setData([]);
+        }
+
+        try{
+        const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
+        const archivedJson = await archivedResponse.json();
+        console.log(JSON.stringify(archivedJson));
+        setData(JSON.stringify(archivedJson));
+        setArchivedCount(archivedJson.length);
+        await AsyncStorage.setItem('archivedCount', archivedJson.length.toString());
+        console.log("Archived:", archivedCount);
+        } catch (error) {
+        setData([]);
+        }
       };
+
+      // const getItemsPosted = async () => {
+      //   try {
+      //   const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+      //   const json = await response.json();
+      //     setData(json);
+      //     // setPostedCount(json.length);
+      //     await AsyncStorage.setItem('postedData', JSON.stringify(json));
+      //     await AsyncStorage.setItem('postedCount', json.length.toString());
+      //     console.log("Posted count:", json.length);
+      //     return json;
+      //   } catch (error) {
+      //     setData([]);
+      //     return [];
+      //   }
+      // };
+    
+      // const getItemsArchived = async () => {
+      //   try {
+      //   const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
+      //     const json = await response.json();
+      //     setData(json);
+      //     //setArchivedCount(json.length);
+      //     await AsyncStorage.setItem('archivedCount', json.length.toString());
+      //     console.log("Archived:", archivedCount);
+      //     return json;
+      //   } catch (error) {
+      //     setData([]);
+      //     return [];
+      //   }
+      // };
+    
       retrieveUserData();
+      // getItemsPosted();
+      // getItemsArchived();
 }, []);
+
+useEffect(() => {
+  const getItemCount= async () => {
+    try {
+      // Retrieve the count from AsyncStorage
+      const postedCount = await AsyncStorage.getItem('postedCount');
+      const archivedCount = await AsyncStorage.getItem('archivedCount');
+      if (postedCount !== null) {
+        // Update the state with the stored count
+        setPostedCount(parseInt(postedCount, 10));
+      }
+      if (archivedCount !== null) {
+        // Update the state with the stored count
+        setPostedCount(parseInt(archivedCount, 10));
+      }
+    } catch (error) {
+      console.error('Error retrieving count from storage:', error);
+    }
+  };
+  getItemCount();
+}, [postedCount, archivedCount]);
   
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -124,12 +205,12 @@ const Profile = ({}) => {
 
         {/* this Button should lead to item page for user */}
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
-          <Text style={styles.tertiaryButtonTitle}>7</Text>
+          <Text style={styles.tertiaryButtonTitle}>{postedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim", key: Math.random().toString()})}>
-          <Text style={styles.tertiaryButtonTitle}>2</Text>
+          <Text style={styles.tertiaryButtonTitle}>{archivedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
