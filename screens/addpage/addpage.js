@@ -80,15 +80,19 @@ function AddPage({ route }) {
 
   const PlaceholderImage = require('./assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      // setSelectedImage(result.assets[0].uri); // old solution
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not select any image.');
     }
@@ -124,35 +128,41 @@ function AddPage({ route }) {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not take a photo.');
     }
   };
 
   const handleCreateItem = async () => {
-    if (title != "") { // item MUST have a title
+    /* a flag to prevent the user from sending multiple upload 
+      requests (by pressing the button repeatedly) */
+    if (isUploading === true) return;
+    if (title !== "") { // item MUST have a title
       const finalLocation = location === "Select Location" ? "N/A" : location;
-      // send information
-        fetch('https://calvinfinds.azurewebsites.net/items', {
+      try {
+      setIsUploading(true);
+
+        // send information about item
+        // Image data is handled in service
+        await fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
           headers: {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-
-            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
-            archived: false, itemImage: await selectedImage, 
+            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
+            archived: false, imagedata: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
           }),
-         
         })
-        .then((response) => response.json)
-        .catch(error => {
-          console.error(error);
-        });
+      } catch (error) {
+        console.error(error);
+      }
       // navigate back to the main page. Send back which route it is coming from.
       navigation.navigate('MainPage', { prevRoute: route.name })
     } else {
@@ -376,6 +386,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',    
     backgroundColor: '#EDE7E7',
   },
+  
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
@@ -489,7 +500,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flex: 1,
   },
-
+  
   primaryButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
@@ -514,7 +525,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginTop: 30,
+    marginBottom: 30,
+    marginTop: 10,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
