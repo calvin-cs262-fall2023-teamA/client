@@ -205,7 +205,7 @@ function Details({ navigation, route }) {
         {isBottomContainerVisible && ( 
         <View style={styles.bottomContainer}>
           {/* user input */}
-          <View style={styles.commentContainer}>
+          <View style={styles.postCommentContainer}>
             <TouchableOpacity
               onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.

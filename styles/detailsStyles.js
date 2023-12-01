@@ -45,6 +45,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#FAF2F2',
         borderRadius: 20,
     },
+    postCommentContainer: {
+        flexDirection: 'row',
+        justifyContent: 'left',
+        paddingHorizontal: 15,
+        // paddingVertical: 10,
+        alignItems: 'center',
+    },
     textContainer: {
         flexDirection: 'column',
         justifyContent: 'left',
