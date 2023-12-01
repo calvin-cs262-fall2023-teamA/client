@@ -2,6 +2,7 @@
 /* I changed this file with eslint up intill the return statement */
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -118,6 +119,7 @@ function Details({ navigation, route }) {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
         {/* ... other components ... */}
@@ -240,6 +242,7 @@ function Details({ navigation, route }) {
         )}
       </ScrollView>
     </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 }
 
