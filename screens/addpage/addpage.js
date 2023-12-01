@@ -80,6 +80,7 @@ function AddPage({ route }) {
 
   const PlaceholderImage = require('./assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -127,19 +128,26 @@ function AddPage({ route }) {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not take a photo.');
     }
   };
 
   const handleCreateItem = async () => {
-    if (title != "") { // item MUST have a title
-       const finalLocation = location === "Select Location" ? "N/A" : location;
+    /* a flag to prevent the user from sending multiple upload 
+      requests (by pressing the button repeatedly) */
+    if (isUploading === true) return;
+    if (title !== "") { // item MUST have a title
+      const finalLocation = location === "Select Location" ? "N/A" : location;
       try {
+      setIsUploading(true);
+
         // send information about item
         // Image data is handled in service
         await fetch('https://calvinfinds.azurewebsites.net/items', {
@@ -149,7 +157,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
             title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
-            archived: false, itemImage: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
+            archived: false, imagedata: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
           }),
         })
       } catch (error) {
