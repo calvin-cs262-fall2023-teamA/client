@@ -127,17 +127,19 @@ function AddPage({ route }) {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not take a photo.');
     }
   };
 
   const handleCreateItem = async () => {
-    if (title != "") { // item MUST have a title
+    if (title !== "") { // item MUST have a title
        const finalLocation = location === "Select Location" ? "N/A" : location;
       try {
         // send information about item
