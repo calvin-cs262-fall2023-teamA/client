@@ -117,7 +117,6 @@ const MainPage = ({ navigation, route }) => {
     try {
     const response = await fetch('https://calvinfinds.azurewebsites.net/items');
       const json = await response.json();
-      console.log(json);
       setData(json);
     } catch (error) {
       setData([]);
