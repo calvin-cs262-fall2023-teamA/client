@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -182,6 +183,7 @@ function AddPage({ route }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <SafeAreaView style={{flex: 1}}>
     <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
@@ -371,7 +373,8 @@ function AddPage({ route }) {
       </View>
 
 
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+      </SafeAreaView>
       </TouchableWithoutFeedback>
   );
 }
