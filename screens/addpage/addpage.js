@@ -80,6 +80,7 @@ function AddPage({ route }) {
 
   const PlaceholderImage = require('./assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -139,9 +140,14 @@ function AddPage({ route }) {
   };
 
   const handleCreateItem = async () => {
+    /* a flag to prevent the user from sending multiple upload 
+      requests (by pressing the button repeatedly) */
+    if (isUploading === true) return;
     if (title !== "") { // item MUST have a title
-       const finalLocation = location === "Select Location" ? "N/A" : location;
+      const finalLocation = location === "Select Location" ? "N/A" : location;
       try {
+      setIsUploading(true);
+
         // send information about item
         // Image data is handled in service
         await fetch('https://calvinfinds.azurewebsites.net/items', {
