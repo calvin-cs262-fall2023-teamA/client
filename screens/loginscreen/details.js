@@ -129,7 +129,7 @@ function Details({ navigation, route }) {
           />
           <View style={styles.row}>
             <View>
-            <Text>I {itemData.lostfound} a...</Text>
+            <Text>{itemData.name} {itemData.lostfound} a...</Text>
               <Text style={styles.itemName}>{itemData.title}</Text>
             </View>
             <View>
@@ -154,7 +154,11 @@ function Details({ navigation, route }) {
               <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>{itemData.name}</Text>
+              <View style={styles.userNameEmailContainer}>
+                <Text style={styles.userName}>{itemData.name}</Text>
+                <Text style={styles.userEmail}>{itemData.emailaddress}</Text>
+              </View>
+              
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
 
