@@ -31,6 +31,8 @@ function Details({ navigation, route }) {
   // help page pop-up
   const [isPopupVisible, setPopupVisibility] = useState(false);
 
+  const [email, setEmail] = useState('');
+
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
@@ -44,9 +46,10 @@ function Details({ navigation, route }) {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, userName, profileimage } = JSON.parse(userData);
+                const { ID, userName, profileimage, email } = JSON.parse(userData);
                 setUserID(ID)
                 setUsername(userName);
+                setEmail(email);
                 setProfileIcon(profileimage); // NOTE: only updates on login
             }
         } catch (error) {
@@ -163,11 +166,11 @@ function Details({ navigation, route }) {
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{itemData.name}</Text>
               <Text style={styles.userComment}>{itemData.description}</Text>
-              <TouchableOpacity onPress={togglePopup}> 
-                <Text style={styles.helpButton}>Help</Text>
-              </TouchableOpacity>
-              <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
             </View>
+            <TouchableOpacity onPress={togglePopup}> 
+              <Text style={styles.helpButton}>Help</Text>
+            </TouchableOpacity>
+            <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>
 
         </View>

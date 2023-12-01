@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#2F2E41',
     },
+    
     input: {
         flex: 1,
         flexDirection: 'row',
@@ -232,15 +233,17 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
         shadowRadius: 24,
-        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+        elevation: 7,     
 
     },
     helpButton: {
         color: 'blue', // Change the color to your preference
         fontSize: 16,   // Change the font size to your preference
         fontWeight: 'bold', // Add other styles as needed
-        // ... other styling properties
-      },
+        position: 'absolute',
+        top: 10,             
+        left: 10,         
+    },
     loadingComments: {
         paddingTop: '20%',
     }
