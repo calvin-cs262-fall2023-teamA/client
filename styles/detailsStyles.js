@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         // paddingVertical: 10,
         alignItems: 'center',
+        backgroundColor: '#FAF2F2',
+        borderRadius: 20,
     },
     textContainer: {
         flexDirection: 'column',

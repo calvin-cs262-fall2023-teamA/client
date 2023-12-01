@@ -155,6 +155,7 @@ function Details({ navigation, route }) {
             >
               <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             </TouchableOpacity>
+
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
                 <Text style={styles.userName}>{itemData.name}</Text>
@@ -163,6 +164,7 @@ function Details({ navigation, route }) {
               
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
+
 
           </View>
 
