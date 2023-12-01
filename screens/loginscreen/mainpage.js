@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
@@ -226,7 +226,7 @@ const MainPage = ({ navigation, route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
@@ -315,7 +315,7 @@ const MainPage = ({ navigation, route }) => {
 
         </KeyboardAvoidingView>
 
-    </View>
+    </SafeAreaView>
   );
 };
 
