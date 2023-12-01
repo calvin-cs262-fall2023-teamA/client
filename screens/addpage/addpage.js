@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView } from 'react-native';
+import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,6 +11,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Camera } from 'expo-camera';
 
 
 function AddPage({ route }) {
@@ -53,6 +54,9 @@ function AddPage({ route }) {
 
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
+
+  // useStates for camera images
+  const [hasPermission, setHasPermission] = useState(null);
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -93,10 +97,48 @@ function AddPage({ route }) {
     }
   }
 
+  // set permissions to use camera
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
+  // image selection from camera
+  const handleImageSelection = async (fromCamera) => {
+    if (hasPermission === null) {
+      return;
+    }
+    if (hasPermission === false) {
+      alert('No access to camera.');;
+    }
+
+    if (fromCamera) {
+      await takePhoto();
+    } else {
+      await pickImageAsync();
+    }
+  };
+
+
+  // Function to launch the camera to take a photo
+  const takePhoto = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+    } else {
+      alert('You did not take a photo.');
+    }
+  };
 
   const handleCreateItem = async () => {
     if (title != "") { // item MUST have a title
+       const finalLocation = location === "Select Location" ? "N/A" : location;
       try {
         // send information about item
         // Image data is handled in service
@@ -106,8 +148,8 @@ function AddPage({ route }) {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-            title, description, category: value, location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
-            archived: false, imagedata: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
+            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
+            archived: false, itemImage: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
           }),
         })
       } catch (error) {
@@ -137,14 +179,23 @@ function AddPage({ route }) {
       style={styles.container}
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
-      <View style={styles.container}>
-      <TouchableOpacity onPress={pickImageAsync}>
+      <View style={styles.imageSelector}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          onPress={pickImageAsync} // click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
+          // onPress={() => handleImageSelection(true)} // click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
         />
-      </TouchableOpacity>
+
+        {/* buttons for using the camera or choosing from the gallery */}
+        <View style={styles.overlay}>
+          <TouchableOpacity style={styles.imageButton} onPress={() => handleImageSelection(true)}>
+            <Text style={styles.imageButtonText}>Take a Photo</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.imageButton} onPress={() => handleImageSelection(false)}>
+            <Text style={styles.imageButtonText}>Choose from Gallery</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
       {/* A list of options for what kinds of things the user can add 
         (an item they lost or something they found). */}
@@ -240,7 +291,11 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
-          <Text style={locationButtonTextStyle}>{location}</Text>
+          <View style={styles.row}>
+            <Image source={require('../../assets/pin.png')} style={styles.icon} />
+            <Text style={locationButtonTextStyle}>{location}</Text>
+          </View>
+          
         </TouchableOpacity>
         <Modal
           animationType="slide"
@@ -266,11 +321,17 @@ function AddPage({ route }) {
               {/* Space for Markers (and other components that can be in maps). */}
               {GetMarkerList()}
             </MapView>
-
-            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
-              <Text style={styles.primaryButtonText}>Set Location</Text>
+            <View style={
+              {paddingVertical: 10}
+            }>
+              <View style={styles.row}>
+                <Text style={styles.primaryButtonText}>Selected Location: </Text>
+                <Text style={locationButtonTextStyle}>{location === "Select Location" ? "Not Selected" : location}</Text>
+              </View>
+            </View>
+            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setLocation("Select Location")} >
+              <Text style={styles.primaryButtonText}>Reset Location</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
               <Text style={styles.primaryButtonText}>Close Map</Text>
             </TouchableOpacity>
@@ -301,7 +362,7 @@ function AddPage({ route }) {
         </TouchableOpacity> */}
       </View>
 
-        </View>
+
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
   );
@@ -337,7 +398,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     
   },
-
   inputText:{
     flex: 1,
     fontSize: 20,
@@ -443,13 +503,15 @@ const styles = StyleSheet.create({
     elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
+  row: {
+    flexDirection: 'row',
+  },
   secondaryButton: {
     alignItems: 'center',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginBottom: 10,
     marginTop: 30,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
@@ -457,6 +519,11 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
+  },
+  icon: {
+    marginRight: 8,
+    width: 25, // or whatever size you want
+    height: 25, // or whatever size you want
   },
   closeMapButton: {
     marginBottom: 20,
@@ -476,6 +543,32 @@ const styles = StyleSheet.create({
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
+  },
+  imageSelector:{ 
+    flexDirection: 'row' 
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageButton: {
+    backgroundColor: 'rgba(237,231,231, 0.6)',
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+    minWidth: 220,
+    borderRadius: 50,
+    marginVertical: 8,
+    alignItems: 'center',
+  },
+  imageButtonText: {
+    color: '#342F2F',
+    fontSize: 18,
+    fontWeight: '900',
   },
 });
 
