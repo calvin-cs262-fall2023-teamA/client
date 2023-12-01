@@ -85,10 +85,13 @@ function AddPage({ route }) {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      // setSelectedImage(result.assets[0].uri); // old solution
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not select any image.');
     }
@@ -135,24 +138,23 @@ function AddPage({ route }) {
 
   const handleCreateItem = async () => {
     if (title != "") { // item MUST have a title
-      const finalLocation = location === "Select Location" ? "N/A" : location;
-      // send information
-        fetch('https://calvinfinds.azurewebsites.net/items', {
+       const finalLocation = location === "Select Location" ? "N/A" : location;
+      try {
+        // send information about item
+        // Image data is handled in service
+        await fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
           headers: {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-
-            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
-            archived: false, itemImage: await selectedImage, 
+            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
+            archived: false, itemImage: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
           }),
-         
         })
-        .then((response) => response.json)
-        .catch(error => {
-          console.error(error);
-        });
+      } catch (error) {
+        console.error(error);
+      }
       // navigate back to the main page. Send back which route it is coming from.
       navigation.navigate('MainPage', { prevRoute: route.name })
     } else {
