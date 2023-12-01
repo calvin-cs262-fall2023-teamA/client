@@ -382,6 +382,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',    
     backgroundColor: '#EDE7E7',
   },
+  
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
@@ -419,8 +420,8 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
-    marginTop: 10,
-    marginBottom: 30,
+    marginTop: -20,
+    marginBottom: 0,
     width: '85%',
     flexDirection: 'row',
     color: '#FAF2F2',
@@ -495,7 +496,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flex: 1,
   },
-
+  
   primaryButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
@@ -520,7 +521,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginTop: 30,
+    marginBottom: 30,
+    marginTop: 10,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
