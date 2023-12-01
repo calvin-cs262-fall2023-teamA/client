@@ -100,7 +100,7 @@ function AddPage({ route }) {
       try {
         // send information about item
         // Image data is handled in service
-        const response = fetch('https://calvinfinds.azurewebsites.net/items', {
+        await fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
           headers: {
             "Content-type": "application/json"
