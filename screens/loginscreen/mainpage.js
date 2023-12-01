@@ -217,8 +217,7 @@ const MainPage = ({ navigation, route }) => {
                 </View>
             </View>
             <Image
-                // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
-                source={item.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
                 style={styles.postImage}
             />
         </View>

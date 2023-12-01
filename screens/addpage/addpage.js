@@ -135,6 +135,7 @@ function AddPage({ route }) {
 
   const handleCreateItem = async () => {
     if (title != "") { // item MUST have a title
+      const finalLocation = location === "Select Location" ? "N/A" : location;
       // send information
         fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
@@ -143,7 +144,7 @@ function AddPage({ route }) {
           },
           body: JSON.stringify({
 
-            title, description, category: value, location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
+            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
             archived: false, itemImage: await selectedImage, 
           }),
          
@@ -176,7 +177,6 @@ function AddPage({ route }) {
       style={styles.container}
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
-      <View style={styles.container}>
       <View style={styles.imageSelector}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
@@ -293,7 +293,11 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
-          <Text style={locationButtonTextStyle}>{location}</Text>
+          <View style={styles.row}>
+            <Image source={require('../../assets/pin.png')} style={styles.icon} />
+            <Text style={locationButtonTextStyle}>{location}</Text>
+          </View>
+          
         </TouchableOpacity>
         <Modal
           animationType="slide"
@@ -319,11 +323,17 @@ function AddPage({ route }) {
               {/* Space for Markers (and other components that can be in maps). */}
               {GetMarkerList()}
             </MapView>
-
-            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
-              <Text style={styles.primaryButtonText}>Set Location</Text>
+            <View style={
+              {paddingVertical: 10}
+            }>
+              <View style={styles.row}>
+                <Text style={styles.primaryButtonText}>Selected Location: </Text>
+                <Text style={locationButtonTextStyle}>{location === "Select Location" ? "Not Selected" : location}</Text>
+              </View>
+            </View>
+            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setLocation("Select Location")} >
+              <Text style={styles.primaryButtonText}>Reset Location</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
               <Text style={styles.primaryButtonText}>Close Map</Text>
             </TouchableOpacity>
@@ -354,7 +364,7 @@ function AddPage({ route }) {
         </TouchableOpacity> */}
       </View>
 
-        </View>
+
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
   );
@@ -390,7 +400,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     
   },
-
   inputText:{
     flex: 1,
     fontSize: 20,
@@ -496,20 +505,27 @@ const styles = StyleSheet.create({
     elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
+  row: {
+    flexDirection: 'row',
+  },
   secondaryButton: {
     alignItems: 'center',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginBottom: 20, // Adjust this property to move the button up or down
-    marginTop: 10,   // Adjust this property to move the button up or down for select location button
+    marginTop: 30,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7,
     zIndex: -1,
+  },
+  icon: {
+    marginRight: 8,
+    width: 25, // or whatever size you want
+    height: 25, // or whatever size you want
   },
   closeMapButton: {
     marginBottom: 20,
@@ -545,15 +561,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageButton: {
-    backgroundColor: '#EDE7E7',
-    padding: 8,
-    borderRadius: 8,
+    backgroundColor: 'rgba(237,231,231, 0.6)',
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+    minWidth: 220,
+    borderRadius: 50,
     marginVertical: 8,
+    alignItems: 'center',
   },
   imageButtonText: {
     color: '#342F2F',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '900',
   },
 });
 
