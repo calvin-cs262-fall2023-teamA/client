@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     },
     helpButton: {
         color: 'blue', // Change the color to your preference
-        fontSize: 16,   // Change the font size to your preference
+        fontSize: 20,   // Change the font size to your preference
         fontWeight: 'bold', // Add other styles as needed
         position: 'absolute',
         top: 10,             

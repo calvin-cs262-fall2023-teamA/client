@@ -9,6 +9,7 @@ import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
+import PopupScreen3 from './profileHelpPage';
 
 const Profile = ({}) => {
   const navigation = useNavigation()
@@ -28,6 +29,11 @@ const Profile = ({}) => {
 
   const [userLoading, setUserLoading] = useState(true);
 
+  const [isPopupVisible, setPopupVisibility] = useState(false);
+
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
+  };
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -121,7 +127,10 @@ const Profile = ({}) => {
       <Text style={styles.userEmail}>{email}</Text>
 
       <View style={styles.flexContainer}>
-
+      <TouchableOpacity onPress={togglePopup}> 
+        <Text style={styles.helpButton}>?</Text>
+      </TouchableOpacity>
+      <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
         {/* this Button should lead to item page for user */}
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>7</Text>
@@ -252,9 +261,13 @@ const styles = StyleSheet.create({
   tertiaryButtonTitle: {
     color: '#342F2F',
     fontWeight: '900',
-    fontSize: 50
+    fontSize: 50,
   },
-
+  helpButton: {
+    color: 'blue', 
+    fontSize: 20,   
+    fontWeight: 'bold',      
+  },
   tertiaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',

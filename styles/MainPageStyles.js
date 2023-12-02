@@ -205,7 +205,12 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: 'bold',
   },
-
+  helpButton: {
+    fontSize: 20,
+    paddingLeft: 300,
+    color: 'blue', 
+    fontWeight: 'bold', 
+  },
   addButton: {
     backgroundColor: '#fff', // Background color of the add button
     paddingVertical: 20,

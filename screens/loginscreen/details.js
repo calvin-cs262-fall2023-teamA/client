@@ -172,7 +172,7 @@ function Details({ navigation, route }) {
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
             <TouchableOpacity onPress={togglePopup}> 
-              <Text style={styles.helpButton}>Help page</Text>
+              <Text style={styles.helpButton}>?</Text>
             </TouchableOpacity>
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>

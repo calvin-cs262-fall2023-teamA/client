@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
-
+import PopupScreen2 from './mainHelpPage';
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
@@ -31,6 +31,7 @@ const MainPage = ({ navigation, route }) => {
 
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
 
+  const [isPopupVisible, setPopupVisibility] = useState(false);
 
   const toggleLostOrFoundFilter = () => {
     setLostOrFoundFilter(lostOrFoundFilter === 'Found' ? 'Lost' : 'Found');
@@ -123,6 +124,10 @@ const MainPage = ({ navigation, route }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
   };
 
   const searchItem = async (text) => {
@@ -227,6 +232,11 @@ const MainPage = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={togglePopup}> 
+        <Text style={styles.helpButton}>?</Text>
+      </TouchableOpacity>
+      <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
+      {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
