@@ -29,7 +29,8 @@ const Profile = ({}) => {
   const [archivedCount, setArchivedCount] = useState(0);
 
   const [userLoading, setUserLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [postData, setPostedData] = useState([]);
+  const [archivedData, setArchivedData] = useState([]);
   
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -43,6 +44,9 @@ const Profile = ({}) => {
                 setUsername(userName);
                 // setProfileIcon(profileimage); //empty values for some reason
                 profileIcon = profileimage;
+                // getItemsPosted();
+                // getItemsArchived();
+
             }
         } catch (error) {
             console.error(error);
@@ -52,44 +56,49 @@ const Profile = ({}) => {
           setUserLoading(false);
         }
         try {
+        console.log("Before post fetch:", postedCount);
         const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
         const postJson = await postResponse.json();
-        console.log(JSON.stringify(postJson));
-        setData(JSON.stringify(postJson));
+        console.log("After fetch");
+        console.log(postJson);
+        console.log(postJson.length);
         setPostedCount(postJson.length);
-        await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
-        await AsyncStorage.setItem('postedCount', postJson.length.toString());
-        console.log("Posted count:", postJson.length);
+        // await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
+        // await AsyncStorage.setItem('postedCount', postJson.length.toString());
+        // console.log("Posted count:", postJson.length);
         } catch (error) {
-            setData([]);
+          console.log("post error", error);
+          setPostedData([]);
         }
 
         try{
+        console.log("Before archived fetch:", archivedCount);
         const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
         const archivedJson = await archivedResponse.json();
         console.log(JSON.stringify(archivedJson));
-        setData(JSON.stringify(archivedJson));
         setArchivedCount(archivedJson.length);
-        await AsyncStorage.setItem('archivedCount', archivedJson.length.toString());
+        // await AsyncStorage.setItem('archivedCount', archivedJson.length.toString());
         console.log("Archived:", archivedCount);
-        } catch (error) {
-        setData([]);
-        }
-      };
+      } catch (error) {
+        console.log("archived error");
+        setArchivedData([]);
+      }
+    };
+    // console.log("Posted:", postedCount);
 
       // const getItemsPosted = async () => {
       //   try {
       //   const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
       //   const json = await response.json();
-      //     setData(json);
+      //     setPostedData(json);
       //     // setPostedCount(json.length);
-      //     await AsyncStorage.setItem('postedData', JSON.stringify(json));
-      //     await AsyncStorage.setItem('postedCount', json.length.toString());
+      //     // await AsyncStorage.setItem('postedData', JSON.stringify(json));
+      //     // await AsyncStorage.setItem('postedCount', json.length.toString());
       //     console.log("Posted count:", json.length);
-      //     return json;
+      //     return (json.length);
       //   } catch (error) {
-      //     setData([]);
-      //     return [];
+      //     setPostedData([]);
+      //     return 0;
       //   }
       // };
     
@@ -97,14 +106,14 @@ const Profile = ({}) => {
       //   try {
       //   const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
       //     const json = await response.json();
-      //     setData(json);
-      //     //setArchivedCount(json.length);
+      //     setArchivedData(json);
+      //     // setArchivedCount(json.length);
       //     await AsyncStorage.setItem('archivedCount', json.length.toString());
       //     console.log("Archived:", archivedCount);
-      //     return json;
+      //     return (json.length);
       //   } catch (error) {
-      //     setData([]);
-      //     return [];
+      //     setArchivedData([]);
+      //     return 0;
       //   }
       // };
     
@@ -114,25 +123,30 @@ const Profile = ({}) => {
 }, []);
 
 useEffect(() => {
-  const getItemCount= async () => {
-    try {
-      // Retrieve the count from AsyncStorage
-      const postedCount = await AsyncStorage.getItem('postedCount');
-      const archivedCount = await AsyncStorage.getItem('archivedCount');
-      if (postedCount !== null) {
-        // Update the state with the stored count
-        setPostedCount(parseInt(postedCount, 10));
-      }
-      if (archivedCount !== null) {
-        // Update the state with the stored count
-        setPostedCount(parseInt(archivedCount, 10));
-      }
-    } catch (error) {
-      console.error('Error retrieving count from storage:', error);
-    }
-  };
-  getItemCount();
+  console.log("Posted count updated:", postedCount);
+  console.log("Archived count updated:", postedCount);
 }, [postedCount, archivedCount]);
+
+// useEffect(() => {
+//   const getItemCount= async () => {
+//     try {
+//       // Retrieve the count from AsyncStorage
+//       const postedCount = await AsyncStorage.getItem('postedCount');
+//       const archivedCount = await AsyncStorage.getItem('archivedCount');
+//       if (postedCount !== null) {
+//         // Update the state with the stored count
+//         setPostedCount(parseInt(postedCount, 10));
+//       }
+//       if (archivedCount !== null) {
+//         // Update the state with the stored count
+//         setPostedCount(parseInt(archivedCount, 10));
+//       }
+//     } catch (error) {
+//       console.error('Error retrieving count from storage:', error);
+//     }
+//   };
+//   getItemCount();
+// }, [postedCount, archivedCount]);
   
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
