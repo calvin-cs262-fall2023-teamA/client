@@ -25,13 +25,13 @@ const Profile = ({}) => {
   const [userName, setUsername] = useState('');
   // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
-  const [postedCount, setPostedCount] = useState(0);
-  const [archivedCount, setArchivedCount] = useState(0);
+  const [postedCount, setPostedCount] = useState(-1);
+  const [archivedCount, setArchivedCount] = useState(-1);
 
   const [userLoading, setUserLoading] = useState(true);
   const [postData, setPostedData] = useState([]);
   const [archivedData, setArchivedData] = useState([]);
-  
+
   useEffect(() => {
     // Retrieve user data from AsyncStorage
     const retrieveUserData = async () => {
@@ -46,43 +46,16 @@ const Profile = ({}) => {
                 profileIcon = profileimage;
                 // getItemsPosted();
                 // getItemsArchived();
-
             }
         } catch (error) {
             console.error(error);
         }
+        
         if (profileIcon) {
           setPlaceholderImage(demoImageGetter.getImage(profileIcon));
           setUserLoading(false);
         }
-        try {
-        console.log("Before post fetch:", postedCount);
-        const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
-        const postJson = await postResponse.json();
-        console.log("After fetch");
-        console.log(postJson);
-        console.log(postJson.length);
-        setPostedCount(postJson.length);
-        // await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
-        // await AsyncStorage.setItem('postedCount', postJson.length.toString());
-        // console.log("Posted count:", postJson.length);
-        } catch (error) {
-          console.log("post error", error);
-          setPostedData([]);
-        }
-
-        try{
-        console.log("Before archived fetch:", archivedCount);
-        const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
-        const archivedJson = await archivedResponse.json();
-        console.log(JSON.stringify(archivedJson));
-        setArchivedCount(archivedJson.length);
-        // await AsyncStorage.setItem('archivedCount', archivedJson.length.toString());
-        console.log("Archived:", archivedCount);
-      } catch (error) {
-        console.log("archived error");
-        setArchivedData([]);
-      }
+        
     };
     // console.log("Posted:", postedCount);
 
@@ -121,6 +94,44 @@ const Profile = ({}) => {
       // getItemsPosted();
       // getItemsArchived();
 }, []);
+
+useEffect(() => {
+  // whenever user data is gotten from async storage (currently the only time setUserID is used.)
+  // necessary because userID is needed for the following function, but wasn't updated because retrieveUserData is async 
+  console.log(`ID after assign: ${userID}`);
+  if (userID !== '') updateCount();
+}, [userID])
+
+const updateCount = async () => {
+try {
+  console.log("Before post fetch:", postedCount);
+  const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+  const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
+  console.log("After fetch");
+  console.log(postJson);
+  console.log(postJson.length);
+  setPostedCount(postJson.length);
+  // await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
+  // await AsyncStorage.setItem('postedCount', postJson.length.toString());
+  // console.log("Posted count:", postJson.length);
+  } catch (error) {
+    console.log("post error", error);
+    setPostedData(0); // if fetch returns null (returned 0 items)
+  }
+  
+  try{
+  console.log("Before archived fetch:", archivedCount);
+  const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
+  const archivedJson = await archivedResponse.json(); // if fetch returns null (size 0), an error is thrown
+  console.log(JSON.stringify(archivedJson));
+  setArchivedCount(archivedJson.length);
+  // await AsyncStorage.setItem('archivedCount', archivedJson.length.toString());
+  console.log("Archived:", archivedCount);
+} catch (error) {
+  console.log("archived error", error);
+  setArchivedData(0); // if fetch returns null (returned 0 items)
+}
+};
 
 useEffect(() => {
   console.log("Posted count updated:", postedCount);
