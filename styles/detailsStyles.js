@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         marginHorizontal: 25,
-        marginBottom: 5,
+        marginBottom: 20,
         marginTop: 12,
       },
     
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'left',
         padding: 10,
-        marginBottom: 20,
+        marginBottom: 15,
         alignItems: 'left',
     },
     item: {
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
         color: '#2F2E41',
     },
     ScrollViewContainer: {
+        marginTop: 10,
         marginBottom: 180,
     },
     userIconStyle: {
@@ -93,6 +94,10 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 5,
       },
+    userNameEmailContainer: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
+      },
     userName: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -100,6 +105,14 @@ const styles = StyleSheet.create({
         // padding: 16,
         fontSize: 18,
         color: '#2F2E41',
+    },
+    userEmail: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        fontWeight: '900',
+        paddingLeft: 10,
+        fontSize: 15,
+        color: '#9E8B8D',
     },
     userComment: {
         flexDirection: 'row',
@@ -109,6 +122,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#2F2E41',
     },
+    
     input: {
         flex: 1,
         flexDirection: 'row',
@@ -124,6 +138,7 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         color: '#2F2E41',
         height: 50,
+        maxWidth: '70%',
     },
     sendIconStyle: {
         width: 40, // or whatever size you want
@@ -232,8 +247,16 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 8},
         shadowOpacity: 0.2,
         shadowRadius: 24,
-        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+        elevation: 7,     
 
+    },
+    helpButton: {
+        color: 'blue', // Change the color to your preference
+        fontSize: 16,   // Change the font size to your preference
+        fontWeight: 'bold', // Add other styles as needed
+        position: 'absolute',
+        top: 10,             
+        left: 10,         
     },
     loadingComments: {
         paddingTop: '20%',

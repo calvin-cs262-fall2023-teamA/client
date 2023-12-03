@@ -6,6 +6,7 @@ import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
+import PopupScreen from './PopupScreen';
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
@@ -27,7 +28,14 @@ function Details({ navigation, route }) {
   const [value, setValue] = useState(null);
   //handles user clicking on dropdown. Opens/closes the dropdown menu.
   const [open, setOpen] = useState(false); 
+  // help page pop-up
+  const [isPopupVisible, setPopupVisibility] = useState(false);
 
+  const [email, setEmail] = useState('');
+
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
+  };
   //comments
   let readComments = [];
   const [isLoading, setIsLoading] = useState(true); //for loading initial comment content. Will try to load "displayedComment" before it is defined otherwise.
@@ -38,9 +46,10 @@ function Details({ navigation, route }) {
         try {
             const userData = await AsyncStorage.getItem('userData');
             if (userData) {
-                const { ID, userName, profileimage } = JSON.parse(userData);
+                const { ID, userName, profileimage, email } = JSON.parse(userData);
                 setUserID(ID)
                 setUsername(userName);
+                setEmail(email);
                 setProfileIcon(profileimage); // NOTE: only updates on login
             }
         } catch (error) {
@@ -107,6 +116,7 @@ function Details({ navigation, route }) {
           </TouchableOpacity>
         </>)
     } 
+    
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
@@ -129,7 +139,7 @@ function Details({ navigation, route }) {
           />
           <View style={styles.row}>
             <View>
-            <Text>I {itemData.lostfound} a...</Text>
+            <Text>{itemData.name} {itemData.lostfound} a...</Text>
               <Text style={styles.itemName}>{itemData.title}</Text>
             </View>
             <View>
@@ -154,10 +164,17 @@ function Details({ navigation, route }) {
               <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             </TouchableOpacity>
             <View style={styles.textContainer}>
-              <Text style={styles.userName}>{itemData.name}</Text>
+              <View style={styles.userNameEmailContainer}>
+                <Text style={styles.userName}>{itemData.name}</Text>
+                <Text style={styles.userEmail}>{itemData.emailaddress}</Text>
+              </View>
+              
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
-
+            <TouchableOpacity onPress={togglePopup}> 
+              <Text style={styles.helpButton}>Help page</Text>
+            </TouchableOpacity>
+            <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>
 
         </View>

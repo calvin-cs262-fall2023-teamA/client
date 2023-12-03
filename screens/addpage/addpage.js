@@ -80,15 +80,19 @@ function AddPage({ route }) {
 
   const PlaceholderImage = require('./assets/icon.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      // setSelectedImage(result.assets[0].uri); // old solution
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not select any image.');
     }
@@ -124,34 +128,41 @@ function AddPage({ route }) {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 1,
+      base64: true, // enables the return of binary image data 
     });
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
     } else {
       alert('You did not take a photo.');
     }
   };
 
   const handleCreateItem = async () => {
-    if (title != "") { // item MUST have a title
-      // send information
-        fetch('https://calvinfinds.azurewebsites.net/items', {
+    /* a flag to prevent the user from sending multiple upload 
+      requests (by pressing the button repeatedly) */
+    if (isUploading === true) return;
+    if (title !== "") { // item MUST have a title
+      const finalLocation = location === "Select Location" ? "N/A" : location;
+      try {
+      setIsUploading(true);
+
+        // send information about item
+        // Image data is handled in service
+        await fetch('https://calvinfinds.azurewebsites.net/items', {
           method: 'POST',
           headers: {
             "Content-type": "application/json"
           },
           body: JSON.stringify({
-
-            title, description, category: value, location, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null, // replace postUser: 2 with a variable for user.id
-            archived: false, itemImage: await selectedImage, 
+            title, description, category: value, location: finalLocation, lostFound: lostorfound, datePosted: date, postUser: userID, claimUser: null,
+            archived: false, imagedata: await selectedImage, // selectedImage = base64 image data + uri string (see pickImageAsync) 
           }),
-         
         })
-        .then((response) => response.json)
-        .catch(error => {
-          console.error(error);
-        });
+      } catch (error) {
+        console.error(error);
+      }
       // navigate back to the main page. Send back which route it is coming from.
       navigation.navigate('MainPage', { prevRoute: route.name })
     } else {
@@ -176,7 +187,6 @@ function AddPage({ route }) {
       style={styles.container}
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
-      <View style={styles.container}>
       <View style={styles.imageSelector}>
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
@@ -259,20 +269,24 @@ function AddPage({ route }) {
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
             color: '#9E8B8D',
+            
           }}
           labelStyle={{  
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
             color: '#342F2F',
+            
           }}
           listItemLabelStyle={{
             fontSize: 16,       // Change to your desired font size for items
             fontWeight: '900',   // Change to your desired font weight for items
             color: '#342F2F',
+            
           }}
           dropDownContainerStyle={{
             borderColor: 'transparent',
             zIndex: 999,
+            
           }}
           
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
@@ -289,7 +303,11 @@ function AddPage({ route }) {
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
         and https://github.com/react-native-maps/react-native-maps#using-a-mapview-while-controlling-the-region-as-state */}
         <TouchableOpacity style={styles.secondaryButton} onPress={() => setMapVisible(true)} >
-          <Text style={locationButtonTextStyle}>{location}</Text>
+          <View style={styles.row}>
+            <Image source={require('../../assets/pin.png')} style={styles.icon} />
+            <Text style={locationButtonTextStyle}>{location}</Text>
+          </View>
+          
         </TouchableOpacity>
         <Modal
           animationType="slide"
@@ -315,11 +333,17 @@ function AddPage({ route }) {
               {/* Space for Markers (and other components that can be in maps). */}
               {GetMarkerList()}
             </MapView>
-
-            <TouchableOpacity style={[styles.primaryButton]} onPress={() => setMapVisible(false)} >
-              <Text style={styles.primaryButtonText}>Set Location</Text>
+            <View style={
+              {paddingVertical: 10}
+            }>
+              <View style={styles.row}>
+                <Text style={styles.primaryButtonText}>Selected Location: </Text>
+                <Text style={locationButtonTextStyle}>{location === "Select Location" ? "Not Selected" : location}</Text>
+              </View>
+            </View>
+            <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setLocation("Select Location")} >
+              <Text style={styles.primaryButtonText}>Reset Location</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={[styles.secondaryButton, styles.closeMapButton]} onPress={() => setMapVisible(false)} >
               <Text style={styles.primaryButtonText}>Close Map</Text>
             </TouchableOpacity>
@@ -350,7 +374,7 @@ function AddPage({ route }) {
         </TouchableOpacity> */}
       </View>
 
-        </View>
+
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
   );
@@ -362,6 +386,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',    
     backgroundColor: '#EDE7E7',
   },
+  
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
@@ -386,7 +411,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     
   },
-
   inputText:{
     flex: 1,
     fontSize: 20,
@@ -400,7 +424,7 @@ const styles = StyleSheet.create({
     
   },
   buttonContainer: {
-    marginTop: 10,
+    marginTop: -20,
     marginBottom: 30,
     width: '85%',
     flexDirection: 'row',
@@ -476,7 +500,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flex: 1,
   },
-
+  
   primaryButton: {
     alignItems: 'center',
     backgroundColor: '#FFAF66',
@@ -492,20 +516,28 @@ const styles = StyleSheet.create({
     elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
     zIndex: -1,
   },
+  row: {
+    flexDirection: 'row',
+  },
   secondaryButton: {
     alignItems: 'center',
     backgroundColor: '#FAF2F2',
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginBottom: 10,
-    marginTop: 30,
+    marginBottom: 30,
+    marginTop: 10,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,
     zIndex: -1,
+  },
+  icon: {
+    marginRight: 8,
+    width: 25, // or whatever size you want
+    height: 25, // or whatever size you want
   },
   closeMapButton: {
     marginBottom: 20,
@@ -520,11 +552,13 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
+    marginTop: 12,
   },
   locationButtonTextUnselected: {
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
+    
   },
   imageSelector:{ 
     flexDirection: 'row' 
@@ -539,15 +573,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageButton: {
-    backgroundColor: '#EDE7E7',
-    padding: 8,
-    borderRadius: 8,
+    backgroundColor: 'rgba(237,231,231, 0.6)',
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+    minWidth: 220,
+    borderRadius: 50,
     marginVertical: 8,
+    alignItems: 'center',
   },
   imageButtonText: {
     color: '#342F2F',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '900',
   },
 });
 
