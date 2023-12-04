@@ -14,7 +14,7 @@ return (
         <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
           <Text>This page shows details of a specific lost or found item posted by a user.</Text>
           <Text> </Text>
-          <Text>You can leave a comment directly on this post and contact the user with the given Calvin email provided.</Text>
+          <Text>You can leave a comment on this post and contact the poster.</Text>
           <Text> </Text>
           <TouchableOpacity onPress={onClose}>
             <Text style={styles.helpButton}>Close</Text>

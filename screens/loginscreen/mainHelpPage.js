@@ -14,11 +14,11 @@ return (
         <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
           <Text>When you make a post with the + button you must give your post a title. </Text>
           <Text> </Text>
-          <Text>After clicking the submit button, your posted item will seamlessly integrate into the list on this app, appearing at the bottom.</Text>
+          <Text>After clicking the submit button, your posted item will integrate into the list of items on this app. Your post will appear at the bottom of the list of items.</Text>
           <Text> </Text>
           <Text>The orange button with a magnifying glass is the search button. This button searches through the list of items on the screen.</Text>
           <Text> </Text>
-          <Text> The lost and found toggle at the bottom of the screen can be used as a filter to show only lost or found items in our app.</Text>
+          <Text>The lost and found toggle at the bottom of the screen is a filter to show only lost or found items in our app.</Text>
           <Text> </Text>
           <TouchableOpacity onPress={onClose}>
             <Text style={styles.helpButton}>Close</Text>
