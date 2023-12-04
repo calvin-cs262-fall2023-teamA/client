@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
-
+import bcrypt from 'react-native-bcrypt';
 import Illustration from '../../assets/login-vector.svg';
 
 
@@ -36,47 +36,26 @@ function LoginScreen() {
       return;
     }
     try {
-      // Create an object with the email and password
-      const credentials = {
-        emailAddress: email,
-        password: password,
-      };
-
-      // Send a POST request to your server for user authentication
-      const response = await fetch('https://calvinfinds.azurewebsites.net/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
     
-      if (response.ok) {
-        // User authentication was successful
-        // const userData = await response.json();
-        try {
           // Fetch user data from the API
           const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
           if (userDataResponse.ok) {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
-
-            // Store user information in AsyncStorage
-            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: userData.profileimage }));
+            // Compare what the user inputted with the hashed password in the database
+            const isPasswordCorrect = bcrypt.compareSync(password, userData.password);
+            if (isPasswordCorrect) {
+              // Store user information in AsyncStorage
+              await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: userData.profileimage }));
+              navigation.navigate('MainPage', { prevRoute: 'Login' });
+            } else {
+              // Handle the case when user data retrieval fails
+              alert('Login failed. Please check your credentials.');
+            }
           } else {
-            // Handle the case when user data retrieval fails
-            console.error('Failed to fetch user data');
+            alert('Login failed. Please check your credentials.');
           }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          navigation.navigate('MainPage', { prevRoute: 'Login' });
-        }
-        // navigation.navigate('MainPage', { prevRoute: 'Login' });
-      } else {
-        // Authentication failed
-        alert('Login failed. Please check your credentials.');
-      }
+
     } catch (error) {
       console.error(error);
       alert('An error occurred during login.');
