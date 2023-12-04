@@ -82,23 +82,7 @@ function AddPage({ route }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
-  const pickImageAsync = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-      base64: true, // enables the return of binary image data 
-    });
-
-    if (!result.canceled) {
-      // setSelectedImage(result.assets[0].uri); // old solution
-      const file = result.assets[0].base64; // base 64 image data
-      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
-    } else {
-      alert('You did not select any image.');
-    }
-  }
-
-  // set permissions to use camera
+    // set permissions to use camera
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -122,6 +106,21 @@ function AddPage({ route }) {
     }
   };
 
+  const pickImageAsync = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+      base64: true, // enables the return of binary image data 
+    });
+
+    if (!result.canceled) {
+      // setSelectedImage(result.assets[0].uri); // old solution
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
+    } else {
+      alert('You did not select any image.');
+    }
+  };
 
   // Function to launch the camera to take a photo
   const takePhoto = async () => {
