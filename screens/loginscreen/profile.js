@@ -29,8 +29,7 @@ const Profile = ({}) => {
   const [archivedCount, setArchivedCount] = useState(0);
 
   const [userLoading, setUserLoading] = useState(true);
-  const [postData, setPostedData] = useState([]);
-  const [archivedData, setArchivedData] = useState([]);
+  
 
   useEffect(() => {
     // Retrieve user data from AsyncStorage
@@ -70,7 +69,7 @@ try {
   const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
   const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
   setPostedCount(postJson.length);
-  // await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
+  await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
   // await AsyncStorage.setItem('postedCount', postJson.length.toString());
   } catch (error) {
     setPostedData(0); // if fetch returns null (returned 0 items)
@@ -80,7 +79,7 @@ try {
   const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
   const archivedJson = await archivedResponse.json(); // if fetch returns null (size 0), an error is thrown
   setArchivedCount(archivedJson.length);
-  // await AsyncStorage.setItem('archivedData', JSON.stringify(archivedJson));
+  await AsyncStorage.setItem('archivedData', JSON.stringify(archivedJson));
 } catch (error) {
   setArchivedData(0); // if fetch returns null (returned 0 items)
 }
