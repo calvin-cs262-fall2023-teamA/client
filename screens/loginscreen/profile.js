@@ -61,8 +61,9 @@ const Profile = ({}) => {
     })
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      // handleNewImage() //update in database/locally //bugged for now, commented out.
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data      
+      handleNewImage() // update in service and locally
       // could upload here and store locally, but download into async storage at login
     } else {
       alert('You did not select any image.');
@@ -72,14 +73,13 @@ const Profile = ({}) => {
   const handleNewImage = async () => {
     /* update in service */
     
-    console.log(selectedImage);
     await fetch('https://calvinfinds.azurewebsites.net/users/image', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           "Content-type": "application/json"
         },
         body: JSON.stringify({
-          id: userID, image: await selectedImage,
+          id: userID, imagedata: await selectedImage,
         }),
       })
       /* update locally, add the new comment to the list of displayedComments via getComments() */
