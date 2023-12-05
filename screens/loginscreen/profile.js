@@ -25,8 +25,8 @@ const Profile = ({}) => {
   const [userName, setUsername] = useState('');
   // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
-  const [postedCount, setPostedCount] = useState(-1);
-  const [archivedCount, setArchivedCount] = useState(-1);
+  const [postedCount, setPostedCount] = useState(0);
+  const [archivedCount, setArchivedCount] = useState(0);
 
   const [userLoading, setUserLoading] = useState(true);
   const [postData, setPostedData] = useState([]);
@@ -44,8 +44,6 @@ const Profile = ({}) => {
                 setUsername(userName);
                 // setProfileIcon(profileimage); //empty values for some reason
                 profileIcon = profileimage;
-                // getItemsPosted();
-                // getItemsArchived();
             }
         } catch (error) {
             console.error(error);
@@ -57,107 +55,36 @@ const Profile = ({}) => {
         }
         
     };
-    // console.log("Posted:", postedCount);
-
-      // const getItemsPosted = async () => {
-      //   try {
-      //   const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
-      //   const json = await response.json();
-      //     setPostedData(json);
-      //     // setPostedCount(json.length);
-      //     // await AsyncStorage.setItem('postedData', JSON.stringify(json));
-      //     // await AsyncStorage.setItem('postedCount', json.length.toString());
-      //     console.log("Posted count:", json.length);
-      //     return (json.length);
-      //   } catch (error) {
-      //     setPostedData([]);
-      //     return 0;
-      //   }
-      // };
-    
-      // const getItemsArchived = async () => {
-      //   try {
-      //   const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
-      //     const json = await response.json();
-      //     setArchivedData(json);
-      //     // setArchivedCount(json.length);
-      //     await AsyncStorage.setItem('archivedCount', json.length.toString());
-      //     console.log("Archived:", archivedCount);
-      //     return (json.length);
-      //   } catch (error) {
-      //     setArchivedData([]);
-      //     return 0;
-      //   }
-      // };
     
       retrieveUserData();
-      // getItemsPosted();
-      // getItemsArchived();
 }, []);
 
 useEffect(() => {
   // whenever user data is gotten from async storage (currently the only time setUserID is used.)
   // necessary because userID is needed for the following function, but wasn't updated because retrieveUserData is async 
-  console.log(`ID after assign: ${userID}`);
   if (userID !== '') updateCount();
 }, [userID])
 
 const updateCount = async () => {
 try {
-  console.log("Before post fetch:", postedCount);
   const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
   const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
-  console.log("After fetch");
-  console.log(postJson);
-  console.log(postJson.length);
   setPostedCount(postJson.length);
   // await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
   // await AsyncStorage.setItem('postedCount', postJson.length.toString());
-  // console.log("Posted count:", postJson.length);
   } catch (error) {
-    console.log("post error", error);
     setPostedData(0); // if fetch returns null (returned 0 items)
   }
   
   try{
-  console.log("Before archived fetch:", archivedCount);
   const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
   const archivedJson = await archivedResponse.json(); // if fetch returns null (size 0), an error is thrown
-  console.log(JSON.stringify(archivedJson));
   setArchivedCount(archivedJson.length);
-  // await AsyncStorage.setItem('archivedCount', archivedJson.length.toString());
-  console.log("Archived:", archivedCount);
+  // await AsyncStorage.setItem('archivedData', JSON.stringify(archivedJson));
 } catch (error) {
-  console.log("archived error", error);
   setArchivedData(0); // if fetch returns null (returned 0 items)
 }
 };
-
-useEffect(() => {
-  console.log("Posted count updated:", postedCount);
-  console.log("Archived count updated:", postedCount);
-}, [postedCount, archivedCount]);
-
-// useEffect(() => {
-//   const getItemCount= async () => {
-//     try {
-//       // Retrieve the count from AsyncStorage
-//       const postedCount = await AsyncStorage.getItem('postedCount');
-//       const archivedCount = await AsyncStorage.getItem('archivedCount');
-//       if (postedCount !== null) {
-//         // Update the state with the stored count
-//         setPostedCount(parseInt(postedCount, 10));
-//       }
-//       if (archivedCount !== null) {
-//         // Update the state with the stored count
-//         setPostedCount(parseInt(archivedCount, 10));
-//       }
-//     } catch (error) {
-//       console.error('Error retrieving count from storage:', error);
-//     }
-//   };
-//   getItemCount();
-// }, [postedCount, archivedCount]);
   
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
