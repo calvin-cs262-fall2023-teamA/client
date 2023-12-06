@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -182,6 +183,7 @@ function AddPage({ route }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <SafeAreaView style={{flex: 1}}>
     <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
@@ -375,7 +377,8 @@ function AddPage({ route }) {
       </View>
 
 
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+      </SafeAreaView>
       </TouchableWithoutFeedback>
   );
 }
@@ -384,6 +387,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',    
+    justifyContent: 'flex-start',
     backgroundColor: '#EDE7E7',
   },
   
@@ -404,7 +408,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 0,
-    marginBottom: 30,
+    marginBottom: 25,
     padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#f5f0f0',
@@ -434,8 +438,8 @@ const styles = StyleSheet.create({
    // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   switchButtonContainer: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 20,
+    marginBottom: 20,
     width: '85%',
     flexDirection: 'row',
     color: '#FAF2F2',
@@ -525,8 +529,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginBottom: 30,
-    marginTop: 10,
+    marginBottom: 40,
+    marginTop: 25,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,

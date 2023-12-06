@@ -2,6 +2,7 @@
 /* I changed this file with eslint up intill the return statement */
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -128,6 +129,7 @@ function Details({ navigation, route }) {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
         {/* ... other components ... */}
@@ -163,6 +165,7 @@ function Details({ navigation, route }) {
             >
               <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             </TouchableOpacity>
+
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
                 <Text style={styles.userName}>{itemData.name}</Text>
@@ -214,7 +217,7 @@ function Details({ navigation, route }) {
         {isBottomContainerVisible && ( 
         <View style={styles.bottomContainer}>
           {/* user input */}
-          <View style={styles.commentContainer}>
+          <View style={styles.postCommentContainer}>
             <TouchableOpacity
               onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
@@ -253,6 +256,7 @@ function Details({ navigation, route }) {
         )}
       </ScrollView>
     </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 }
 

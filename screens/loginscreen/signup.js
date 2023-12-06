@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-no-undef */
 import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
-
+import bcrypt from 'react-native-bcrypt';
 
 const LoginScreen = () => {
   const [Name, setName] = useState('')
@@ -21,6 +22,7 @@ const LoginScreen = () => {
   const isFormFilled = Name !== '' && email !== '' && password !== '' && repeatPassword !== ''
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false)
+  const saltRounds = 5;
 
   const handleSignup = async () => {
     // Check if passwords match
@@ -39,17 +41,20 @@ const LoginScreen = () => {
       return
     }
 
-    // Create a user object with the entered data
-    const user = {
-      name: Name,
-      email: email,
-      password: password,
-      type: "Standard",
-      profileimage: '../../assets/profileIcon.png'
-    };
-
-
     try {
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) {
+          console.error('Error hashing password:', err);
+          return;
+        }
+        // Create a user object with the entered data
+        const user = {
+          name: Name,
+          email: email,
+          password: hash,
+          type: "Standard",
+          profileimage: '../../assets/profileIcon.png'
+        };
       // Send a POST request to your API endpoint
       const response = await fetch('https://calvinfinds.azurewebsites.net/users', {
         method: 'POST',
@@ -58,13 +63,13 @@ const LoginScreen = () => {
         },
         body: JSON.stringify(user)
       })
-
-      if (response.ok) {
-        // User registration was successful
-        navigation.navigate('Login') // Redirect to the login screen
-      } else {
-        alert('Error: Registration failed')
-      }
+    if (response.ok) {
+      // User registration was successful
+      navigation.navigate('Login') // Redirect to the login screen
+    } else {
+      alert('Error: Sign up failed')
+    }
+      });
     } catch (error) {
       console.error(error)
       alert('Error: Registration failed')

@@ -26,6 +26,8 @@ const Profile = ({}) => {
   const [userName, setUsername] = useState('');
   // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
+  const [postedCount, setPostedCount] = useState(0);
+  const [archivedCount, setArchivedCount] = useState(0);
 
   const [userLoading, setUserLoading] = useState(true);
 
@@ -35,6 +37,7 @@ const Profile = ({}) => {
     setPopupVisibility(!isPopupVisible);
   };
   
+
   useEffect(() => {
     // Retrieve user data from AsyncStorage
     const retrieveUserData = async () => {
@@ -51,13 +54,43 @@ const Profile = ({}) => {
         } catch (error) {
             console.error(error);
         }
+        
         if (profileIcon) {
           setPlaceholderImage(demoImageGetter.getImage(profileIcon));
           setUserLoading(false);
         }
-      };
+        
+    };
+    
       retrieveUserData();
 }, []);
+
+useEffect(() => {
+  // whenever user data is gotten from async storage (currently the only time setUserID is used.)
+  // necessary because userID is needed for the following function, but wasn't updated because retrieveUserData is async 
+  if (userID !== '') updateCount();
+}, [userID])
+
+const updateCount = async () => {
+try {
+  const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
+  const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
+  setPostedCount(postJson.length);
+  await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
+  // await AsyncStorage.setItem('postedCount', postJson.length.toString());
+  } catch (error) {
+    setPostedCount(0); // if fetch returns null (returned 0 items)
+  }
+  
+  try{
+  const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
+  const archivedJson = await archivedResponse.json(); // if fetch returns null (size 0), an error is thrown
+  setArchivedCount(archivedJson.length);
+  await AsyncStorage.setItem('archivedData', JSON.stringify(archivedJson));
+} catch (error) {
+  setArchivedCount(0); // if fetch returns null (returned 0 items)
+}
+};
   
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -133,12 +166,12 @@ const Profile = ({}) => {
       <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
         {/* this Button should lead to item page for user */}
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
-          <Text style={styles.tertiaryButtonTitle}>7</Text>
+          <Text style={styles.tertiaryButtonTitle}>{postedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim", key: Math.random().toString()})}>
-          <Text style={styles.tertiaryButtonTitle}>2</Text>
+          <Text style={styles.tertiaryButtonTitle}>{archivedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
