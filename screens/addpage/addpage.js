@@ -271,20 +271,24 @@ function AddPage({ route }) {
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
             color: '#9E8B8D',
+            
           }}
           labelStyle={{  
             fontSize: 20,       // Change to your desired font size
             fontWeight: '900',  // Change to your desired font weight
             color: '#342F2F',
+            
           }}
           listItemLabelStyle={{
             fontSize: 16,       // Change to your desired font size for items
             fontWeight: '900',   // Change to your desired font weight for items
             color: '#342F2F',
+            
           }}
           dropDownContainerStyle={{
             borderColor: 'transparent',
             zIndex: 999,
+            
           }}
           
           /* It would be great if it was more apparent that the user can scroll down through a list of categories.
@@ -425,7 +429,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: -20,
-    marginBottom: 0,
+    marginBottom: 30,
     width: '85%',
     flexDirection: 'row',
     color: '#FAF2F2',
@@ -531,7 +535,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
-    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    elevation: 7,
     zIndex: -1,
   },
   icon: {
@@ -552,11 +556,13 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
+    marginTop: 12,
   },
   locationButtonTextUnselected: {
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
+    
   },
   imageSelector:{ 
     flexDirection: 'row' 
