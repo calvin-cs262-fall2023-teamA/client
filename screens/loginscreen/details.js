@@ -106,10 +106,22 @@ function Details({ navigation, route }) {
     setComment('');
   };
 
+  const handleDelete = () => {
+    // updates archived -> true for a given item
+    fetch(`https://calvinfinds.azurewebsites.net/items/archive/${itemData.id}`, {
+        method: 'POST', // actually PUT, but it works with POST and not PUT.
+      })
+      .then((response) => response.json)
+      .catch(error => {
+        console.error(error);
+    });
+    navigation.navigate('MainPage', { prevRoute: 'archive' }); // change so that the user can get a message on main page
+  };
+
   const deleteBackButton = () => {
     if (userID === itemData.postuser) {
       return ( <>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
@@ -118,6 +130,7 @@ function Details({ navigation, route }) {
         </>)
     } 
     
+    //else
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
