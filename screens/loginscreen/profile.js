@@ -72,7 +72,7 @@ try {
   await AsyncStorage.setItem('postedData', JSON.stringify(postJson));
   // await AsyncStorage.setItem('postedCount', postJson.length.toString());
   } catch (error) {
-    setPostedData(0); // if fetch returns null (returned 0 items)
+    setPostedCount(0); // if fetch returns null (returned 0 items)
   }
   
   try{
@@ -81,7 +81,7 @@ try {
   setArchivedCount(archivedJson.length);
   await AsyncStorage.setItem('archivedData', JSON.stringify(archivedJson));
 } catch (error) {
-  setArchivedData(0); // if fetch returns null (returned 0 items)
+  setArchivedCount(0); // if fetch returns null (returned 0 items)
 }
 };
   
