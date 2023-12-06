@@ -139,31 +139,52 @@ const MainPage = ({ navigation, route }) => {
   };
 
   const getItemsPosted = async () => {
-    try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
-    const json = await response.json();
+
+  // Retrieve posted data from AsyncStorage
+  try {
+    // Retrieve posted data from AsyncStorage
+    const postedData = await AsyncStorage.getItem('postedData');
+
+    if (postedData) {
+      // Parse the string as JSON
+      const json = JSON.parse(postedData);
+      // Set the data state
       setData(json);
       return json;
-    } catch (error) {
-      setData([]);
-      return [];
-    } finally {
-      setIsLoading(false);
     }
+    setData([]);
+    return [];
+  } catch (error) {
+    // Handle errors
+    setData([]);
+    return [];
+  } finally {
+    setIsLoading(false);
+  }
   };
 
   const getItemsArchived = async () => {
-    try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
-      const json = await response.json();
+
+  try {
+    // Retrieve archived data from AsyncStorage
+    const archivedData = await AsyncStorage.getItem('archivedData');
+
+    if (archivedData) {
+      // Parse the string as JSON
+      const json = JSON.parse(archivedData);
+      // Set the data state
       setData(json);
       return json;
-    } catch (error) {
-      setData([]);
-      return [];
-    } finally {
-      setIsLoading(false);
     }
+    setData([]);
+    return [];
+  } catch (error) {
+    // Handle errors
+    setData([]);
+    return [];
+  } finally {
+    setIsLoading(false);
+  }
   };
 
   const generatePlaceholderData = (count) => {
