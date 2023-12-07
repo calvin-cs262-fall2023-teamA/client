@@ -145,6 +145,9 @@ try {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+        <Text style={styles.helpButton}>?</Text>
+      </TouchableOpacity>
       {!userLoading &&
       <TouchableOpacity onPress={pickImageAsync}>
           <ImageViewer
@@ -164,9 +167,6 @@ try {
       <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
 
         {/* this Button should lead to item page for user */}
-        <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
-          <Text style={styles.helpButton}>?</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>{postedCount}</Text>
@@ -305,7 +305,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#fff',
     position: 'absolute',
-    right: -15,
+    right: 10,
+    top: 0,
+    zIndex: 500,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
   },
   helpButton: {
     color: '#9E8B8D', 

@@ -134,6 +134,9 @@ function Details({ navigation, route }) {
       <ScrollView contentContainerStyle={styles.container}>
         {/* ... other components ... */}
         <View style={styles.contentContainer}>
+          <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+            <Text style={styles.helpButton}>?</Text>
+          </TouchableOpacity>
           <Image
           // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
             source={itemData.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
@@ -176,9 +179,6 @@ function Details({ navigation, route }) {
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
-            <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
-              <Text style={styles.helpButton}>?</Text>
-            </TouchableOpacity>
           </View>
 
         </View>

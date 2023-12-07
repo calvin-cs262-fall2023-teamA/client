@@ -255,6 +255,9 @@ const MainPage = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+        <Text style={styles.helpButton}>?</Text>
+      </TouchableOpacity>
 
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
       {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
@@ -270,9 +273,6 @@ const MainPage = ({ navigation, route }) => {
             style={styles.writeTaskWrapper}
             keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
         >
-          <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
-            <Text style={styles.helpButton}>?</Text>
-          </TouchableOpacity>
             {searchActive && (
             <View style={styles.searchContainer}>
                 {/* PLACEHOLDER FOR ADD BUTTON */}
