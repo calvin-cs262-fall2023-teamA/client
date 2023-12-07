@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
-    marginTop: 0,
+    // marginTop: 0,
   },
 
   locationButtonTextUnselected: {
