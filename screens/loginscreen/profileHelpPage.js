@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React from 'react';
 import { StyleSheet, View, Text, Modal, TouchableOpacity } from 'react-native';
-// import * as styles from '../../styles/helpPageStyles';
+// import * as styles from '../../styles/detailsStyles';
+
 const PopupScreen3 = ({ isVisible, onClose }) => {
 return (
     <Modal
