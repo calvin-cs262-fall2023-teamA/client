@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FAF2F2', 
     borderRadius: 50,
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     fontSize: 20,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     elevation: 7, // android shadow
     position: 'absolute',
     bottom: 190,
-    right: 10,
 
   },
 

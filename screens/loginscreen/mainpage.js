@@ -313,7 +313,7 @@ const MainPage = ({ navigation, route }) => {
             style={styles.writeTaskWrapper}
             keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
         >
-            {searchActive && (
+
             <View style={styles.searchContainer}>
                 {/* Found/lost item toggle */}
 
@@ -326,9 +326,7 @@ const MainPage = ({ navigation, route }) => {
                 </TouchableOpacity>
 
             </View>
-            )}
             
-            {searchActive && (
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.
               // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -342,7 +340,6 @@ const MainPage = ({ navigation, route }) => {
              }}>
               <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
             </TouchableOpacity>
-            )}
 
 
         </KeyboardAvoidingView>
