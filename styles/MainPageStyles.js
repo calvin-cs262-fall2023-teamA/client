@@ -276,6 +276,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFAF66',
     borderRadius: 50,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
   },
   inactiveButton: {
     paddingVertical: 18,
