@@ -316,24 +316,26 @@ const MainPage = ({ navigation, route }) => {
 
           <View style={styles.bottomRow}>
 
-            <View style={styles.searchContainer}>
-                {/* Found/lost item toggle */}
+            <View style={styles.toggleContainer}>
+              <TouchableOpacity 
+                style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
+                onPress={toggleLostOrFoundFilter}>
+                <View style={{alignItems:"center"}}>
+                  <Text style={styles.toggleButtonText}>Lost</Text>
+                  <Text style={styles.toggleButtonText}>Items</Text>
+                </View>
+              </TouchableOpacity>
 
-                <TouchableOpacity style={styles.inactiveButton} onPress={toggleLostOrFoundFilter}>
-                  <View style={{alignItems:"center"}}>
-                    <Text style={styles.toggleButtonText}>Lost</Text>
-                    <Text style={styles.toggleButtonText}>Items</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.activeButton} onPress={toggleLostOrFoundFilter}>
-                  <View style={{alignItems:"center"}}>
-                    <Text style={styles.toggleButtonText}>Found</Text>
-                    <Text style={styles.toggleButtonText}>Items</Text>
-                  </View>
-                </TouchableOpacity>
-
+              <TouchableOpacity 
+                style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
+                onPress={toggleLostOrFoundFilter}>
+                <View style={{alignItems:"center"}}>
+                  <Text style={styles.toggleButtonText}>Found</Text>
+                  <Text style={styles.toggleButtonText}>Items</Text>
+                </View>
+              </TouchableOpacity>
             </View>
+
             
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.
