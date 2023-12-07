@@ -210,13 +210,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     right: 10,
-    top: 0,
+    top: 40,
     zIndex: 500,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7, // android shadow
+    ...Platform.select({
+      ios: {
+        top: 40,
+      },
+      android: {
+        top: 0,
+      },
+      default: {
+        top: 0,
+      },
+    }),
 },
   helpButton: {
       color: '#9E8B8D', 

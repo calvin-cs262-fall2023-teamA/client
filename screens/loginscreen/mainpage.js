@@ -255,12 +255,11 @@ const MainPage = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
+      {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
       <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
         <Text style={styles.helpButton}>?</Text>
       </TouchableOpacity>
-
-      <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
-      {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
