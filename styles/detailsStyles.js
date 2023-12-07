@@ -268,16 +268,19 @@ const styles = StyleSheet.create({
         elevation: 7,     
 
     },
+    helpButtonContainer: {
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        position: 'absolute',
+        right: 10,
+    },
     helpButton: {
         color: '#9E8B8D', 
         fontSize: 20,   
         fontWeight: 'bold',      
-        backgroundColor: '#fff',
         paddingHorizontal: 8,
         borderRadius: 10,
-        position: 'absolute',
-        
-      },
+    },
     loadingComments: {
         paddingTop: '20%',
     }

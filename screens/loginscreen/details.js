@@ -149,7 +149,7 @@ function Details({ navigation, route }) {
               <Text style={styles.locationName}>{itemData.location}</Text>
             </View>
           </View>
-          
+
           <View style={styles.commentContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -176,7 +176,7 @@ function Details({ navigation, route }) {
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
-            <TouchableOpacity onPress={togglePopup}> 
+            <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
               <Text style={styles.helpButton}>?</Text>
             </TouchableOpacity>
           </View>
