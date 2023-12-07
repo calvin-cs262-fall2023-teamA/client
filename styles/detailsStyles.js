@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FAF2F2',
         borderRadius: 20,
+        position: 'relative',
     },
     userCommentContainer: {
         flexDirection: 'row',
@@ -273,9 +274,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',      
         backgroundColor: '#fff',
         paddingHorizontal: 8,
-        position: 'relative',
-        left: -5,
         borderRadius: 10,
+        position: 'absolute',
+        
       },
     loadingComments: {
         paddingTop: '20%',

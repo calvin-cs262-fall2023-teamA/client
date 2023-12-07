@@ -149,6 +149,7 @@ function Details({ navigation, route }) {
               <Text style={styles.locationName}>{itemData.location}</Text>
             </View>
           </View>
+          
           <View style={styles.commentContainer}>
             <TouchableOpacity
               onPress={() => {

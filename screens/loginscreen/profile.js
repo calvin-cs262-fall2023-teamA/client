@@ -162,7 +162,12 @@ try {
       <View style={styles.flexContainer}>
 
       <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
+
         {/* this Button should lead to item page for user */}
+        <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+          <Text style={styles.helpButton}>?</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>{postedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
@@ -173,9 +178,7 @@ try {
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
-        <TouchableOpacity onPress={togglePopup}> 
-          <Text style={styles.helpButton}>?</Text>
-        </TouchableOpacity>
+
       </View>
 
       <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('MainPage')}>
@@ -185,6 +188,7 @@ try {
       <TouchableOpacity style={styles.secondaryButton} onPress={handleLogout}>
         <Text style={styles.secondaryButtonText}>Log Out</Text>
       </TouchableOpacity>
+      
 
     </View>
   )
@@ -297,14 +301,17 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: 50,
   },
+  helpButtonContainer: {
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    left: -15,
+  },
   helpButton: {
     color: '#9E8B8D', 
     fontSize: 20,   
     fontWeight: 'bold',      
-    backgroundColor: '#fff',
     paddingHorizontal: 8,
-    position: 'absolute',
-    left: -5,
     borderRadius: 10,
   },
   tertiaryButtonText: {
