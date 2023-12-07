@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity } from 'react-native';
-import * as styles from '../../styles/helpPageStyles';
+import { StyleSheet, View, Text, Modal, TouchableOpacity } from 'react-native';
+// import * as styles from '../../styles/helpPageStyles';
 const PopupScreen3 = ({ isVisible, onClose }) => {
 return (
     <Modal
@@ -10,14 +10,14 @@ return (
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+      <View style={{marginHorizontal: 20, flex: 1, justifyContent: 'center'}}>
+        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 20, justifyContent: 'center', alignItems: 'center'  }}>
           <Text>If you click the button labeled posted you will see all the items you have posted on the app.</Text>
           <Text> </Text>
           <Text>If you click the button labeled archived you will see all the items you have not visable on the app.</Text>
           <Text> </Text>
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.closeButton}>Close</Text>
+          <TouchableOpacity style={styles.primaryButton} onPress={onClose}>
+            <Text style={styles.primaryButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -26,3 +26,32 @@ return (
 };
 
 export default PopupScreen3;
+
+const styles = StyleSheet.create({
+  textContainer: {
+
+  },
+
+  primaryButton: {
+      alignItems: 'center',
+      backgroundColor: '#FAF2F2',
+      borderRadius: 50,
+      width: '85%',
+      padding: 18,
+      marginBottom: 10,
+      marginTop: 10,
+      shadowColor: '#A59D95',
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.2,
+      shadowRadius: 24,
+      elevation: 7, //  drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+      zIndex: -1
+    },
+  
+    primaryButtonText: {
+      color: '#342F2F',
+      fontWeight: '900',
+      fontSize: 20
+    },
+
+});
