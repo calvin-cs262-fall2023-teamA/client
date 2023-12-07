@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',      
         backgroundColor: '#fff',
         paddingHorizontal: 8,
-        position: 'absolute',
+        position: 'relative',
         left: -5,
         borderRadius: 10,
       },

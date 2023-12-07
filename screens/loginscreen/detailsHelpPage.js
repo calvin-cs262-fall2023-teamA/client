@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity } from 'react-native';
-import * as styles from '../../styles/detailsStyles';
+import {StyleSheet, View, Text, Modal, TouchableOpacity } from 'react-native';
+// import * as styles from '../../styles/detailsStyles';
 const PopupScreen = ({ isVisible, onClose }) => {
 return (
     <Modal
@@ -26,3 +26,49 @@ return (
 };
 
 export default PopupScreen;
+
+
+const styles = StyleSheet.create({
+  outerContainer: {
+    marginHorizontal: 20, 
+    flex: 1, 
+    justifyContent: 'center'
+  },
+  mainContainer: {
+    backgroundColor: 'white', 
+    padding: 30, 
+    borderRadius: 20, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    shadowColor: '#A59D95',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, //  drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+  },
+  textContainer: {
+    fontSize: 15, 
+  },
+
+  primaryButton: {
+      alignItems: 'center',
+      backgroundColor: '#FAF2F2',
+      borderRadius: 50,
+      width: '85%',
+      padding: 18,
+      marginBottom: 10,
+      marginTop: 10,
+      shadowColor: '#A59D95',
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.2,
+      shadowRadius: 24,
+      elevation: 7, //  drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    },
+  
+    primaryButtonText: {
+      color: '#342F2F',
+      fontWeight: '900',
+      fontSize: 20
+    },
+
+});
