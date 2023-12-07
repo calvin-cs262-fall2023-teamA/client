@@ -188,7 +188,7 @@ function Details({ navigation, route }) {
           {/* only run if isLoading = false */}
           {!isLoading && displayedComment.map((commentData, index) => (
             //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
-            <View key={index} style={styles.commentContainer}>
+            <View key={index} style={styles.userCommentContainer}>
               <TouchableOpacity
                 onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
