@@ -10,14 +10,14 @@ return (
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-          <Text>This page shows details of a specific lost or found item posted by a user.</Text>
+      <View style={styles.outerContainer}>
+        <View style={styles.mainContainer}>
+          <Text style={styles.textContainer}>This page shows details of a specific lost or found item posted by a user.</Text>
           <Text> </Text>
-          <Text>You can leave a comment on this post and contact the poster.</Text>
+          <Text style={styles.textContainer}>You can leave a comment on this post and contact the poster.</Text>
           <Text> </Text>
-          <TouchableOpacity onPress={onClose}>
-            <Text style={styles.helpButton}>Close</Text>
+          <TouchableOpacity style={styles.primaryButton} onPress={onClose}>
+            <Text style={styles.primaryButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
