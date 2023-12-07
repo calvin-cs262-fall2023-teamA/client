@@ -319,10 +319,16 @@ const MainPage = ({ navigation, route }) => {
             <View style={styles.searchContainer}>
                 {/* Found/lost item toggle */}
 
-                <TouchableOpacity style={styles.toggleButton} onPress={toggleLostOrFoundFilter}>
-                  <Image source={require('../../assets/switch.png')} style={styles.toggleIconStyle} />
-                  <View>
-                    <Text style={styles.toggleButtonText}>{lostOrFoundFilter}</Text>
+                <TouchableOpacity style={styles.inactiveButton} onPress={toggleLostOrFoundFilter}>
+                  <View style={{alignItems:"center"}}>
+                    <Text style={styles.toggleButtonText}>Lost</Text>
+                    <Text style={styles.toggleButtonText}>Items</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.activeButton} onPress={toggleLostOrFoundFilter}>
+                  <View style={{alignItems:"center"}}>
+                    <Text style={styles.toggleButtonText}>Found</Text>
                     <Text style={styles.toggleButtonText}>Items</Text>
                   </View>
                 </TouchableOpacity>

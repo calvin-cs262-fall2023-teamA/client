@@ -270,11 +270,20 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 7, // android shadow
   },
-  toggleButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+  activeButton: {
+    paddingVertical: 18,
+    paddingHorizontal: 33,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#FFAF66',
+    borderRadius: 50,
+  },
+  inactiveButton: {
+    paddingVertical: 18,
+    paddingHorizontal: 33,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 50,
   },
 
   toggleButtonText: {
