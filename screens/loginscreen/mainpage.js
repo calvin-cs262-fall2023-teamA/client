@@ -75,6 +75,7 @@ const MainPage = ({ navigation, route }) => {
     Right now, that just means that the user made an item listing at the "addPage" screen. */
   useEffect(() => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
+    if (prevRoute === 'archive') alert('Your item has been archived and will no longer appear in search results.')
   }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
