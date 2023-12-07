@@ -9,6 +9,7 @@ import ImageButton from '../components/Buttons';
 import ImageViewer from '../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
+import PopupScreen3 from './profileHelpPage';
 
 const Profile = ({}) => {
   const navigation = useNavigation()
@@ -29,6 +30,12 @@ const Profile = ({}) => {
   const [archivedCount, setArchivedCount] = useState(0);
 
   const [userLoading, setUserLoading] = useState(true);
+
+  const [isPopupVisible, setPopupVisibility] = useState(false);
+
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
+  };
   
 
   useEffect(() => {
@@ -138,6 +145,9 @@ try {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+        <Text style={styles.helpButton}>?</Text>
+      </TouchableOpacity>
       {!userLoading &&
       <TouchableOpacity onPress={pickImageAsync}>
           <ImageViewer
@@ -154,7 +164,10 @@ try {
 
       <View style={styles.flexContainer}>
 
+      <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
+
         {/* this Button should lead to item page for user */}
+
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>{postedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Posted</Text>
@@ -165,6 +178,7 @@ try {
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
+
       </View>
 
       <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('MainPage')}>
@@ -174,6 +188,7 @@ try {
       <TouchableOpacity style={styles.secondaryButton} onPress={handleLogout}>
         <Text style={styles.secondaryButtonText}>Log Out</Text>
       </TouchableOpacity>
+      
 
     </View>
   )
@@ -284,9 +299,39 @@ const styles = StyleSheet.create({
   tertiaryButtonTitle: {
     color: '#342F2F',
     fontWeight: '900',
-    fontSize: 50
+    fontSize: 50,
   },
-
+  helpButtonContainer: {
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    right: 10,
+    top: 0,
+    zIndex: 500,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
+    ...Platform.select({
+      ios: {
+        top: 40,
+      },
+      android: {
+        top: 0,
+      },
+      default: {
+        top: 0,
+      },
+    }),
+  },
+  helpButton: {
+    color: '#9E8B8D', 
+    fontSize: 20,   
+    fontWeight: 'bold',      
+    paddingHorizontal: 8,
+    borderRadius: 10,
+  },
   tertiaryButtonText: {
     color: '#342F2F',
     fontWeight: '900',

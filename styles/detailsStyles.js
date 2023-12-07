@@ -44,6 +44,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FAF2F2',
         borderRadius: 20,
+        position: 'relative',
+    },
+    userCommentContainer: {
+        flexDirection: 'row',
+        justifyContent: 'left',
+        paddingHorizontal: 15,
+        // paddingVertical: 10,
+        alignItems: 'center',
+        borderRadius: 20,
     },
     postCommentContainer: {
         flexDirection: 'row',
@@ -259,13 +268,25 @@ const styles = StyleSheet.create({
         elevation: 7,     
 
     },
-    helpButton: {
-        color: 'blue', // Change the color to your preference
-        fontSize: 16,   // Change the font size to your preference
-        fontWeight: 'bold', // Add other styles as needed
+    helpButtonContainer: {
+        borderRadius: 10,
+        backgroundColor: '#fff',
         position: 'absolute',
-        top: 10,             
-        left: 10,         
+        right: 10,
+        top: 0,
+        zIndex: 500,
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7, // android shadow
+    },
+    helpButton: {
+        color: '#9E8B8D', 
+        fontSize: 20,   
+        fontWeight: 'bold',      
+        paddingHorizontal: 8,
+        borderRadius: 10,
     },
     loadingComments: {
         paddingTop: '20%',

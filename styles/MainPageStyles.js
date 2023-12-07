@@ -205,7 +205,37 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: 'bold',
   },
-
+  helpButtonContainer: {
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    right: 10,
+    top: 40,
+    zIndex: 500,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
+    ...Platform.select({
+      ios: {
+        top: 40,
+      },
+      android: {
+        top: 0,
+      },
+      default: {
+        top: 0,
+      },
+    }),
+},
+  helpButton: {
+      color: '#9E8B8D', 
+      fontSize: 20,   
+      fontWeight: 'bold',      
+      paddingHorizontal: 8,
+      borderRadius: 10,
+  },
   addButton: {
     backgroundColor: '#fff', // Background color of the add button
     paddingVertical: 20,
@@ -259,6 +289,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
   },
+  
 });
 
 export default styles;

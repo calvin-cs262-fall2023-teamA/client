@@ -7,7 +7,7 @@ import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
-import PopupScreen from './PopupScreen';
+import PopupScreen from './detailsHelpPage';
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
@@ -134,6 +134,9 @@ function Details({ navigation, route }) {
       <ScrollView contentContainerStyle={styles.container}>
         {/* ... other components ... */}
         <View style={styles.contentContainer}>
+          <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+            <Text style={styles.helpButton}>?</Text>
+          </TouchableOpacity>
           <Image
           // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
             source={itemData.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
@@ -149,6 +152,7 @@ function Details({ navigation, route }) {
               <Text style={styles.locationName}>{itemData.location}</Text>
             </View>
           </View>
+
           <View style={styles.commentContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -174,9 +178,6 @@ function Details({ navigation, route }) {
               
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
-            <TouchableOpacity onPress={togglePopup}> 
-              <Text style={styles.helpButton}>Help page</Text>
-            </TouchableOpacity>
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>
 
@@ -188,7 +189,7 @@ function Details({ navigation, route }) {
           {/* only run if isLoading = false */}
           {!isLoading && displayedComment.map((commentData, index) => (
             //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
-            <View key={index} style={styles.commentContainer}>
+            <View key={index} style={styles.userCommentContainer}>
               <TouchableOpacity
                 onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
