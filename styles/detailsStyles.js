@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         // paddingVertical: 10,
         alignItems: 'center',
+        marginBottom: 10,
     },
     item: {
         flex: 1,
@@ -136,7 +137,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         borderWidth: 0,
-        marginBottom: 20,
         paddingLeft: 15,
         backgroundColor: '#fff',
         borderRadius: 15,
