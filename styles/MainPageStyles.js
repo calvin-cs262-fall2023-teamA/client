@@ -141,19 +141,11 @@ const styles = StyleSheet.create({
 
   },
   bottomRow: {
-    // flexDirection: 'row',
-    // backgroundColor: '#AAA',
-    // width: '100%',
-    // position: 'absolute',
-    // bottom: 10,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-
     flex: 1,
     backgroundColor: '#EDE7E7',
     position: 'absolute',
     bottom: 10,
-    paddingTop: 10,
+    paddingVertical: 10,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
