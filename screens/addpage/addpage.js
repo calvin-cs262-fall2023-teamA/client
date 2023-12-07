@@ -183,7 +183,7 @@ function AddPage({ route }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#EDE7E7'}}>
     <KeyboardAvoidingView 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
@@ -386,15 +386,15 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',    
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#EDE7E7',
   },
   
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
-    // justifyContent: 'flex-end', 
+    justifyContent: 'center', 
     alignItems: 'center',
     width: '90%',
   },
@@ -434,6 +434,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     color: '#FAF2F2',
     zIndex: -1,
+    justifyContent: 'flex-end', 
     // backgroundColor: '#FAF2F2',
    // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
