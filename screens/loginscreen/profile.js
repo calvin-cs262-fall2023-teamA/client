@@ -301,11 +301,11 @@ const styles = StyleSheet.create({
     color: '#9E8B8D', 
     fontSize: 20,   
     fontWeight: 'bold',      
-    backgroundColor: '#FAF2F2',
+    backgroundColor: '#fff',
     paddingHorizontal: 8,
     position: 'absolute',
     left: -5,
-    borderRadius: 8,
+    borderRadius: 10,
   },
   tertiaryButtonText: {
     color: '#342F2F',

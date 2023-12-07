@@ -10,11 +10,11 @@ return (
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={{marginHorizontal: 20, flex: 1, justifyContent: 'center'}}>
-        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 20, justifyContent: 'center', alignItems: 'center'  }}>
-          <Text>If you click the button labeled posted you will see all the items you have posted on the app.</Text>
+      <View style={styles.outerContainer}>
+        <View style={styles.mainContainer}>
+          <Text style={styles.textContainer}>If you click the button labeled posted you will see all the items you have posted on the app.</Text>
           <Text> </Text>
-          <Text>If you click the button labeled archived you will see all the items you have not visable on the app.</Text>
+          <Text style={styles.textContainer}>If you click the button labeled archived you will see all the items you have not visable on the app.</Text>
           <Text> </Text>
           <TouchableOpacity style={styles.primaryButton} onPress={onClose}>
             <Text style={styles.primaryButtonText}>Close</Text>
@@ -28,8 +28,25 @@ return (
 export default PopupScreen3;
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    marginHorizontal: 20, 
+    flex: 1, 
+    justifyContent: 'center'
+  },
+  mainContainer: {
+    backgroundColor: 'white', 
+    padding: 30, 
+    borderRadius: 20, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    shadowColor: '#A59D95',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, //  drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+  },
   textContainer: {
-
+    fontSize: 15, 
   },
 
   primaryButton: {
@@ -45,7 +62,6 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.2,
       shadowRadius: 24,
       elevation: 7, //  drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-      zIndex: -1
     },
   
     primaryButtonText: {
