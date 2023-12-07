@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: '#EDE7E7',
     position: 'absolute',
-    bottom: 100,
+    bottom: 0,
     paddingTop: 10,
     width: '100%',
     // height: 100,
@@ -141,15 +141,25 @@ const styles = StyleSheet.create({
 
   },
   bottomRow: {
-    flexDirection: 'row',
-    backgroundColor: '#AAA',
-    width: '100%',
+    // flexDirection: 'row',
+    // backgroundColor: '#AAA',
+    // width: '100%',
+    // position: 'absolute',
+    // bottom: 10,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+
+    flex: 1,
+    backgroundColor: '#EDE7E7',
     position: 'absolute',
     bottom: 10,
+    paddingTop: 10,
+    width: '100%',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
+
 
   addIconStyle: {
     width: 30, // or whatever size you want
