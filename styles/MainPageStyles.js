@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: '#EDE7E7',
     position: 'absolute',
-    bottom: 0,
+    bottom: -20,
     paddingTop: 10,
     width: '100%',
     // height: 100,
