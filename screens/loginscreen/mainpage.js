@@ -266,51 +266,77 @@ const MainPage = ({ navigation, route }) => {
         keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
-        {/* Search for an item */}
-        {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
         <KeyboardAvoidingView 
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.writeTaskWrapper}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.writeTaskWrapper}
+          keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
-            {searchActive && (
-            <View style={styles.searchContainer}>
-                {/* PLACEHOLDER FOR ADD BUTTON */}
-                {/* The navigation.navigate part must be the same for the popup to work. 
-                The current placeholder works but is not stylized. */}
-                <TouchableOpacity style={styles.addButton}
-                    onPress={() => {
-                        // send information to the main (current) page to "reset" the pop up.
-                        // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                        navigation.navigate({
-                            name: 'MainPage',
-                            params: { prevRoute: 'reset'},
-                            merge: true,
-                        }),
-                        // navigate to the AddPage (where the user will actually end up)
-                        navigation.navigate('AddPage')
-                    }}>
-                    <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
-                </TouchableOpacity>
-                {/* END OF PLACEHOLDER */}
 
-                {/* Found/lost item toggle */}
+          <TouchableOpacity style={styles.addButton}
+              onPress={() => {
+                  // send information to the main (current) page to "reset" the pop up.
+                  // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                  navigation.navigate({
+                      name: 'MainPage',
+                      params: { prevRoute: 'reset'},
+                      merge: true,
+                  }),
+                  // navigate to the AddPage (where the user will actually end up)
+                  navigation.navigate('AddPage')
+              }}>
+              <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
+          </TouchableOpacity>
 
-                <TouchableOpacity style={styles.toggleButton} onPress={toggleLostOrFoundFilter}>
-                  <Image source={require('../../assets/switch.png')} style={styles.toggleIconStyle} />
-                  <View>
-                    <Text style={styles.toggleButtonText}>{lostOrFoundFilter}</Text>
-                    <Text style={styles.toggleButtonText}>Items</Text>
-                  </View>
-                </TouchableOpacity>
+          {/* search button */}
+          {searchActive && (
+            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
+            </TouchableOpacity>
+          )}
 
-                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                    <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity>
+          {/* Activated Search Bar */}
+          {!searchActive && (
+          <View style={styles.searchBarContainer}>
+              <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
+                  <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
+              </TouchableOpacity>
+              <TextInput
+                  style={styles.searchInput}
+                  placeholder="Type to search item"
+                  placeholderTextColor="#9E8B8D" 
+                  value={searchedItem}
+                  onChangeText={(text) => searchItem(text)}
+              />
+          </View>
+          )}
+
+        </KeyboardAvoidingView>
+
+        {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
+
+          <View style={styles.bottomRow}>
+
+            <View style={styles.toggleContainer}>
+              <TouchableOpacity 
+                style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
+                onPress={toggleLostOrFoundFilter}>
+                <View style={{alignItems:"center"}}>
+                  <Text style={styles.toggleButtonText}>Lost</Text>
+                  <Text style={styles.toggleButtonText}>Items</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
+                onPress={toggleLostOrFoundFilter}>
+                <View style={{alignItems:"center"}}>
+                  <Text style={styles.toggleButtonText}>Found</Text>
+                  <Text style={styles.toggleButtonText}>Items</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-            )}
+
             
-            {searchActive && (
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.
               // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -324,30 +350,9 @@ const MainPage = ({ navigation, route }) => {
              }}>
               <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
             </TouchableOpacity>
-            )}
+          </View>
 
-            {/* Search Bar */}
-            
-            {!searchActive && (
-            <View style={styles.searchBarContainer}>
-                <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
-                    <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Type to search item"
-                    placeholderTextColor="#9E8B8D" 
-                    value={searchedItem}
-                    onChangeText={(text) => searchItem(text)}
-                />
-                {/* handles search bar and account icon */}
-                {/* <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
-                    <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity> */}
-            </View>
-            )}
 
-        </KeyboardAvoidingView>
 
     </SafeAreaView>
   );
