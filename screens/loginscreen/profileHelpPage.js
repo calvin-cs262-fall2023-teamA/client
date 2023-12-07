@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity } from 'react-native';
-import * as styles from '../../styles/detailsStyles';
+import * as styles from '../../styles/helpPageStyles';
 const PopupScreen3 = ({ isVisible, onClose }) => {
 return (
     <Modal
@@ -17,7 +17,7 @@ return (
           <Text>If you click the button labeled archived you will see all the items you have not visable on the app.</Text>
           <Text> </Text>
           <TouchableOpacity onPress={onClose}>
-            <Text style={styles.helpButton}>Close</Text>
+            <Text style={styles.closeButton}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
