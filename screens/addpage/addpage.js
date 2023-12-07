@@ -185,8 +185,8 @@ function AddPage({ route }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
     <SafeAreaView style={{flex: 1, backgroundColor: '#EDE7E7'}}>
     <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
     >
       <View style={styles.imageSelector}>
