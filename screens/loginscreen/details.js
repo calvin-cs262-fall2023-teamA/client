@@ -188,9 +188,10 @@ function Details({ navigation, route }) {
                 <Text style={styles.userName}>{itemData.name}</Text>
                 <Text style={styles.userEmail}>{itemData.emailaddress}</Text>
               </View>
-              
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
+
+
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>
 

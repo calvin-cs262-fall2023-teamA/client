@@ -61,13 +61,6 @@ const styles = StyleSheet.create({
         // paddingVertical: 10,
         alignItems: 'center',
     },
-    textContainer: {
-        flexDirection: 'column',
-        justifyContent: 'left',
-        padding: 10,
-        marginBottom: 15,
-        alignItems: 'left',
-    },
     item: {
         flex: 1,
         textAlign: 'center',
@@ -111,35 +104,35 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginBottom: 20,
         marginTop: 5,
-      },
+    },
+    textContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        padding: 10,
+        marginBottom: 15,
+    },
     userNameEmailContainer: {
         flexDirection: 'row',
         alignItems: 'baseline',
-      },
+        flexWrap: 'wrap',
+    },
     userName: {
-        flexDirection: 'row',
-        alignItems: 'center',
         fontWeight: '900',
-        // padding: 16,
         fontSize: 18,
         color: '#2F2E41',
+        paddingRight: 10,
     },
     userEmail: {
-        flexDirection: 'row',
-        alignItems: 'center',
         fontWeight: '900',
-        paddingLeft: 10,
         fontSize: 15,
         color: '#9E8B8D',
     },
     userComment: {
-        flexDirection: 'row',
-        alignItems: 'center',
         fontWeight: '600',
-        // padding: 16,
         fontSize: 15,
         color: '#2F2E41',
     },
+    
     
     input: {
         flex: 1,
