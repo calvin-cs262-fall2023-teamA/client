@@ -255,9 +255,10 @@ const MainPage = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={togglePopup}> 
+      {/* help button that's disrupting the page */}
+      {/* <TouchableOpacity onPress={togglePopup}> 
         <Text style={styles.helpButton}>?</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
       {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
         <FlatList
