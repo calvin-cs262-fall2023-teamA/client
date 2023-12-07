@@ -160,9 +160,7 @@ try {
       <Text style={styles.userEmail}>{email}</Text>
 
       <View style={styles.flexContainer}>
-      <TouchableOpacity onPress={togglePopup}> 
-        <Text style={styles.helpButton}>?</Text>
-      </TouchableOpacity>
+
       <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
         {/* this Button should lead to item page for user */}
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
@@ -175,6 +173,9 @@ try {
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
 
+        <TouchableOpacity onPress={togglePopup}> 
+          <Text style={styles.helpButton}>?</Text>
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('MainPage')}>
@@ -297,9 +298,14 @@ const styles = StyleSheet.create({
     fontSize: 50,
   },
   helpButton: {
-    color: 'blue', 
+    color: '#9E8B8D', 
     fontSize: 20,   
     fontWeight: 'bold',      
+    backgroundColor: '#FAF2F2',
+    paddingHorizontal: 8,
+    position: 'absolute',
+    left: -5,
+    borderRadius: 8,
   },
   tertiaryButtonText: {
     color: '#342F2F',
