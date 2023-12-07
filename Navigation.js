@@ -9,7 +9,7 @@ import MainPage from './screens/loginscreen/mainpage';
 import AddPage from './screens/addpage/addpage';
 import Profile from './screens/loginscreen/profile';
 import Details from './screens/loginscreen/details';
-import PopupScreen from './screens/loginscreen/PopupScreen';
+import PopupScreen from './screens/loginscreen/detailsHelpPage';
 import PopupScreen2 from './screens/loginscreen/mainHelpPage';
 import PopupScreen3 from './screens/loginscreen/profileHelpPage';
 
