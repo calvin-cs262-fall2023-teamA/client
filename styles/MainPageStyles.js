@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
 
   writeTaskWrapper: {
     flex: 1,
-    backgroundColor: '#EDE7E7',
+    // backgroundColor: '#EDE7E7',
     position: 'absolute',
     bottom: 0,
     paddingTop: 10,
     width: '100%',
     // height: 100,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -136,8 +136,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7, // android shadow
+    // position: 'absolute',
+    bottom: 30,
+
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    backgroundColor: '#EDE7E7',
+    width: '100%',
     position: 'absolute',
-    bottom: 190,
+    bottom: 10,
 
   },
 

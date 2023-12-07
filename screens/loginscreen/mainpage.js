@@ -266,6 +266,11 @@ const MainPage = ({ navigation, route }) => {
         keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.writeTaskWrapper}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
+        >
 
         <TouchableOpacity style={styles.addButton}
             onPress={() => {
@@ -308,11 +313,8 @@ const MainPage = ({ navigation, route }) => {
 
 
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
-        <KeyboardAvoidingView 
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.writeTaskWrapper}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
-        >
+
+          <View style={styles.bottomRow}>
 
             <View style={styles.searchContainer}>
                 {/* Found/lost item toggle */}
@@ -340,7 +342,7 @@ const MainPage = ({ navigation, route }) => {
              }}>
               <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
             </TouchableOpacity>
-
+          </View>
 
         </KeyboardAvoidingView>
 
