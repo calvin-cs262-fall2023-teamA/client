@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#fff',
     position: 'absolute',
-    left: -15,
+    right: -15,
   },
   helpButton: {
     color: '#9E8B8D', 
