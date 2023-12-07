@@ -269,48 +269,48 @@ const MainPage = ({ navigation, route }) => {
         <KeyboardAvoidingView 
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.writeTaskWrapper}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
+          keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
 
-        <TouchableOpacity style={styles.addButton}
-            onPress={() => {
-                // send information to the main (current) page to "reset" the pop up.
-                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                navigation.navigate({
-                    name: 'MainPage',
-                    params: { prevRoute: 'reset'},
-                    merge: true,
-                }),
-                // navigate to the AddPage (where the user will actually end up)
-                navigation.navigate('AddPage')
-            }}>
-            <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
-        </TouchableOpacity>
-
-        {/* search button */}
-        {searchActive && (
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-              <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
+          <TouchableOpacity style={styles.addButton}
+              onPress={() => {
+                  // send information to the main (current) page to "reset" the pop up.
+                  // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                  navigation.navigate({
+                      name: 'MainPage',
+                      params: { prevRoute: 'reset'},
+                      merge: true,
+                  }),
+                  // navigate to the AddPage (where the user will actually end up)
+                  navigation.navigate('AddPage')
+              }}>
+              <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
           </TouchableOpacity>
-        )}
 
-        {/* Activated Search Bar */}
-        {!searchActive && (
-        <View style={styles.searchBarContainer}>
-            <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
-                <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
+          {/* search button */}
+          {searchActive && (
+            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
             </TouchableOpacity>
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Type to search item"
-                placeholderTextColor="#9E8B8D" 
-                value={searchedItem}
-                onChangeText={(text) => searchItem(text)}
-            />
-        </View>
-        )}
+          )}
 
+          {/* Activated Search Bar */}
+          {!searchActive && (
+          <View style={styles.searchBarContainer}>
+              <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
+                  <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
+              </TouchableOpacity>
+              <TextInput
+                  style={styles.searchInput}
+                  placeholder="Type to search item"
+                  placeholderTextColor="#9E8B8D" 
+                  value={searchedItem}
+                  onChangeText={(text) => searchItem(text)}
+              />
+          </View>
+          )}
 
+        </KeyboardAvoidingView>
 
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
 
@@ -344,7 +344,7 @@ const MainPage = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
 
-        </KeyboardAvoidingView>
+
 
     </SafeAreaView>
   );
