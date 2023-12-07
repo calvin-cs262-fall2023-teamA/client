@@ -187,7 +187,7 @@ function AddPage({ route }) {
     <KeyboardAvoidingView 
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+      keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} // Adjust the offset as needed
     >
       <View style={styles.imageSelector}>
         <ImageViewer
