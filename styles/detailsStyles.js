@@ -268,13 +268,15 @@ const styles = StyleSheet.create({
 
     },
     helpButton: {
-        color: 'blue', // Change the color to your preference
-        fontSize: 20,   // Change the font size to your preference
-        fontWeight: 'bold', // Add other styles as needed
+        color: '#9E8B8D', 
+        fontSize: 20,   
+        fontWeight: 'bold',      
+        backgroundColor: '#fff',
+        paddingHorizontal: 8,
         position: 'absolute',
-        top: 10,             
-        left: 10,         
-    },
+        left: -5,
+        borderRadius: 10,
+      },
     loadingComments: {
         paddingTop: '20%',
     }
