@@ -102,14 +102,12 @@ const styles = StyleSheet.create({
         height: 60, // or whatever size you want
         borderRadius: 50,
         marginHorizontal: 10,
-        marginBottom: 20,
-        marginTop: 5,
+        marginVertical: 12,
     },
     textContainer: {
         flex: 1,
         flexDirection: 'column',
         padding: 10,
-        marginBottom: 15,
     },
     userNameEmailContainer: {
         flexDirection: 'row',
