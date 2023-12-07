@@ -129,15 +129,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#FAF2F2', 
     borderRadius: 50,
-    marginHorizontal: 23,
-    marginBottom: 30,
-    marginTop: 5,
+    marginHorizontal: 20,
     fontSize: 20,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7, // android shadow
+    position: 'absolute',
+    bottom: 190,
+    right: 10,
 
   },
 
@@ -178,6 +179,14 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderRadius: 50,
+    position: 'absolute',
+    bottom: 190,
+    right: 10,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
   },
   searchButtonActive: {
     backgroundColor: '#FFAF66', // Background color of the search button
@@ -241,7 +250,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 50,
-
+    position: 'absolute',
+    bottom: 280,
+    right: 10,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
   },
   toggleButton: {
     paddingVertical: 15,
