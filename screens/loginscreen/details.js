@@ -188,9 +188,10 @@ function Details({ navigation, route }) {
                 <Text style={styles.userName}>{itemData.name}</Text>
                 <Text style={styles.userEmail}>{itemData.emailaddress}</Text>
               </View>
-              
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
+
+
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>
 
@@ -229,7 +230,11 @@ function Details({ navigation, route }) {
         {isLoading && (<ActivityIndicator style={styles.loadingComments} size="large"/>)}  
         </ScrollView>
         {isBottomContainerVisible && ( 
-        <View style={styles.bottomContainer}>
+        <KeyboardAvoidingView 
+          style={styles.bottomContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+        >
           {/* user input */}
           <View style={styles.postCommentContainer}>
             <TouchableOpacity
@@ -266,7 +271,7 @@ function Details({ navigation, route }) {
           <View style={styles.buttonContainer}>
             {deleteBackButton()}
           </View>
-        </View>
+        </KeyboardAvoidingView>
         )}
       </ScrollView>
     </TouchableWithoutFeedback>

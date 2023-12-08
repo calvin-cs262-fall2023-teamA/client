@@ -185,9 +185,9 @@ function AddPage({ route }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
     <SafeAreaView style={{flex: 1, backgroundColor: '#EDE7E7'}}>
     <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} // Adjust the offset as needed
     >
       <View style={styles.imageSelector}>
         <ImageViewer
@@ -557,8 +557,9 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
-    marginTop: 12,
+    // marginTop: 0,
   },
+
   locationButtonTextUnselected: {
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',

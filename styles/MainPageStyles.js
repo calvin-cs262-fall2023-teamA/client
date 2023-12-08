@@ -325,7 +325,6 @@ const styles = StyleSheet.create({
       height: '50%',
       paddingHorizontal: '5%',
       borderRadius: 10,
-
       alignItems: 'center',
       justifyContent: 'center',
   },
