@@ -24,10 +24,6 @@ function Details({ navigation, route }) {
   const [profileIcon, setProfileIcon] = useState('');
   const [userLoading, setUserLoading] = useState(true);
 
-  // used for limit on comments so no words go off screen
-  const [isMaxLengthError, setMaxLengthError] = useState(false);
-
-
   //value stored in dropdown (see categories item label/value)
   const [value, setValue] = useState(null);
   //handles user clicking on dropdown. Opens/closes the dropdown menu.
