@@ -86,7 +86,7 @@ function AddPage({ route }) {
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: .25,
       base64: true, // enables the return of binary image data 
     });
 
@@ -128,7 +128,7 @@ function AddPage({ route }) {
   const takePhoto = async () => {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: .25,
       base64: true, // enables the return of binary image data 
     });
 
