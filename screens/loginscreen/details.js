@@ -24,6 +24,9 @@ function Details({ navigation, route }) {
   const [profileIcon, setProfileIcon] = useState('');
   const [userLoading, setUserLoading] = useState(true);
 
+  // used for limit on comments so no words go off screen
+  const [isMaxLengthError, setMaxLengthError] = useState(false);
+
 
   //value stored in dropdown (see categories item label/value)
   const [value, setValue] = useState(null);
@@ -101,9 +104,8 @@ function Details({ navigation, route }) {
       .catch(error => {
         console.error(error);
     });
-
     // Clear the comment in the TextInput
-    setComment('');
+    setComment(''); 
   };
 
   const handleDelete = () => {
@@ -257,6 +259,7 @@ function Details({ navigation, route }) {
                 autoCapitalize="none"
                 value={comment}
                 onChangeText={(text) => setComment(text)} // Update the comment state
+                maxLength={35} // if over 35 then I can't see the rest of comment because it goes off screen.
               />
               <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
                 <Image source={require('../../assets/send.png')} style={styles.sendIconStyle} />
