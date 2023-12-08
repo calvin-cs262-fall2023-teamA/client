@@ -30,7 +30,12 @@ function LoginScreen() {
     // if (email === 'admin' && password === 'password') {
     //   navigation.navigate('MainPage', { prevRoute: "Login" }); // Use navigation.navigate here
     // }
-
+    try {
+      // Clear all stored data in AsyncStorage
+      await AsyncStorage.clear()
+    } catch (error) {
+      console.error('Error during logout:', error)
+    }
     if (!email || !password) {
       alert('Email and password are required.');
       return;
