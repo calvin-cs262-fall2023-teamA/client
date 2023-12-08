@@ -272,21 +272,22 @@ const MainPage = ({ navigation, route }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
 
-          <TouchableOpacity style={styles.addButton}
-              onPress={() => {
-                  // send information to the main (current) page to "reset" the pop up.
-                  // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                  navigation.navigate({
-                      name: 'MainPage',
-                      params: { prevRoute: 'reset'},
-                      merge: true,
-                  }),
-                  // navigate to the AddPage (where the user will actually end up)
-                  navigation.navigate('AddPage')
-              }}>
-              <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
-          </TouchableOpacity>
-
+          {prevRoute !== "post" && prevRoute !== "claim" && (
+            <TouchableOpacity style={styles.addButton}
+                onPress={() => {
+                    // send information to the main (current) page to "reset" the pop up.
+                    // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                    navigation.navigate({
+                        name: 'MainPage',
+                        params: { prevRoute: 'reset'},
+                        merge: true,
+                    }),
+                    // navigate to the AddPage (where the user will actually end up)
+                    navigation.navigate('AddPage')
+                }}>
+                <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
+            </TouchableOpacity>
+          )}
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
