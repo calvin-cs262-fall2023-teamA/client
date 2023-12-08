@@ -557,14 +557,13 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
-    // marginTop: 0,
+    marginTop: 0,
   },
 
   locationButtonTextUnselected: {
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
-    
   },
   imageSelector:{ 
     flexDirection: 'row' 
