@@ -278,23 +278,15 @@ const MainPage = ({ navigation, route }) => {
         </TouchableOpacity>
       )}
 
-      {prevRoute === "post" && (
+      {(prevRoute === "post" || prevRoute === "claim") && (
         <FlatList
-        data={data}
-        keyExtractor={({id}) => id} // {(item) => item.id} // old
-        renderItem={renderItem}
-        style={{marginTop: 20}}
+          data={data}
+          keyExtractor={({ id }) => id}
+          renderItem={renderItem}
+          style={{ marginTop: 20 }}
         />
       )}
 
-      {prevRoute === "claim" && (
-        <FlatList
-        data={data}
-        keyExtractor={({id}) => id} // {(item) => item.id} // old
-        renderItem={renderItem}
-        style={{marginTop: 20}}
-        />
-      )}
 
       {prevRoute !== "post" && prevRoute !== "claim" && (
         <FlatList
