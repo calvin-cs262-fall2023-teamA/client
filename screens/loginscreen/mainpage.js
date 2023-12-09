@@ -268,9 +268,11 @@ const MainPage = ({ navigation, route }) => {
           <Text style={styles.pageTitle}>My archived Items</Text>
         </View>
       )}
-      <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
-        <Text style={styles.helpButton}>?</Text>
-      </TouchableOpacity>
+      {prevRoute !== "post" && prevRoute !== "claim" && (
+        <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+          <Text style={styles.helpButton}>?</Text>
+        </TouchableOpacity>
+      )}
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
