@@ -1,7 +1,7 @@
 /* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PopupScreen2 from './mainHelpPage';
 
@@ -265,6 +265,9 @@ const MainPage = ({ navigation, route }) => {
       </View>
     </TouchableOpacity>
   );
+
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); // Ignore all log notification
 
   return (
     <SafeAreaView style={styles.container}>
