@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Platform } from 'react-native';
+// Check if user device has notch
 const styles = StyleSheet.create({
   // Add your styles here to format the feed items, headers, images, etc.
   // This is a simplified example, and you may need to customize it further.
@@ -9,7 +9,19 @@ const styles = StyleSheet.create({
   },
   pageTitleContainer:{
     paddingHorizontal: 30,
-    paddingTop: 5,
+    paddingVertical: 10,
+    position: 'absolute',
+    backgroundColor: '#EDE7E7',
+    zIndex: 50,
+    width: '100%',
+    ...Platform.select({
+      ios: {
+        top: 30,
+      },
+      android: {
+        top: 0,
+      },
+    }),
   },
   pageTitle: {
     flexDirection: 'row',

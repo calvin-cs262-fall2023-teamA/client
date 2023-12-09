@@ -1,7 +1,7 @@
 /* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import {Platform, StatusBar, KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PopupScreen2 from './mainHelpPage';
 
@@ -34,6 +34,9 @@ const MainPage = ({ navigation, route }) => {
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
 
   const [isPopupVisible, setPopupVisibility] = useState(false);
+  // check if user device has notch nor not
+  const hasNotch = Platform.OS === 'ios' && StatusBar.currentHeight > 20;
+
 
   const toggleLostOrFoundFilter = () => {
     setLostOrFoundFilter(lostOrFoundFilter === 'Found' ? 'Lost' : 'Found');
@@ -255,7 +258,7 @@ const MainPage = ({ navigation, route }) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, (prevRoute === "post" || prevRoute === "claim" || hasNotch) ? { paddingTop: 30 } : {}]}>
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
       {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
       {prevRoute === "post" && (
@@ -265,7 +268,7 @@ const MainPage = ({ navigation, route }) => {
       )}
       {prevRoute === "claim" && (
         <View style={styles.pageTitleContainer}>
-          <Text style={styles.pageTitle}>My archived Items</Text>
+          <Text style={styles.pageTitle}>My Archived Items</Text>
         </View>
       )}
       {prevRoute !== "post" && prevRoute !== "claim" && (
