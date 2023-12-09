@@ -258,6 +258,16 @@ const MainPage = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
       {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
+      {prevRoute === "post" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Posted Items</Text>
+        </View>
+      )}
+      {prevRoute === "claim" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My archived Items</Text>
+        </View>
+      )}
       <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
         <Text style={styles.helpButton}>?</Text>
       </TouchableOpacity>

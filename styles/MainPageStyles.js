@@ -7,6 +7,18 @@ const styles = StyleSheet.create({
     flex: 1,  
     
   },
+  pageTitleContainer:{
+    paddingHorizontal: 30,
+    paddingTop: 5,
+  },
+  pageTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    fontWeight: '900',
+    // padding: 16,
+    fontSize: 25,
+    color: '#816D6F',
+  },
 
   container: {
     minHeight: '100%',
