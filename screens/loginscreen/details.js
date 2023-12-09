@@ -8,8 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
 import PopupScreen from './detailsHelpPage';
 /**
- * This page shows a detailed view of the selected item.
+ * Details component for displaying detailed information about a specific item.
  * This page also implements comments and allows the user to delete an item if they had posted it.
+ * @param {Object} navigation - Navigation object for screen navigation.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the Details component.
  **/
 
 function Details({ navigation, route }) {

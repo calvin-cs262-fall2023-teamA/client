@@ -8,9 +8,10 @@ import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,Touchabl
 import bcrypt from 'react-native-bcrypt';
 import Illustration from '../../assets/login-vector.svg';
 /**
- * This page implements the login function.
+ * LoginScreen component for user authentication.
  * It uses bcrypt to hash the user's entered password and check it with the stored 
  * password on the database.
+ * @returns {JSX.Element} - JSX representation of the LoginScreen component.
  * */
 
 

@@ -11,11 +11,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
 import PopupScreen3 from './profileHelpPage';
 /**
- * This page presents the current user's .
- * It uses bcrypt to hash the user's entered password and store it in the database.
+ * Profile component for displaying user profile information.
+ * This page allows users to view their profile details, including username, email, and profile picture.
+ * @returns {JSX.Element} - JSX representation of the profile page component.
  * */
 
-const Profile = ({}) => {
+const Profile = () => {
   const navigation = useNavigation()
 
   // image handled below
