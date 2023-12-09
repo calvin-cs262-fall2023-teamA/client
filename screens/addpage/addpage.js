@@ -13,7 +13,11 @@ import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Camera } from 'expo-camera';
-
+/**
+ * This page implements the add item function.
+ * The code uses expo-camera to allow users to click pictures in order to post.
+ * It uses react-native-maps to allow the user to select a location for the item.
+ * */
 
 function AddPage({ route }) {
   const navigation = useNavigation(); // used for navigation.navigate()

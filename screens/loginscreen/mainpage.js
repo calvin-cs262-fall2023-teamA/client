@@ -11,6 +11,18 @@ import * as demoImageGetter from '../addpage/demoimages'; // specifically for de
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 
+/**
+ * This page presents a simple list of items from the CalvinFinds database.
+ * The items are retrieved from the database usign ReactNative networking, which includes
+ * the item's id, title, description, category, location, lostfound status, datePosted, and other 
+ * categories of each item.
+ * The image for each item is retrieved from the storage accounts in Azure.
+ * 
+ * This page also displays the list of posted or archived items for the current user when
+ * navigated from the posted or archived button on the profile page.
+ * 
+ */
+
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);

@@ -7,7 +7,11 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import bcrypt from 'react-native-bcrypt';
 import Illustration from '../../assets/login-vector.svg';
-
+/**
+ * This page implements the login function.
+ * It uses bcrypt to hash the user's entered password and check it with the stored 
+ * password on the database.
+ * */
 
 
 function LoginScreen() {

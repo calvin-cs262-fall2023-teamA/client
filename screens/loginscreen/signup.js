@@ -5,6 +5,10 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import bcrypt from 'react-native-bcrypt';
+/**
+ * This page implements the signup function.
+ * It uses bcrypt to hash the user's entered password and store it in the database.
+ * */
 
 const LoginScreen = () => {
   const [Name, setName] = useState('')
