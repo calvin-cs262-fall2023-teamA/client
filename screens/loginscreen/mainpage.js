@@ -75,7 +75,7 @@ const MainPage = ({ navigation, route }) => {
     Right now, that just means that the user made an item listing at the "addPage" screen. */
   useEffect(() => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
-    if (prevRoute === 'archive') alert('Your item has been archived and will no longer appear in search results.')
+    if (prevRoute === 'delete') alert('Your item has been archived and will no longer appear in search results.');
   }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
@@ -90,8 +90,8 @@ const MainPage = ({ navigation, route }) => {
           alert("No posted items found.");
           navigation.navigate('Profile');
         }
-      } else if (prevRoute === "claim") {
-        // If coming from the profile page looking for user.claimUser (that user's claimed items)
+      } else if (prevRoute === "archived") {
+        // If coming from the profile page looking for user.postUser (that user's archived items)
         const archivedData = await getItemsArchived();
         // Handle empty array only when the data retrieval is complete
         if (archivedData.length === 0) {
@@ -119,7 +119,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItems = async () => {
     try {
-    const response = await fetch('https://calvinfinds.azurewebsites.net/items');
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items`);// /${lostOrFoundFilter}`); was used for remote filter
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -218,41 +218,45 @@ const MainPage = ({ navigation, route }) => {
         navigation.navigate('Details', { itemData: selectedItem }) // pass json data of a given item as itemData
     } 
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
-      <View style={styles.itemContainer}>
-        <View style={styles.postContainer}>
-            <View style={styles.row}>  
-                <View style={styles.nameDescription}>
-                    <Text style={styles.itemName}>
-                        {item.title}
-                    </Text>
-                    <Text style={styles.description}>
-                        {item.description}
-                    </Text>
-                </View>
+  const renderItem = ({ item }) => {
+    if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
+      return (
+        <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+          <View style={styles.itemContainer}>
+            <View style={styles.postContainer}>
+                <View style={styles.row}>  
+                    <View style={styles.nameDescription}>
+                        <Text style={styles.itemName}>
+                            {item.title}
+                        </Text>
+                        <Text style={styles.description}>
+                            {item.description}
+                        </Text>
+                    </View>
 
-                <View style={styles.userDate}>
-                    <Text style={styles.username}> 
-                        {item.name}
-                    </Text>
-                    <Text style={styles.date}>
-                        {item.dateposted}
-                    </Text>
-                    {/* comments should be only visible in item page */}
-                    {/* <Text style={styles.comments}>
-                        Comments
-                    </Text> */}
+                    <View style={styles.userDate}>
+                        <Text style={styles.username}> 
+                            {item.name}
+                        </Text>
+                        <Text style={styles.date}>
+                            {item.dateposted}
+                        </Text>
+                        {/* comments should be only visible in item page */}
+                        {/* <Text style={styles.comments}>
+                            Comments
+                        </Text> */}
+                    </View>
                 </View>
+                <Image
+                    source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                    style={styles.postImage}
+                />
             </View>
-            <Image
-                source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
-                style={styles.postImage}
-            />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+          </View>
+        </TouchableOpacity>
+      )}
+    return null; // else
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -315,7 +319,7 @@ const MainPage = ({ navigation, route }) => {
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
 
           <View style={styles.bottomRow}>
-
+            {/* {(prevRoute !== 'post' && prevRoute !== 'archived') && ( */}
             <View style={styles.toggleContainer}>
               <TouchableOpacity 
                 style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
@@ -335,7 +339,7 @@ const MainPage = ({ navigation, route }) => {
                 </View>
               </TouchableOpacity>
             </View>
-
+            {/* )} */}
             
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.

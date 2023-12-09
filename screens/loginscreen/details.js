@@ -115,7 +115,7 @@ function Details({ navigation, route }) {
       .catch(error => {
         console.error(error);
     });
-    navigation.navigate('MainPage', { prevRoute: 'archive' }); // change so that the user can get a message on main page
+    navigation.navigate('MainPage', { prevRoute: 'delete' }); // so that the user can get a message on main page
   };
 
   const deleteBackButton = () => {
