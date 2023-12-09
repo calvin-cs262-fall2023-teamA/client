@@ -258,9 +258,9 @@ const MainPage = ({ navigation, route }) => {
   );
 
   return (
-    <SafeAreaView style={[styles.container, (prevRoute === "post" || prevRoute === "claim" || hasNotch) ? { paddingTop: 30 } : {}]}>
+    <SafeAreaView style={styles.container}>
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
-      {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
+      {/* Title Bar */}
       {prevRoute === "post" && (
         <View style={styles.pageTitleContainer}>
           <Text style={styles.pageTitle}>My Posted Items</Text>
@@ -271,16 +271,39 @@ const MainPage = ({ navigation, route }) => {
           <Text style={styles.pageTitle}>My Archived Items</Text>
         </View>
       )}
+
       {prevRoute !== "post" && prevRoute !== "claim" && (
         <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
           <Text style={styles.helpButton}>?</Text>
         </TouchableOpacity>
       )}
+
+      {prevRoute === "post" && (
+        <FlatList
+        data={data}
+        keyExtractor={({id}) => id} // {(item) => item.id} // old
+        renderItem={renderItem}
+        style={{marginTop: 20}}
+        />
+      )}
+
+      {prevRoute === "claim" && (
+        <FlatList
+        data={data}
+        keyExtractor={({id}) => id} // {(item) => item.id} // old
+        renderItem={renderItem}
+        style={{marginTop: 20}}
+        />
+      )}
+
+      {prevRoute !== "post" && prevRoute !== "claim" && (
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
+      )}
+
         <KeyboardAvoidingView 
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.writeTaskWrapper}
