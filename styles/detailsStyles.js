@@ -272,6 +272,25 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 7, // android shadow
     },
+    deleteButtonContainer: {
+        borderRadius: 10,
+        backgroundColor: '#FB8282',
+        position: 'absolute',
+        right: 10,
+        top: 0,
+        zIndex: 500,
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7, // android shadow
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: '#FB8282', // red background
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     helpButton: {
         color: '#9E8B8D', 
         fontSize: 20,   

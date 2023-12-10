@@ -66,6 +66,22 @@ const Profile = ({}) => {
 }, []);
 
 useEffect(() => {
+  const fetchData = async () => {
+    // Fetch the archived items when the component mounts
+    try {
+      const archivedResponse = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
+      const archivedJson = await archivedResponse.json();
+      setArchivedCount(archivedJson.length);
+      await AsyncStorage.setItem('archivedData', JSON.stringify(archivedJson));
+    } catch (error) {
+      setArchivedCount(0);
+    }
+  };
+
+  fetchData(); // Call the function
+}, [userID]);
+
+useEffect(() => {
   // whenever user data is gotten from async storage (currently the only time setUserID is used.)
   // necessary because userID is needed for the following function, but wasn't updated because retrieveUserData is async 
   if (userID !== '') updateCount();

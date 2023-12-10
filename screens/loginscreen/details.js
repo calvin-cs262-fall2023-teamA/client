@@ -8,11 +8,11 @@ import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
 import PopupScreen from './detailsHelpPage';
+import WarnScreen from './warningPageforDelete';
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
-  const [displayedComment, setDisplayedComment] = useState(); 
-  // State to store the comment to be displayed
+  const [displayedComment, setDisplayedComment] = useState(); // State to store the comment to be displayed
   const {itemData} = route.params; 
 
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
@@ -31,11 +31,16 @@ function Details({ navigation, route }) {
   const [open, setOpen] = useState(false); 
   // help page pop-up
   const [isPopupVisible, setPopupVisibility] = useState(false);
+   // warning popup when you delete an item
+   const [isWarningVisible, setWarningVisibility] = useState(false);
 
   const [email, setEmail] = useState('');
 
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
+  };
+  const warningPopup = () => {
+    setWarningVisibility(!isWarningVisible);
   };
   //comments
   let readComments = [];
@@ -107,17 +112,8 @@ function Details({ navigation, route }) {
   };
 
   const handleDelete = () => {
-    // updates archived -> true for a given item
-    fetch(`https://calvinfinds.azurewebsites.net/items/archive/${itemData.id}`, {
-        method: 'POST', // actually PUT, but it works with POST and not PUT.
-      })
-      .then((response) => response.json)
-      .catch(error => {
-        console.error(error);
-    });
-    navigation.navigate('MainPage', { prevRoute: 'archive' }); // change so that the user can get a message on main page
-  };
-
+    warningPopup();
+  }
   const deleteBackButton = () => {
     if (userID === itemData.postuser) {
       return ( <>
@@ -127,8 +123,9 @@ function Details({ navigation, route }) {
           <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
             <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
-        </>)
-    } 
+        </>
+        );
+    };
     
     //else
     // disabled for readability
@@ -137,9 +134,10 @@ function Details({ navigation, route }) {
       <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
-    </>)
+    </>
+    );
     
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -270,6 +268,7 @@ function Details({ navigation, route }) {
           </View>
           <View style={styles.buttonContainer}>
             {deleteBackButton()}
+            <WarnScreen isVisible={isWarningVisible} onClose={warningPopup} navigation={navigation} route={route}/>
           </View>
         </KeyboardAvoidingView>
         )}
