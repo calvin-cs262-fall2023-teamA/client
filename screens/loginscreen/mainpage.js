@@ -120,7 +120,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItems = async () => {
     try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items`);
+    const response = await fetch('https://calvinfinds.azurewebsites.net/items');
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -220,6 +220,7 @@ const MainPage = ({ navigation, route }) => {
     } 
 
   const renderItem = ({ item }) => {
+    // Filter for lost vs found. Only load the item if it matches the filter switch's current state.
     if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
       return (
         <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
