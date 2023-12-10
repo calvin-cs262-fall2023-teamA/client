@@ -178,7 +178,7 @@ try {
           <Text style={styles.tertiaryButtonText}>Posted</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "claim", key: Math.random().toString()})}>
+        <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "archived", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>{archivedCount}</Text>
           <Text style={styles.tertiaryButtonText}>Archived</Text>
         </TouchableOpacity> 
