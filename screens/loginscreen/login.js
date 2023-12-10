@@ -4,10 +4,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList, LogBox} from 'react-native';
 import bcrypt from 'react-native-bcrypt';
 import Illustration from '../../assets/login-vector.svg';
-
+/**
+ * LoginScreen component for user authentication.
+ * It uses bcrypt to hash the user's entered password and check it with the stored 
+ * password on the database.
+ * @returns {JSX.Element} - JSX representation of the LoginScreen component.
+ * */
 
 
 function LoginScreen() {
@@ -73,6 +78,10 @@ function LoginScreen() {
     setEmail('');
     setPassword('');
   }, [route.params]);
+
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); // Ignore all log notification
+
   return (    
     // TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 

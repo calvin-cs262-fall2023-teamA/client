@@ -5,8 +5,13 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
 import bcrypt from 'react-native-bcrypt';
+/**
+ * Signup component for user registration and account creation.
+ * It uses bcrypt to hash the user's entered password and store it in the database.
+ * @returns {JSX.Element} - JSX representation of the Signup component. 
+* */
 
-const LoginScreen = () => {
+const Signup = () => {
   const [Name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -100,6 +105,7 @@ const LoginScreen = () => {
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
 
@@ -114,6 +120,7 @@ const LoginScreen = () => {
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
         {/* password input */}
@@ -307,4 +314,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LoginScreen
+export default Signup

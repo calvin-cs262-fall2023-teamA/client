@@ -1,7 +1,7 @@
 /* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import { Platform, StatusBar, KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PopupScreen2 from './mainHelpPage';
 
@@ -10,6 +10,21 @@ import styles from '../../styles/MainPageStyles';
 import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
+
+/**
+ * Main page component for the application.
+ * This page presents a simple list of items from the CalvinFinds database.
+ * The items are retrieved from the database usign ReactNative networking, which includes
+ * the item's id, title, description, category, location, lostfound status, datePosted, and other 
+ * categories of each item.
+ * The image for each item is retrieved from the storage accounts in Azure.
+ * 
+ * This page also displays the list of posted or archived items for the current user when
+ * navigated from the posted or archived button on the profile page.
+ * @param {Object} navigation - Navigation object for screen navigation.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the main page component.
+ */
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,6 +49,9 @@ const MainPage = ({ navigation, route }) => {
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
 
   const [isPopupVisible, setPopupVisibility] = useState(false);
+  // check if user device has notch nor not
+  const hasNotch = Platform.OS === 'ios' && StatusBar.currentHeight > 20;
+
 
   const toggleLostOrFoundFilter = () => {
     setLostOrFoundFilter(lostOrFoundFilter === 'Found' ? 'Lost' : 'Found');
@@ -63,11 +81,12 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-  // clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
+  // clears results (resets search to show all results to user) when "x" is pressed.
   const resetSearch = () => {
     // called by "x" button displayed when search bar is open.
-    handleSearch() // what was originally called by that button
-    getItems() // reset the search results.
+    handleSearch() // collapse search bar
+    // reset the search results. Based on whether you are looking through archived, posted, or all items.
+    fetchData()
   }
 
   /* Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
@@ -75,7 +94,7 @@ const MainPage = ({ navigation, route }) => {
     Right now, that just means that the user made an item listing at the "addPage" screen. */
   useEffect(() => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
-    if (prevRoute === 'archive') alert('Your item has been archived and will no longer appear in search results.')
+    if (prevRoute === 'delete') alert('Your item has been archived and will no longer appear in search results.');
   }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
@@ -90,8 +109,8 @@ const MainPage = ({ navigation, route }) => {
           alert("No posted items found.");
           navigation.navigate('Profile');
         }
-      } else if (prevRoute === "claim") {
-        // If coming from the profile page looking for user.claimUser (that user's claimed items)
+      } else if (prevRoute === "archived") {
+        // If coming from the profile page looking for user.postUser (that user's archived items)
         const archivedData = await getItemsArchived();
         // Handle empty array only when the data retrieval is complete
         if (archivedData.length === 0) {
@@ -136,7 +155,7 @@ const MainPage = ({ navigation, route }) => {
   const searchItem = async (text) => {
     setSearchedItem(text)
     try {
-      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}`);
+      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}/${userID}/${prevRoute}`);
         const json = await response.json();
         setData(json);
       } catch (error) {
@@ -148,51 +167,51 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
 
-  // Retrieve posted data from AsyncStorage
-  try {
     // Retrieve posted data from AsyncStorage
-    const postedData = await AsyncStorage.getItem('postedData');
+    try {
+      // Retrieve posted data from AsyncStorage
+      const postedData = await AsyncStorage.getItem('postedData');
 
-    if (postedData) {
-      // Parse the string as JSON
-      const json = JSON.parse(postedData);
-      // Set the data state
-      setData(json);
-      return json;
+      if (postedData) {
+        // Parse the string as JSON
+        const json = JSON.parse(postedData);
+        // Set the data state
+        setData(json);
+        return json;
+      }
+      setData([]);
+      return [];
+    } catch (error) {
+      // Handle errors
+      setData([]);
+      return [];
+    } finally {
+      setIsLoading(false);
     }
-    setData([]);
-    return [];
-  } catch (error) {
-    // Handle errors
-    setData([]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
-  };
+    };
 
   const getItemsArchived = async () => {
 
-  try {
-    // Retrieve archived data from AsyncStorage
-    const archivedData = await AsyncStorage.getItem('archivedData');
+    try {
+      // Retrieve archived data from AsyncStorage
+      const archivedData = await AsyncStorage.getItem('archivedData');
 
-    if (archivedData) {
-      // Parse the string as JSON
-      const json = JSON.parse(archivedData);
-      // Set the data state
-      setData(json);
-      return json;
+      if (archivedData) {
+        // Parse the string as JSON
+        const json = JSON.parse(archivedData);
+        // Set the data state
+        setData(json);
+        return json;
+      }
+      setData([]);
+      return [];
+    } catch (error) {
+      // Handle errors
+      setData([]);
+      return [];
+    } finally {
+      setIsLoading(false);
     }
-    setData([]);
-    return [];
-  } catch (error) {
-    // Handle errors
-    setData([]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
   };
 
   const generatePlaceholderData = (count) => {
@@ -218,75 +237,107 @@ const MainPage = ({ navigation, route }) => {
         navigation.navigate('Details', { itemData: selectedItem }) // pass json data of a given item as itemData
     } 
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
-      <View style={styles.itemContainer}>
-        <View style={styles.postContainer}>
-            <View style={styles.row}>  
-                <View style={styles.nameDescription}>
-                    <Text style={styles.itemName}>
-                        {item.title}
-                    </Text>
-                    <Text style={styles.description}>
-                        {item.description}
-                    </Text>
-                </View>
+  const renderItem = ({ item }) => {
+    // Filter for lost vs found. Only load the item if it matches the filter switch's current state.
+    if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
+      return (
+        <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+          <View style={styles.itemContainer}>
+            <View style={styles.postContainer}>
+                <View style={styles.row}>  
+                    <View style={styles.nameDescription}>
+                        <Text style={styles.itemName}>
+                            {item.title}
+                        </Text>
+                        <Text style={styles.description}>
+                            {item.description}
+                        </Text>
+                    </View>
 
-                <View style={styles.userDate}>
-                    <Text style={styles.username}> 
-                        {item.name}
-                    </Text>
-                    <Text style={styles.date}>
-                        {item.dateposted}
-                    </Text>
-                    {/* comments should be only visible in item page */}
-                    {/* <Text style={styles.comments}>
-                        Comments
-                    </Text> */}
+                    <View style={styles.userDate}>
+                        <Text style={styles.username}> 
+                            {item.name}
+                        </Text>
+                        <Text style={styles.date}>
+                            {item.dateposted}
+                        </Text>
+                    </View>
                 </View>
+                <Image
+                    source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                    style={styles.postImage}
+                />
             </View>
-            <Image
-                source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
-                style={styles.postImage}
-            />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+          </View>
+        </TouchableOpacity>
+      )}
+    return null; // else
+  };
+
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); // Ignore all log notification
 
   return (
     <SafeAreaView style={styles.container}>
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
-      {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
-      <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
-        <Text style={styles.helpButton}>?</Text>
-      </TouchableOpacity>
+      {/* Title Bar */}
+      {prevRoute === "post" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Posted Items</Text>
+        </View>
+      )}
+      {prevRoute === "archived" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Archived Items</Text>
+        </View>
+      )}
+
+      {prevRoute !== "post" && prevRoute !== "archived" && (
+        <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+          <Text style={styles.helpButton}>?</Text>
+        </TouchableOpacity>
+      )}
+
+      {(prevRoute === "post" || prevRoute === "archived") && (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }) => id}
+          renderItem={renderItem}
+          style={{ marginTop: 20 }}
+        />
+      )}
+
+
+      {prevRoute !== "post" && prevRoute !== "archived" && (
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
+      )}
+
         <KeyboardAvoidingView 
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.writeTaskWrapper}
           keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
 
-          <TouchableOpacity style={styles.addButton}
-              onPress={() => {
-                  // send information to the main (current) page to "reset" the pop up.
-                  // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                  navigation.navigate({
-                      name: 'MainPage',
-                      params: { prevRoute: 'reset'},
-                      merge: true,
-                  }),
-                  // navigate to the AddPage (where the user will actually end up)
-                  navigation.navigate('AddPage')
-              }}>
-              <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
-          </TouchableOpacity>
-
+          {prevRoute !== "post" && prevRoute !== "archived" && (
+            <TouchableOpacity style={styles.addButton}
+                onPress={() => {
+                    // send information to the main (current) page to "reset" the pop up.
+                    // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                    navigation.navigate({
+                        name: 'MainPage',
+                        params: { prevRoute: 'reset'},
+                        merge: true,
+                    }),
+                    // navigate to the AddPage (where the user will actually end up)
+                    navigation.navigate('AddPage')
+                }}>
+                <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
+            </TouchableOpacity>
+          )}
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
@@ -315,7 +366,6 @@ const MainPage = ({ navigation, route }) => {
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
 
           <View style={styles.bottomRow}>
-
             <View style={styles.toggleContainer}>
               <TouchableOpacity 
                 style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
@@ -335,7 +385,6 @@ const MainPage = ({ navigation, route }) => {
                 </View>
               </TouchableOpacity>
             </View>
-
             
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.
