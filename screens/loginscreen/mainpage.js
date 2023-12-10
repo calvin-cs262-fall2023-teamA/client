@@ -286,19 +286,19 @@ const MainPage = ({ navigation, route }) => {
           <Text style={styles.pageTitle}>My Posted Items</Text>
         </View>
       )}
-      {prevRoute === "claim" && (
+      {prevRoute === "archived" && (
         <View style={styles.pageTitleContainer}>
           <Text style={styles.pageTitle}>My Archived Items</Text>
         </View>
       )}
 
-      {prevRoute !== "post" && prevRoute !== "claim" && (
+      {prevRoute !== "post" && prevRoute !== "archived" && (
         <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
           <Text style={styles.helpButton}>?</Text>
         </TouchableOpacity>
       )}
 
-      {(prevRoute === "post" || prevRoute === "claim") && (
+      {(prevRoute === "post" || prevRoute === "archived") && (
         <FlatList
           data={data}
           keyExtractor={({ id }) => id}
@@ -308,7 +308,7 @@ const MainPage = ({ navigation, route }) => {
       )}
 
 
-      {prevRoute !== "post" && prevRoute !== "claim" && (
+      {prevRoute !== "post" && prevRoute !== "archived" && (
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
@@ -322,7 +322,7 @@ const MainPage = ({ navigation, route }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
 
-          {prevRoute !== "post" && prevRoute !== "claim" && (
+          {prevRoute !== "post" && prevRoute !== "archived" && (
             <TouchableOpacity style={styles.addButton}
                 onPress={() => {
                     // send information to the main (current) page to "reset" the pop up.
