@@ -235,6 +235,7 @@ function AddPage({ route }) {
               onFocus={() => setInputFieldFocused(true)}
               onBlur={() => setInputFieldFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
         {/* <InputField header="Description" bodySize={50} changeText={setDescription} /> */}
@@ -246,6 +247,7 @@ function AddPage({ route }) {
               onFocus={() => setDescriptionFocused(true)}
               onBlur={() => setDescriptionFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
