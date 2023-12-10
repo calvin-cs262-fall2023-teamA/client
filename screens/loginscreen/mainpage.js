@@ -1,7 +1,7 @@
 /* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PopupScreen2 from './mainHelpPage';
 
@@ -10,6 +10,21 @@ import styles from '../../styles/MainPageStyles';
 import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
+
+/**
+ * Main page component for the application.
+ * This page presents a simple list of items from the CalvinFinds database.
+ * The items are retrieved from the database usign ReactNative networking, which includes
+ * the item's id, title, description, category, location, lostfound status, datePosted, and other 
+ * categories of each item.
+ * The image for each item is retrieved from the storage accounts in Azure.
+ * 
+ * This page also displays the list of posted or archived items for the current user when
+ * navigated from the posted or archived button on the profile page.
+ * @param {Object} navigation - Navigation object for screen navigation.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the main page component.
+ */
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -148,51 +163,51 @@ const MainPage = ({ navigation, route }) => {
 
   const getItemsPosted = async () => {
 
-  // Retrieve posted data from AsyncStorage
-  try {
     // Retrieve posted data from AsyncStorage
-    const postedData = await AsyncStorage.getItem('postedData');
+    try {
+      // Retrieve posted data from AsyncStorage
+      const postedData = await AsyncStorage.getItem('postedData');
 
-    if (postedData) {
-      // Parse the string as JSON
-      const json = JSON.parse(postedData);
-      // Set the data state
-      setData(json);
-      return json;
+      if (postedData) {
+        // Parse the string as JSON
+        const json = JSON.parse(postedData);
+        // Set the data state
+        setData(json);
+        return json;
+      }
+      setData([]);
+      return [];
+    } catch (error) {
+      // Handle errors
+      setData([]);
+      return [];
+    } finally {
+      setIsLoading(false);
     }
-    setData([]);
-    return [];
-  } catch (error) {
-    // Handle errors
-    setData([]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
-  };
+    };
 
   const getItemsArchived = async () => {
 
-  try {
-    // Retrieve archived data from AsyncStorage
-    const archivedData = await AsyncStorage.getItem('archivedData');
+    try {
+      // Retrieve archived data from AsyncStorage
+      const archivedData = await AsyncStorage.getItem('archivedData');
 
-    if (archivedData) {
-      // Parse the string as JSON
-      const json = JSON.parse(archivedData);
-      // Set the data state
-      setData(json);
-      return json;
+      if (archivedData) {
+        // Parse the string as JSON
+        const json = JSON.parse(archivedData);
+        // Set the data state
+        setData(json);
+        return json;
+      }
+      setData([]);
+      return [];
+    } catch (error) {
+      // Handle errors
+      setData([]);
+      return [];
+    } finally {
+      setIsLoading(false);
     }
-    setData([]);
-    return [];
-  } catch (error) {
-    // Handle errors
-    setData([]);
-    return [];
-  } finally {
-    setIsLoading(false);
-  }
   };
 
   const generatePlaceholderData = (count) => {
@@ -253,6 +268,9 @@ const MainPage = ({ navigation, route }) => {
       </View>
     </TouchableOpacity>
   );
+
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); // Ignore all log notification
 
   return (
     <SafeAreaView style={styles.container}>

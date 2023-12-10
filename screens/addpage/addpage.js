@@ -13,7 +13,13 @@ import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Camera } from 'expo-camera';
-
+/**
+ * AddPage component for entering information about a new item to be added to the database.
+ * The code uses expo-camera to allow users to click pictures in order to post.
+ * It uses react-native-maps to allow the user to select a location for the item.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the AddPage component.
+ * */
 
 function AddPage({ route }) {
   const navigation = useNavigation(); // used for navigation.navigate()
