@@ -338,6 +338,22 @@ const MainPage = ({ navigation, route }) => {
                 <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
             </TouchableOpacity>
           )}
+          {(prevRoute === "post" || prevRoute === "archived") && (
+            <TouchableOpacity style={styles.addButton}
+                onPress={() => {
+                    // send information to the main (current) page to "reset" the page.
+                    // changes from the posted/archived view to the default (all posts) view
+                    navigation.navigate({
+                        name: 'MainPage',
+                        params: { prevRoute: 'reset'},
+                        merge: true,
+                    }),
+                    // navigate to the profile page (where the user will actually end up)
+                    navigation.navigate('Profile')
+                }}>
+                <Image source={require('../../assets/send.png')} style={styles.addIconStyle} />
+            </TouchableOpacity>
+          )}
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
