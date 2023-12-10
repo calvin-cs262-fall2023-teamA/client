@@ -105,6 +105,7 @@ const Signup = () => {
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
 
@@ -119,6 +120,7 @@ const Signup = () => {
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
         {/* password input */}

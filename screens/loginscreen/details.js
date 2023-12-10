@@ -268,6 +268,7 @@ function Details({ navigation, route }) {
                 autoCapitalize="none"
                 value={comment}
                 onChangeText={(text) => setComment(text)} // Update the comment state
+                maxLength ={50} // the limit on the database is 50 characters
               />
               <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
                 <Image source={require('../../assets/send.png')} style={styles.sendIconStyle} />
