@@ -63,11 +63,12 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-  // clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
+  // clears results (resets search to show all results to user) when "x" is pressed.
   const resetSearch = () => {
     // called by "x" button displayed when search bar is open.
-    handleSearch() // what was originally called by that button
-    getItems() // reset the search results.
+    handleSearch() // collapse search bar
+    // reset the search results. Based on whether you are looking through archived, posted, or all items.
+    fetchData()
   }
 
   /* Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
@@ -119,7 +120,7 @@ const MainPage = ({ navigation, route }) => {
 
   const getItems = async () => {
     try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items`);// /${lostOrFoundFilter}`); was used for remote filter
+    const response = await fetch(`https://calvinfinds.azurewebsites.net/items`);
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -136,7 +137,7 @@ const MainPage = ({ navigation, route }) => {
   const searchItem = async (text) => {
     setSearchedItem(text)
     try {
-      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}/${lostOrFoundFilter}/${userID}/${prevRoute}`);
+      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}/${userID}/${prevRoute}`);
         const json = await response.json();
         setData(json);
       } catch (error) {
