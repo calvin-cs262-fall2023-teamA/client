@@ -242,10 +242,6 @@ const MainPage = ({ navigation, route }) => {
                         <Text style={styles.date}>
                             {item.dateposted}
                         </Text>
-                        {/* comments should be only visible in item page */}
-                        {/* <Text style={styles.comments}>
-                            Comments
-                        </Text> */}
                     </View>
                 </View>
                 <Image
@@ -320,7 +316,6 @@ const MainPage = ({ navigation, route }) => {
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
 
           <View style={styles.bottomRow}>
-            {/* {(prevRoute !== 'post' && prevRoute !== 'archived') && ( */}
             <View style={styles.toggleContainer}>
               <TouchableOpacity 
                 style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
@@ -340,7 +335,6 @@ const MainPage = ({ navigation, route }) => {
                 </View>
               </TouchableOpacity>
             </View>
-            {/* )} */}
             
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.
