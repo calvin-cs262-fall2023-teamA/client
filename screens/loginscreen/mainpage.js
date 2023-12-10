@@ -1,7 +1,7 @@
 /* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, LogBox } from 'react-native';
+import { Platform, StatusBar, KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, LogBox } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PopupScreen2 from './mainHelpPage';
 
@@ -49,6 +49,9 @@ const MainPage = ({ navigation, route }) => {
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
 
   const [isPopupVisible, setPopupVisibility] = useState(false);
+  // check if user device has notch nor not
+  const hasNotch = Platform.OS === 'ios' && StatusBar.currentHeight > 20;
+
 
   const toggleLostOrFoundFilter = () => {
     setLostOrFoundFilter(lostOrFoundFilter === 'Found' ? 'Lost' : 'Found');
@@ -275,36 +278,64 @@ const MainPage = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
-      {/* <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} /> */}
-      <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
-        <Text style={styles.helpButton}>?</Text>
-      </TouchableOpacity>
+      {/* Title Bar */}
+      {prevRoute === "post" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Posted Items</Text>
+        </View>
+      )}
+      {prevRoute === "claim" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Archived Items</Text>
+        </View>
+      )}
+
+      {prevRoute !== "post" && prevRoute !== "claim" && (
+        <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+          <Text style={styles.helpButton}>?</Text>
+        </TouchableOpacity>
+      )}
+
+      {(prevRoute === "post" || prevRoute === "claim") && (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }) => id}
+          renderItem={renderItem}
+          style={{ marginTop: 20 }}
+        />
+      )}
+
+
+      {prevRoute !== "post" && prevRoute !== "claim" && (
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
+      )}
+
         <KeyboardAvoidingView 
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.writeTaskWrapper}
           keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
 
-          <TouchableOpacity style={styles.addButton}
-              onPress={() => {
-                  // send information to the main (current) page to "reset" the pop up.
-                  // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                  navigation.navigate({
-                      name: 'MainPage',
-                      params: { prevRoute: 'reset'},
-                      merge: true,
-                  }),
-                  // navigate to the AddPage (where the user will actually end up)
-                  navigation.navigate('AddPage')
-              }}>
-              <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
-          </TouchableOpacity>
-
+          {prevRoute !== "post" && prevRoute !== "claim" && (
+            <TouchableOpacity style={styles.addButton}
+                onPress={() => {
+                    // send information to the main (current) page to "reset" the pop up.
+                    // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                    navigation.navigate({
+                        name: 'MainPage',
+                        params: { prevRoute: 'reset'},
+                        merge: true,
+                    }),
+                    // navigate to the AddPage (where the user will actually end up)
+                    navigation.navigate('AddPage')
+                }}>
+                <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
+            </TouchableOpacity>
+          )}
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
