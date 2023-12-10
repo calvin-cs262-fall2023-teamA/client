@@ -13,7 +13,13 @@ import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Camera } from 'expo-camera';
-
+/**
+ * AddPage component for entering information about a new item to be added to the database.
+ * The code uses expo-camera to allow users to click pictures in order to post.
+ * It uses react-native-maps to allow the user to select a location for the item.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the AddPage component.
+ * */
 
 function AddPage({ route }) {
   const navigation = useNavigation(); // used for navigation.navigate()
@@ -86,7 +92,7 @@ function AddPage({ route }) {
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: .25,
       base64: true, // enables the return of binary image data 
     });
 
@@ -128,7 +134,7 @@ function AddPage({ route }) {
   const takePhoto = async () => {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: .25,
       base64: true, // enables the return of binary image data 
     });
 
@@ -557,14 +563,13 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
-    // marginTop: 0,
+    marginTop: 0,
   },
 
   locationButtonTextUnselected: {
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
-    
   },
   imageSelector:{ 
     flexDirection: 'row' 

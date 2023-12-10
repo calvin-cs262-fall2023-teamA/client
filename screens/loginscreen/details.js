@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* I changed this file with eslint up intill the return statement */
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,6 +7,13 @@ import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
 import PopupScreen from './detailsHelpPage';
+/**
+ * Details component for displaying detailed information about a specific item.
+ * This page also implements comments and allows the user to delete an item if they had posted it.
+ * @param {Object} navigation - Navigation object for screen navigation.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the Details component.
+ **/
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment

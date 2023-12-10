@@ -10,8 +10,13 @@ import ImageViewer from '../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../addpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
 import PopupScreen3 from './profileHelpPage';
+/**
+ * Profile component for displaying user profile information.
+ * This page allows users to view their profile details, including username, email, and profile picture.
+ * @returns {JSX.Element} - JSX representation of the profile page component.
+ * */
 
-const Profile = ({}) => {
+const Profile = () => {
   const navigation = useNavigation()
 
   // image handled below
