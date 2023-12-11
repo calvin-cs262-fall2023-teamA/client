@@ -173,7 +173,7 @@ function Details({ navigation, route }) {
           </View>
 
           <View style={styles.commentContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 // send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -185,9 +185,9 @@ function Details({ navigation, route }) {
                 // navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
               }}
-            >
+            > */}
               <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
-            </TouchableOpacity>
+            {/* </TouchableOpacity> */}
 
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
@@ -210,7 +210,7 @@ function Details({ navigation, route }) {
           {!isLoading && displayedComment.map((commentData, index) => (
             //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
             <View key={index} style={styles.userCommentContainer}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -222,10 +222,10 @@ function Details({ navigation, route }) {
                 // Navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
                 }}
-              >
+              > */}
                 <Image source={commentData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(commentData.profileimage)} 
                 style={styles.userIconStyle} />
-              </TouchableOpacity>
+              {/* </TouchableOpacity> */}
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{commentData.name}</Text>
               <Text style={styles.userComment}>{commentData.content}</Text>
