@@ -70,6 +70,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
     },
+    userFoundOrLostText:{
+        fontWeight: '700',
+        fontSize: 15,
+        color: '#9E8B8D',
+    },
     itemName: {
         flexDirection: 'row',
         alignItems: 'center',

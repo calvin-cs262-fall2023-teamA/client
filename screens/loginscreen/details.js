@@ -163,7 +163,7 @@ function Details({ navigation, route }) {
           />
           <View style={styles.row}>
             <View>
-            <Text>{itemData.name} {itemData.lostfound} a...</Text>
+            <Text style={styles.userFoundOrLostText}>{itemData.name} {itemData.lostfound} a...</Text>
               <Text style={styles.itemName}>{itemData.title}</Text>
             </View>
             <View>
