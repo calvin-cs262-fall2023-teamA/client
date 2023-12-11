@@ -338,7 +338,9 @@ const MainPage = ({ navigation, route }) => {
                 <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
             </TouchableOpacity>
           )}
-          {(prevRoute === "post" || prevRoute === "archived") && (
+
+          {/* What is this? Why not click the user icon to go to the profile page? */}
+          {(prevRoute !== "post" || prevRoute !== "archived") && (
             <TouchableOpacity style={styles.addButton}
                 onPress={() => {
                     // send information to the main (current) page to "reset" the page.
@@ -354,6 +356,7 @@ const MainPage = ({ navigation, route }) => {
                 <Image source={require('../../assets/send.png')} style={styles.addIconStyle} />
             </TouchableOpacity>
           )}
+
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
