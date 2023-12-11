@@ -145,6 +145,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         backgroundColor: '#fff',
         borderRadius: 15,
+        borderTopRightRadius: 50,
+        borderBottomRightRadius: 50,
         justifyContent: 'space-between',
     },
     inputText:{
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFAF66', // Background color of the search button
         paddingVertical: 8,
         paddingHorizontal: 10,
-        borderRadius: 15,
+        borderRadius: 55,
         padding: 3,
     },
     bottomContainer: {
