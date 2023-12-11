@@ -12,6 +12,7 @@ import Details from './screens/loginscreen/details';
 import PopupScreen from './screens/loginscreen/detailsHelpPage';
 import PopupScreen2 from './screens/loginscreen/mainHelpPage';
 import PopupScreen3 from './screens/loginscreen/profileHelpPage';
+import WarnScreen from './screens/loginscreen/warningPage';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ function Navigation() {
         <Stack.Screen name="PopupScreen" component={PopupScreen} />
         <Stack.Screen name="PopupScreen2" component={PopupScreen2} />
         <Stack.Screen name="PopupScreen3" component={PopupScreen3} />
+        <Stack.Screen name="WarnScreen" component={WarnScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
