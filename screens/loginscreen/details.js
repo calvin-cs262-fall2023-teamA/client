@@ -38,7 +38,6 @@ function Details({ navigation, route }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
 
   const [email, setEmail] = useState('');
-  console.log(prevRoute);
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
