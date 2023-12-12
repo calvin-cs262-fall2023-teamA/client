@@ -187,7 +187,7 @@ try {
       </View>
 
       <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.navigate('MainPage')}>
-        <Text style={styles.primaryButtonText}>Go Back</Text>
+        <Text style={styles.primaryButtonText}>Go to Main Page</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.secondaryButton} onPress={handleLogout}>
