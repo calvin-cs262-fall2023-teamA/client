@@ -107,7 +107,7 @@ const MainPage = ({ navigation, route }) => {
         // Handle empty array only when the data retrieval is complete
         if (postData.length === 0) {
           alert("No posted items found.");
-          navigation.navigate('Profile');
+          navigation.navigate('Profile', {prevRoute : 'post'});
         }
       } else if (prevRoute === "archived") {
         // If coming from the profile page looking for user.postUser (that user's archived items)
@@ -115,7 +115,7 @@ const MainPage = ({ navigation, route }) => {
         // Handle empty array only when the data retrieval is complete
         if (archivedData.length === 0) {
           alert("No archived items found.");
-          navigation.navigate('Profile');
+          navigation.navigate('Profile', {prevRoute : 'archived'});
         }
       } else {
         // Default case, e.g., loading all items
@@ -234,7 +234,8 @@ const MainPage = ({ navigation, route }) => {
             merge: true,
         }),
         // navigate to the AddPage (where the user will actually end up)
-        navigation.navigate('Details', { itemData: selectedItem }) // pass json data of a given item as itemData
+        console.log(prevRoute);
+        navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 
   const renderItem = ({ item }) => {
