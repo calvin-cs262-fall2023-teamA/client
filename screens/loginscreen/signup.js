@@ -106,6 +106,7 @@ const Signup = () => {
               onBlur={() => setNameFocused(false)}
               style={styles.inputText}
               maxLength ={50} // the limit on the database is 50 characters
+              // autoCapitalize="none" // Disable auto-capitalization
           />
         </View>
 
@@ -121,6 +122,7 @@ const Signup = () => {
               onBlur={() => setEmailFocused(false)}
               style={styles.inputText}
               maxLength ={50} // the limit on the database is 50 characters
+              autoCapitalize="none" // Disable auto-capitalization
           />
         </View>
         {/* password input */}
@@ -134,6 +136,7 @@ const Signup = () => {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
+            autoCapitalize="none" // Disable auto-capitalization
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
@@ -155,6 +158,7 @@ const Signup = () => {
                 secureTextEntry={!isRepeatPasswordVisible} // Toggle based on isPasswordVisible
                 onFocus={() => setRepeatPasswordFocused(true)}
                 onBlur={() => setRepeatPasswordFocused(false)}
+                autoCapitalize="none" // Disable auto-capitalization
                 style={styles.inputText}
             />
             <TouchableOpacity onPress={() => setRepeatPasswordVisible(!isRepeatPasswordVisible)}>

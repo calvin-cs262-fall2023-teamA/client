@@ -18,9 +18,9 @@ import WarnScreen from './warningPage';
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
-  const [displayedComment, setDisplayedComment] = useState();  // State to store the comment to be displayed
-  const {itemData} = route.params; 
-
+  const [displayedComment, setDisplayedComment] = useState();  
+  // State to store the comment to be displayed
+  const {itemData, prevRoute } = route.params || {};  
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
   // these states are used to display username for comments
@@ -41,7 +41,6 @@ function Details({ navigation, route }) {
   const [isWarningVisible, setWarningVisibility] = useState(false);
 
   const [email, setEmail] = useState('');
-
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
@@ -122,13 +121,39 @@ function Details({ navigation, route }) {
     warningPopup();
   };
 
+  const handleGoBack = () => {
+    console.log("PrevRoute: ", prevRoute);
+    if (prevRoute === "post"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+    } else if (prevRoute === "archived"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "archived", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+  }else{
+    try {
+      // Navigate to the main page
+      navigation.navigate('MainPage', { prevRoute: '' })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
   const deleteBackButton = () => {
     if (userID === itemData.postuser) {
       return ( <>
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
             <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
         </>
@@ -139,7 +164,7 @@ function Details({ navigation, route }) {
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
-      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
     </>)
@@ -172,7 +197,7 @@ function Details({ navigation, route }) {
           </View>
 
           <View style={styles.commentContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 // send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -184,9 +209,9 @@ function Details({ navigation, route }) {
                 // navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
               }}
-            >
+            > */}
               <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
-            </TouchableOpacity>
+            {/* </TouchableOpacity> */}
 
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
@@ -209,7 +234,7 @@ function Details({ navigation, route }) {
           {!isLoading && displayedComment.map((commentData, index) => (
             //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
             <View key={index} style={styles.userCommentContainer}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -221,10 +246,10 @@ function Details({ navigation, route }) {
                 // Navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
                 }}
-              >
+              > */}
                 <Image source={commentData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(commentData.profileimage)} 
                 style={styles.userIconStyle} />
-              </TouchableOpacity>
+              {/* </TouchableOpacity> */}
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{commentData.name}</Text>
               <Text style={styles.userComment}>{commentData.content}</Text>
