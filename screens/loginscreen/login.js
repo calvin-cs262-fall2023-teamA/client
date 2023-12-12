@@ -107,6 +107,7 @@ function LoginScreen() {
               value={email}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
+              autoCapitalize="none" // Disable auto-capitalization
               style={styles.inputText}
           />
         </View>
@@ -121,6 +122,7 @@ function LoginScreen() {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
+            autoCapitalize="none" // Disable auto-capitalization
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
