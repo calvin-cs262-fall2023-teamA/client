@@ -19,8 +19,7 @@ function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
   const [displayedComment, setDisplayedComment] = useState(); 
   // State to store the comment to be displayed
-  const {itemData} = route.params; 
-
+  const { itemData, prevRoute } = route.params || {}; 
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
   // these states are used to display username for comments
@@ -39,7 +38,7 @@ function Details({ navigation, route }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
 
   const [email, setEmail] = useState('');
-
+  console.log(prevRoute);
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
@@ -124,13 +123,39 @@ function Details({ navigation, route }) {
     navigation.navigate('MainPage', { prevRoute: 'delete' }); // so that the user can get a message on main page
   };
 
+  const handleGoBack = () => {
+    console.log("PrevRoute: ", prevRoute);
+    if (prevRoute === "post"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+    } else if (prevRoute === "archived"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "archived", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+  }else{
+    try {
+      // Navigate to the main page
+      navigation.navigate('MainPage', { prevRoute: '' })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
   const deleteBackButton = () => {
     if (userID === itemData.postuser) {
       return ( <>
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
             <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
         </>)
@@ -140,7 +165,7 @@ function Details({ navigation, route }) {
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
-      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
     </>)
