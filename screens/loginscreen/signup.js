@@ -106,7 +106,7 @@ const Signup = () => {
               onBlur={() => setNameFocused(false)}
               style={styles.inputText}
               maxLength ={50} // the limit on the database is 50 characters
-              autoCapitalize="none" // Disable auto-capitalization
+              // autoCapitalize="none" // Disable auto-capitalization
           />
         </View>
 
