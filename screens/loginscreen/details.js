@@ -181,8 +181,7 @@ function Details({ navigation, route }) {
             <Text style={styles.helpButton}>?</Text>
           </TouchableOpacity>
           <Image
-          // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
-            source={itemData.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
+            source={itemData.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
             style={styles.postImage}
           />
           <View style={styles.row}>
@@ -210,7 +209,7 @@ function Details({ navigation, route }) {
                 navigation.navigate('Profile');
               }}
             > */}
-              <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
+              <Image source={itemData.profileimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             {/* </TouchableOpacity> */}
 
             <View style={styles.textContainer}>
@@ -247,7 +246,7 @@ function Details({ navigation, route }) {
                 navigation.navigate('Profile');
                 }}
               > */}
-                <Image source={commentData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(commentData.profileimage)} 
+                <Image source={commentData.userimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(commentData.userimage)} 
                 style={styles.userIconStyle} />
               {/* </TouchableOpacity> */}
             <View style={styles.textContainer}>
@@ -281,7 +280,7 @@ function Details({ navigation, route }) {
               }}
             >
               {!userLoading && 
-              <Image source={profileIcon == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(profileIcon)} 
+              <Image source={profileIcon == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(profileIcon)} 
               style={styles.userIconStyle} /> }
             </TouchableOpacity>
             <View style={styles.input}>
