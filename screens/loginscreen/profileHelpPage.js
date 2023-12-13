@@ -13,6 +13,7 @@ return (
     >
       <View style={styles.outerContainer}>
         <View style={styles.mainContainer}>
+        <Text style={styles.description}>Profile Page</Text>
           <Text style={styles.textContainer}>If you click the button labeled posted you will see all the items you have posted on the app.</Text>
           <Text> </Text>
           <Text style={styles.textContainer}>If you click the button labeled archived you will see all the items you have not visable on the app.</Text>
@@ -70,5 +71,12 @@ const styles = StyleSheet.create({
       fontWeight: '900',
       fontSize: 20
     },
+    description: {
+      marginBottom: 8,
+      color: '#2F2E41',
+      fontSize: 15,
+      fontWeight: 'bold',
+      marginTop: -3, 
+  }
 
 });
