@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import ImageViewer from '../components/ImageViewer';
+import ImageViewer from '../../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
-import ImageButton from '../components/Buttons';
-import InputField from '../components/InputField';
+import ImageButton from '../../components/Buttons';
+import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
-import MarkerList from '../components/MapMarkers';
+import MarkerList from '../../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Camera } from 'expo-camera';
 /**
