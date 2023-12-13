@@ -18,6 +18,7 @@ const Profile = ({}) => {
   const [PlaceholderImage, setPlaceholderImage] = useState(require('../../assets/profileIcon.png')); // can be overwritten for now. will likely be reverted later
   // const PlaceholderImage = require('../../assets/profileIcon.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [status, setStatus] = useState(false); // for retrieving image data
   // const { userData } = useUser();
   // const { userID, userName } = userData;
   const [email, setEmail] = useState('');
@@ -71,7 +72,7 @@ const Profile = ({}) => {
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: .25,
       base64: true, // enables the return of binary image data 
     })
 
@@ -92,7 +93,7 @@ const Profile = ({}) => {
   const handleNewImage = async () => {
     /* update in service */
     
-    await fetch('https://calvinfinds.azurewebsites.net/users/image', {
+    const response = await fetch('https://calvinfinds.azurewebsites.net/users/image', {
         method: 'POST',
         headers: {
           "Content-type": "application/json"
@@ -105,23 +106,32 @@ const Profile = ({}) => {
       .catch(error => {
         console.error(error);
     });
+    // trigger updateLocalImage
+    // if (response.ok) 
+    setStatus(!status);
+  }
+
+  const updateLocalImage = async () => {
     /* update local information */
+    // may need to be in a useeffect as well
     try {
       const userData = await AsyncStorage.getItem('userData');
       if (userData) {
         const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userID}`);
-        console.log(postResponse);
         const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
-        console.log(`postjson: ${postJson}`);
-        const storeJson = JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: postJson.userimage });
-        console.log(`postjson: ${storeJson}`);
-        // await AsyncStorage.setItem('userData', JSON.stringify(storeJson));
+        const storeJson = JSON.stringify({ ID: userID, userName, email, password: userData.password, profileimage: postJson.userimage });
+        await AsyncStorage.setItem('userData', storeJson);
       }
     } catch (error) {
       console.log(`profile image download error: ${error}`);
     }
-
   }
+
+  useEffect(() => {
+    // local changes
+    if (status) updateLocalImage();
+    // might only work once if not reset
+  }, [status])
 
   // one update for changing db, one get for getting current image. the get might already be done in login.
   // also update locally (userData)

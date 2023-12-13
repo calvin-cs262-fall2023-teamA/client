@@ -27,6 +27,7 @@ const MainPage = ({ navigation, route }) => {
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
   const [profileIcon, setProfileIcon] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0); // triggers a refresh of current user's profile icon
 
 
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
@@ -285,10 +286,11 @@ const MainPage = ({ navigation, route }) => {
                   params: { prevRoute: 'reset'},
                   merge: true,
               }),
+              setRefreshKey(refreshKey+1), // tell the profile image to refresh
               // navigate to the AddPage (where the user will actually end up)
               navigation.navigate('Profile')
              }}>
-              <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
+              <Image source={demoImageGetter.getImage(profileIcon)} key={refreshKey} style={styles.userIconStyle} />
             </TouchableOpacity>
             )}
 

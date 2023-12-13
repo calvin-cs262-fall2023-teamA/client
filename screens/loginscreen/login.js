@@ -61,8 +61,15 @@ function LoginScreen() {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
 
+            if (userData.imageblob !== 'null' && userData.imageblob !== null) {
+              const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userData.id}`);
+              const postJson = await postResponse.json();
+              userData.profileimage = postJson.userimage;
+            }
+
             // Store user information in AsyncStorage
-            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: userData.profileimage }));
+            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, 
+              profileimage: userData.profileimage }));
           } else {
             // Handle the case when user data retrieval fails
             console.error('Failed to fetch user data');
