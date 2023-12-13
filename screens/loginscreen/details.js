@@ -122,7 +122,6 @@ function Details({ navigation, route }) {
   };
 
   const handleGoBack = () => {
-    console.log("PrevRoute: ", prevRoute);
     if (prevRoute === "post"){
       try {
         // Navigate to the main page

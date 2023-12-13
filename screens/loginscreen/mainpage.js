@@ -233,8 +233,7 @@ const MainPage = ({ navigation, route }) => {
             params: { prevRoute: 'reset'},
             merge: true,
         }),
-        // navigate to the AddPage (where the user will actually end up)
-        console.log(prevRoute);
+        // navigate to the Details page (where the user will actually end up)
         navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 
