@@ -52,6 +52,21 @@ const Profile = ({}) => {
       };
       retrieveUserData();
 }, []);
+
+  useEffect(() => {
+    // called when the user selects an image and the 'selectedImage' changes
+    if (selectedImage != null) handleNewImage();
+  }, [selectedImage])
+
+  // useEffect(async () => {
+  //   if (returnImage != null) {
+  //     setSelectedImage(await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userID}`));
+  //   };
+  // }, [returnImage])
+
+  // useEffect(() => {
+  //   if (returnImage != null) await AsyncStorage.mergeItem('userData', JSON.stringify({ profileimage: returnImage }));
+  // })
   
   const pickImageAsync = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -63,13 +78,17 @@ const Profile = ({}) => {
     if (!result.canceled) {
       const file = result.assets[0].base64; // base 64 image data
       setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data      
-      handleNewImage() // update in service and locally
       // could upload here and store locally, but download into async storage at login
     } else {
       alert('You did not select any image.');
     }
   }
 
+  /**
+   * When a new image is selected,
+   * - sends image data to the webservice (which sends info to database/storage account)
+   * - updates local data for the user's image (async storage)
+   */
   const handleNewImage = async () => {
     /* update in service */
     
@@ -79,16 +98,28 @@ const Profile = ({}) => {
           "Content-type": "application/json"
         },
         body: JSON.stringify({
-          id: userID, imagedata: await selectedImage,
+          id: userID, imagedata: selectedImage,
         }),
       })
-      /* update locally, add the new comment to the list of displayedComments via getComments() */
       .then((response) => {response.json})
       .catch(error => {
         console.error(error);
     });
     /* update local information */
-    // await AsyncStorage.mergeItem('userData', JSON.stringify({ profileimage: selectedImage }));
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userID}`);
+        console.log(postResponse);
+        const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
+        console.log(`postjson: ${postJson}`);
+        const storeJson = JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: postJson.userimage });
+        console.log(`postjson: ${storeJson}`);
+        // await AsyncStorage.setItem('userData', JSON.stringify(storeJson));
+      }
+    } catch (error) {
+      console.log(`profile image download error: ${error}`);
+    }
 
   }
 
