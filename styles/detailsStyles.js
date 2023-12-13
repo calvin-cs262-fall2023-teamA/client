@@ -86,6 +86,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    description: {
+        marginBottom: 8,
+        color: '#2F2E41',
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: -3, 
+    },
     locationName: {
         flexDirection: 'row',
         alignItems: 'center',
