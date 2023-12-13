@@ -1,19 +1,26 @@
 /* eslint-disable */
-/* I changed this file with eslint up intill the return statement */
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../../styles/detailsStyles';
 import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
-import PopupScreen from './PopupScreen';
+import PopupScreen from './detailsHelpPage';
+import WarnScreen from './warningPage';
+/**
+ * Details component for displaying detailed information about a specific item.
+ * This page also implements comments and allows the user to delete an item if they had posted it.
+ * @param {Object} navigation - Navigation object for screen navigation.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the Details component.
+ **/
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
-  const [displayedComment, setDisplayedComment] = useState(); 
+  const [displayedComment, setDisplayedComment] = useState();  
   // State to store the comment to be displayed
-  const {itemData} = route.params; 
-
+  const {itemData, prevRoute } = route.params || {};  
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
   // these states are used to display username for comments
@@ -30,11 +37,16 @@ function Details({ navigation, route }) {
   const [open, setOpen] = useState(false); 
   // help page pop-up
   const [isPopupVisible, setPopupVisibility] = useState(false);
+  // warning popup when you delete an item
+  const [isWarningVisible, setWarningVisibility] = useState(false);
 
   const [email, setEmail] = useState('');
-
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
+  };
+
+  const warningPopup = () => {
+    setWarningVisibility(!isWarningVisible);
   };
   //comments
   let readComments = [];
@@ -105,22 +117,54 @@ function Details({ navigation, route }) {
     setComment('');
   };
 
+  const handleDelete = () => {
+    warningPopup();
+  };
+
+  const handleGoBack = () => {
+    console.log("PrevRoute: ", prevRoute);
+    if (prevRoute === "post"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+    } else if (prevRoute === "archived"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "archived", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+  }else{
+    try {
+      // Navigate to the main page
+      navigation.navigate('MainPage', { prevRoute: '' })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
   const deleteBackButton = () => {
     if (userID === itemData.postuser) {
       return ( <>
-          <TouchableOpacity style={styles.deleteButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
             <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
-        </>)
-    } 
+        </>
+        );
+    };
     
+    //else
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
-      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
     </>)
@@ -128,10 +172,14 @@ function Details({ navigation, route }) {
   }
 
   return (
+    <SafeAreaView style={styles.container}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView contentContainerStyle={styles.container}>
         {/* ... other components ... */}
         <View style={styles.contentContainer}>
+          <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+            <Text style={styles.helpButton}>?</Text>
+          </TouchableOpacity>
           <Image
             source={itemData.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
             style={styles.postImage}
@@ -146,8 +194,9 @@ function Details({ navigation, route }) {
               <Text style={styles.locationName}>{itemData.location}</Text>
             </View>
           </View>
+
           <View style={styles.commentContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => {
                 // send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -159,20 +208,19 @@ function Details({ navigation, route }) {
                 // navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
               }}
-            >
+            > */}
               <Image source={itemData.profileimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
-            </TouchableOpacity>
+            {/* </TouchableOpacity> */}
+
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
                 <Text style={styles.userName}>{itemData.name}</Text>
                 <Text style={styles.userEmail}>{itemData.emailaddress}</Text>
               </View>
-              
               <Text style={styles.userComment}>{itemData.description}</Text>
             </View>
-            <TouchableOpacity onPress={togglePopup}> 
-              <Text style={styles.helpButton}>Help page</Text>
-            </TouchableOpacity>
+
+
             <PopupScreen isVisible={isPopupVisible} onClose={togglePopup} />
           </View>
 
@@ -184,8 +232,8 @@ function Details({ navigation, route }) {
           {/* only run if isLoading = false */}
           {!isLoading && displayedComment.map((commentData, index) => (
             //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
-            <View key={index} style={styles.commentContainer}>
-              <TouchableOpacity
+            <View key={index} style={styles.userCommentContainer}>
+              {/* <TouchableOpacity
                 onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
                 // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -197,10 +245,10 @@ function Details({ navigation, route }) {
                 // Navigate to the AddPage (where the user will actually end up)
                 navigation.navigate('Profile');
                 }}
-              >
+              > */}
                 <Image source={commentData.userimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(commentData.userimage)} 
                 style={styles.userIconStyle} />
-              </TouchableOpacity>
+              {/* </TouchableOpacity> */}
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{commentData.name}</Text>
               <Text style={styles.userComment}>{commentData.content}</Text>
@@ -211,9 +259,13 @@ function Details({ navigation, route }) {
         {isLoading && (<ActivityIndicator style={styles.loadingComments} size="large"/>)}  
         </ScrollView>
         {isBottomContainerVisible && ( 
-        <View style={styles.bottomContainer}>
+        <KeyboardAvoidingView 
+          style={styles.bottomContainer}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+        >
           {/* user input */}
-          <View style={styles.commentContainer}>
+          <View style={styles.postCommentContainer}>
             <TouchableOpacity
               onPress={() => {
                 // Send information to the main (current) page to "reset" the pop-up.
@@ -239,6 +291,7 @@ function Details({ navigation, route }) {
                 autoCapitalize="none"
                 value={comment}
                 onChangeText={(text) => setComment(text)} // Update the comment state
+                maxLength ={50} // the limit on the database is 50 characters
               />
               <TouchableOpacity style={styles.sendButton} onPress={handleSendPress}>
                 <Image source={require('../../assets/send.png')} style={styles.sendIconStyle} />
@@ -247,11 +300,13 @@ function Details({ navigation, route }) {
           </View>
           <View style={styles.buttonContainer}>
             {deleteBackButton()}
+            <WarnScreen isVisible={isWarningVisible} onClose={warningPopup} navigation={navigation} route={route}/>
           </View>
-        </View>
+        </KeyboardAvoidingView>
         )}
       </ScrollView>
     </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 }
 

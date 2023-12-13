@@ -4,10 +4,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
-
+import { ScrollView, Platform, KeyboardAvoidingView, Dimensions, Image ,TouchableWithoutFeedback, Keyboard, View, Text, TextInput, Button, StyleSheet, TouchableOpacity, FlatList, LogBox} from 'react-native';
+import bcrypt from 'react-native-bcrypt';
 import Illustration from '../../assets/login-vector.svg';
-
+/**
+ * LoginScreen component for user authentication.
+ * It uses bcrypt to hash the user's entered password and check it with the stored 
+ * password on the database.
+ * @returns {JSX.Element} - JSX representation of the LoginScreen component.
+ * */
 
 
 function LoginScreen() {
@@ -30,60 +35,43 @@ function LoginScreen() {
     // if (email === 'admin' && password === 'password') {
     //   navigation.navigate('MainPage', { prevRoute: "Login" }); // Use navigation.navigate here
     // }
-
+    try {
+      // Clear all stored data in AsyncStorage
+      await AsyncStorage.clear()
+    } catch (error) {
+      console.error('Error during logout:', error)
+    }
     if (!email || !password) {
       alert('Email and password are required.');
       return;
     }
     try {
-      // Create an object with the email and password
-      const credentials = {
-        emailAddress: email,
-        password: password,
-      };
-
-      // Send a POST request to your server for user authentication
-      const response = await fetch('https://calvinfinds.azurewebsites.net/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
     
-      if (response.ok) {
-        // User authentication was successful
-        // const userData = await response.json();
-        try {
           // Fetch user data from the API
           const userDataResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/email/${email}`);
           if (userDataResponse.ok) {
             // If the user data was successfully retrieved
             const userData = await userDataResponse.json();
-
-            if (userData.imageblob !== 'null' && userData.imageblob !== null) {
-              const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userData.id}`);
-              const postJson = await postResponse.json();
-              userData.profileimage = postJson.userimage;
+            // Compare what the user inputted with the hashed password in the database
+            const isPasswordCorrect = bcrypt.compareSync(password, userData.password);
+            if (isPasswordCorrect) {
+              // Get profile image data if the user has set a profile image
+              if (userData.imageblob !== 'null' && userData.imageblob !== null) {
+                const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userData.id}`);
+                const postJson = await postResponse.json();
+                userData.profileimage = postJson.userimage;
+              }
+              // Store user information in AsyncStorage
+              await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: userData.profileimage }));
+              navigation.navigate('MainPage', { prevRoute: 'Login' });
+            } else {
+              // Handle the case when user data retrieval fails
+              alert('Login failed. Please check your credentials.');
             }
-
-            // Store user information in AsyncStorage
-            await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, 
-              profileimage: userData.profileimage }));
           } else {
-            // Handle the case when user data retrieval fails
-            console.error('Failed to fetch user data');
+            alert('Login failed. Please check your credentials.');
           }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          navigation.navigate('MainPage', { prevRoute: 'Login' });
-        }
-        // navigation.navigate('MainPage', { prevRoute: 'Login' });
-      } else {
-        // Authentication failed
-        alert('Login failed. Please check your credentials.');
-      }
+
     } catch (error) {
       console.error(error);
       alert('An error occurred during login.');
@@ -96,6 +84,10 @@ function LoginScreen() {
     setEmail('');
     setPassword('');
   }, [route.params]);
+
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); // Ignore all log notification
+
   return (    
     // TouchableWithoutFeedback is for dismiss keyboard when touch anywhere else
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
@@ -121,6 +113,7 @@ function LoginScreen() {
               value={email}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
+              autoCapitalize="none" // Disable auto-capitalization
               style={styles.inputText}
           />
         </View>
@@ -135,6 +128,7 @@ function LoginScreen() {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
+            autoCapitalize="none" // Disable auto-capitalization
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
@@ -215,7 +209,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     padding: 3,
     paddingHorizontal: 15,
-    backgroundColor: '#EDE7E7',
+    backgroundColor: '#f5f0f0',
     borderRadius: 15,
   },
 

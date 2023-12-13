@@ -1,13 +1,30 @@
 /* eslint-disable import/namespace */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
-import {KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
+import { Platform, StatusBar, KeyboardAvoidingView, View, Modal, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, Keyboard, LogBox } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import PopupScreen2 from './mainHelpPage';
 
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
 import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
+
+/**
+ * Main page component for the application.
+ * This page presents a simple list of items from the CalvinFinds database.
+ * The items are retrieved from the database usign ReactNative networking, which includes
+ * the item's id, title, description, category, location, lostfound status, datePosted, and other 
+ * categories of each item.
+ * The image for each item is retrieved from the storage accounts in Azure.
+ * 
+ * This page also displays the list of posted or archived items for the current user when
+ * navigated from the posted or archived button on the profile page.
+ * @param {Object} navigation - Navigation object for screen navigation.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the main page component.
+ */
 
 const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +48,10 @@ const MainPage = ({ navigation, route }) => {
 
 
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
+
+  const [isPopupVisible, setPopupVisibility] = useState(false);
+  // check if user device has notch nor not
+  const hasNotch = Platform.OS === 'ios' && StatusBar.currentHeight > 20;
 
 
   const toggleLostOrFoundFilter = () => {
@@ -61,11 +82,12 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-  // clears results (resets search to show all results to user) when "x" is pressed. CHANGE: may want to check whether searchedItem='' (is the search bar empty?)
+  // clears results (resets search to show all results to user) when "x" is pressed.
   const resetSearch = () => {
     // called by "x" button displayed when search bar is open.
-    handleSearch() // what was originally called by that button
-    getItems() // reset the search results.
+    handleSearch() // collapse search bar
+    // reset the search results. Based on whether you are looking through archived, posted, or all items.
+    fetchData()
   }
 
   /* Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
@@ -73,6 +95,7 @@ const MainPage = ({ navigation, route }) => {
     Right now, that just means that the user made an item listing at the "addPage" screen. */
   useEffect(() => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
+    if (prevRoute === 'delete') alert('Your item has been archived and will no longer appear in search results.');
   }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
@@ -85,15 +108,15 @@ const MainPage = ({ navigation, route }) => {
         // Handle empty array only when the data retrieval is complete
         if (postData.length === 0) {
           alert("No posted items found.");
-          navigation.navigate('Profile');
+          navigation.navigate('Profile', {prevRoute : 'post'});
         }
-      } else if (prevRoute === "claim") {
-        // If coming from the profile page looking for user.claimUser (that user's claimed items)
+      } else if (prevRoute === "archived") {
+        // If coming from the profile page looking for user.postUser (that user's archived items)
         const archivedData = await getItemsArchived();
         // Handle empty array only when the data retrieval is complete
         if (archivedData.length === 0) {
           alert("No archived items found.");
-          navigation.navigate('Profile');
+          navigation.navigate('Profile', {prevRoute : 'archived'});
         }
       } else {
         // Default case, e.g., loading all items
@@ -126,10 +149,14 @@ const MainPage = ({ navigation, route }) => {
     }
   };
 
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
+  };
+
   const searchItem = async (text) => {
     setSearchedItem(text)
     try {
-      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}`);
+      const response = await fetch(`https://calvinfinds.azurewebsites.net/items/search/${text}/${userID}/${prevRoute}`);
         const json = await response.json();
         setData(json);
       } catch (error) {
@@ -140,26 +167,47 @@ const MainPage = ({ navigation, route }) => {
   };
 
   const getItemsPosted = async () => {
+
+    // Retrieve posted data from AsyncStorage
     try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/post/${userID}`);
-    const json = await response.json();
-      setData(json);
-      return json;
+      // Retrieve posted data from AsyncStorage
+      const postedData = await AsyncStorage.getItem('postedData');
+
+      if (postedData) {
+        // Parse the string as JSON
+        const json = JSON.parse(postedData);
+        // Set the data state
+        setData(json);
+        return json;
+      }
+      setData([]);
+      return [];
     } catch (error) {
+      // Handle errors
       setData([]);
       return [];
     } finally {
       setIsLoading(false);
     }
-  };
+    };
 
   const getItemsArchived = async () => {
+
     try {
-    const response = await fetch(`https://calvinfinds.azurewebsites.net/items/archived/${userID}`);
-      const json = await response.json();
-      setData(json);
-      return json;
+      // Retrieve archived data from AsyncStorage
+      const archivedData = await AsyncStorage.getItem('archivedData');
+
+      if (archivedData) {
+        // Parse the string as JSON
+        const json = JSON.parse(archivedData);
+        // Set the data state
+        setData(json);
+        return json;
+      }
+      setData([]);
+      return [];
     } catch (error) {
+      // Handle errors
       setData([]);
       return [];
     } finally {
@@ -187,97 +235,175 @@ const MainPage = ({ navigation, route }) => {
             merge: true,
         }),
         // navigate to the AddPage (where the user will actually end up)
-        navigation.navigate('Details', { itemData: selectedItem }) // pass json data of a given item as itemData
+        console.log(prevRoute);
+        navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
-      <View style={styles.itemContainer}>
-        <View style={styles.postContainer}>
-            <View style={styles.row}>  
-                <View style={styles.nameDescription}>
-                    <Text style={styles.itemName}>
-                        {item.title}
-                    </Text>
-                    <Text style={styles.description}>
-                        {item.description}
-                    </Text>
-                </View>
+  const renderItem = ({ item }) => {
+    // Filter for lost vs found. Only load the item if it matches the filter switch's current state.
+    if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
+      return (
+        <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+          <View style={styles.itemContainer}>
+            <View style={styles.postContainer}>
+                <View style={styles.row}>  
+                    <View style={styles.nameDescription}>
+                        <Text style={styles.itemName}>
+                            {item.title}
+                        </Text>
+                        <Text style={styles.description}>
+                            {item.description}
+                        </Text>
+                    </View>
 
-                <View style={styles.userDate}>
-                    <Text style={styles.username}> 
-                        {item.name}
-                    </Text>
-                    <Text style={styles.date}>
-                        {item.dateposted}
-                    </Text>
-                    {/* comments should be only visible in item page */}
-                    {/* <Text style={styles.comments}>
-                        Comments
-                    </Text> */}
+                    <View style={styles.userDate}>
+                        <Text style={styles.username}> 
+                            {item.name}
+                        </Text>
+                        <Text style={styles.date}>
+                            {item.dateposted}
+                        </Text>
+                    </View>
                 </View>
+                <Image
+                    source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                    style={styles.postImage}
+                />
             </View>
-            <Image
-                source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
-                style={styles.postImage}
-            />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+          </View>
+        </TouchableOpacity>
+      )}
+    return null; // else
+  };
+
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); // Ignore all log notification
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <PopupScreen2 isVisible={isPopupVisible} onClose={togglePopup} />
+      {/* Title Bar */}
+      {prevRoute === "post" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Posted Items</Text>
+        </View>
+      )}
+      {prevRoute === "archived" && (
+        <View style={styles.pageTitleContainer}>
+          <Text style={styles.pageTitle}>My Archived Items</Text>
+        </View>
+      )}
+
+      {prevRoute !== "post" && prevRoute !== "archived" && (
+        <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
+          <Text style={styles.helpButton}>?</Text>
+        </TouchableOpacity>
+      )}
+
+      {(prevRoute === "post" || prevRoute === "archived") && (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }) => id}
+          renderItem={renderItem}
+          style={{ marginTop: 20 }}
+        />
+      )}
+
+
+      {prevRoute !== "post" && prevRoute !== "archived" && (
         <FlatList
         data={data}
         keyExtractor={({id}) => id} // {(item) => item.id} // old
         renderItem={renderItem}
         />
-        {/* Search for an item */}
-        {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
+      )}
+
         <KeyboardAvoidingView 
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.writeTaskWrapper}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} //  Adjust the offset as needed
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.writeTaskWrapper}
+          keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
-            {searchActive && (
-            <View style={styles.searchContainer}>
-                {/* PLACEHOLDER FOR ADD BUTTON */}
-                {/* The navigation.navigate part must be the same for the popup to work. 
-                The current placeholder works but is not stylized. */}
-                <TouchableOpacity style={styles.addButton}
-                    onPress={() => {
-                        // send information to the main (current) page to "reset" the pop up.
-                        // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                        navigation.navigate({
-                            name: 'MainPage',
-                            params: { prevRoute: 'reset'},
-                            merge: true,
-                        }),
-                        // navigate to the AddPage (where the user will actually end up)
-                        navigation.navigate('AddPage')
-                    }}>
-                    <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
-                </TouchableOpacity>
-                {/* END OF PLACEHOLDER */}
 
-                {/* Found/lost item toggle */}
+          {prevRoute !== "post" && prevRoute !== "archived" && (
+            <TouchableOpacity style={styles.addButton}
+                onPress={() => {
+                    // send information to the main (current) page to "reset" the pop up.
+                    // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                    navigation.navigate({
+                        name: 'MainPage',
+                        params: { prevRoute: 'reset'},
+                        merge: true,
+                    }),
+                    // navigate to the AddPage (where the user will actually end up)
+                    navigation.navigate('AddPage')
+                }}>
+                <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
+            </TouchableOpacity>
+          )}
+          {(prevRoute === "post" || prevRoute === "archived") && (
+            <TouchableOpacity style={styles.addButton}
+                onPress={() => {
+                    // send information to the main (current) page to "reset" the page.
+                    // changes from the posted/archived view to the default (all posts) view
+                    navigation.navigate({
+                        name: 'MainPage',
+                        params: { prevRoute: 'reset'},
+                        merge: true,
+                    }),
+                    // navigate to the profile page (where the user will actually end up)
+                    navigation.navigate('Profile')
+                }}>
+                <Image source={require('../../assets/send.png')} style={styles.addIconStyle} />
+            </TouchableOpacity>
+          )}
+          {/* search button */}
+          {searchActive && (
+            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
+            </TouchableOpacity>
+          )}
 
-                <TouchableOpacity style={styles.toggleButton} onPress={toggleLostOrFoundFilter}>
-                  <Image source={require('../../assets/switch.png')} style={styles.toggleIconStyle} />
-                  <View>
-                    <Text style={styles.toggleButtonText}>{lostOrFoundFilter}</Text>
-                    <Text style={styles.toggleButtonText}>Items</Text>
-                  </View>
-                </TouchableOpacity>
+          {/* Activated Search Bar */}
+          {!searchActive && (
+          <View style={styles.searchBarContainer}>
+              <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
+                  <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
+              </TouchableOpacity>
+              <TextInput
+                  style={styles.searchInput}
+                  placeholder="Type to search item"
+                  placeholderTextColor="#9E8B8D" 
+                  value={searchedItem}
+                  onChangeText={(text) => searchItem(text)}
+              />
+          </View>
+          )}
 
-                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-                    <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity>
+        </KeyboardAvoidingView>
+
+        {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
+
+          <View style={styles.bottomRow}>
+            <View style={styles.toggleContainer}>
+              <TouchableOpacity 
+                style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
+                onPress={toggleLostOrFoundFilter}>
+                <View style={{alignItems:"center"}}>
+                  <Text style={styles.toggleButtonText}>Lost</Text>
+                  <Text style={styles.toggleButtonText}>Items</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
+                onPress={toggleLostOrFoundFilter}>
+                <View style={{alignItems:"center"}}>
+                  <Text style={styles.toggleButtonText}>Found</Text>
+                  <Text style={styles.toggleButtonText}>Items</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-            )}
             
-            {searchActive && (
             <TouchableOpacity onPress={() => {
               // send information to the main (current) page to "reset" the pop up.
               // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -292,32 +418,11 @@ const MainPage = ({ navigation, route }) => {
              }}>
               <Image source={demoImageGetter.getImage(profileIcon)} key={refreshKey} style={styles.userIconStyle} />
             </TouchableOpacity>
-            )}
+          </View>
 
-            {/* Search Bar */}
-            
-            {!searchActive && (
-            <View style={styles.searchBarContainer}>
-                <TouchableOpacity style={styles.closeButton} onPress={resetSearch}>
-                    <Image source={require('../../assets/close.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Type to search item"
-                    placeholderTextColor="#9E8B8D" 
-                    value={searchedItem}
-                    onChangeText={(text) => searchItem(text)}
-                />
-                {/* handles search bar and account icon */}
-                {/* <TouchableOpacity style={styles.searchButtonActive} onPress={handleSearch}>
-                    <Image source={require('../../assets/search.png')} style={styles.searchIconStyle} />
-                </TouchableOpacity> */}
-            </View>
-            )}
 
-        </KeyboardAvoidingView>
 
-    </View>
+    </SafeAreaView>
   );
 };
 

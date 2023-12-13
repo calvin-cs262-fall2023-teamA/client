@@ -1,11 +1,35 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Platform } from 'react-native';
+// Check if user device has notch
 const styles = StyleSheet.create({
   // Add your styles here to format the feed items, headers, images, etc.
   // This is a simplified example, and you may need to customize it further.
   itemContainer: {
     flex: 1,  
     
+  },
+  pageTitleContainer:{
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    position: 'absolute',
+    backgroundColor: '#EDE7E7',
+    zIndex: 50,
+    width: '100%',
+    ...Platform.select({
+      ios: {
+        top: 30,
+      },
+      android: {
+        top: 0,
+      },
+    }),
+  },
+  pageTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    fontWeight: '900',
+    // padding: 16,
+    fontSize: 25,
+    color: '#816D6F',
   },
 
   container: {
@@ -82,13 +106,13 @@ const styles = StyleSheet.create({
 
   writeTaskWrapper: {
     flex: 1,
-    backgroundColor: '#EDE7E7',
+    // backgroundColor: '#EDE7E7',
     position: 'absolute',
-    bottom: 0,
+    bottom: -20,
     paddingTop: 10,
     width: '100%',
     // height: 100,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -110,36 +134,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  searchContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#FAF2F2', 
-    borderRadius: 50,
-    marginHorizontal: 10,
-    marginBottom: 30,
-    marginTop: 5,
-    shadowColor: '#A59D95',
-    shadowOffset: {width: 0, height: 8},
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
-    elevation: 7, // android shadow
-  },
-
   searchBarContainer: {
     // flex: 1,
     flexDirection: 'row',
     backgroundColor: '#FAF2F2', 
     borderRadius: 50,
-    marginHorizontal: 23,
-    marginBottom: 30,
-    marginTop: 5,
+    marginHorizontal: 10,
     fontSize: 20,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
     shadowRadius: 24,
     elevation: 7, // android shadow
+    // position: 'absolute',
+    bottom: 190,
 
   },
+  bottomRow: {
+    flex: 1,
+    backgroundColor: '#EDE7E7',
+    position: 'absolute',
+    bottom: 10,
+    paddingVertical: 10,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
 
   addIconStyle: {
     width: 30, // or whatever size you want
@@ -178,6 +200,14 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderRadius: 50,
+    position: 'absolute',
+    bottom: 190,
+    right: 10,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
   },
   searchButtonActive: {
     backgroundColor: '#FFAF66', // Background color of the search button
@@ -205,19 +235,83 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: 'bold',
   },
-
+  helpButtonContainer: {
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    right: 10,
+    top: 40,
+    zIndex: 500,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
+    ...Platform.select({
+      ios: {
+        top: 40,
+      },
+      android: {
+        top: 0,
+      },
+      default: {
+        top: 0,
+      },
+    }),
+},
+  helpButton: {
+      color: '#9E8B8D', 
+      fontSize: 20,   
+      fontWeight: 'bold',      
+      paddingHorizontal: 8,
+      borderRadius: 10,
+  },
   addButton: {
     backgroundColor: '#fff', // Background color of the add button
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 50,
-
+    position: 'absolute',
+    bottom: 280,
+    right: 10,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
   },
-  toggleButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+  toggleContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#FAF2F2', 
+    borderRadius: 50,
+    marginHorizontal: 10,
+    marginBottom: 30,
+    marginTop: 5,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
+  },
+  activeButton: {
+    paddingVertical: 18,
+    paddingHorizontal: 33,
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#FFAF66',
+    borderRadius: 50,
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7, // android shadow
+  },
+  inactiveButton: {
+    paddingVertical: 18,
+    paddingHorizontal: 33,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 50,
   },
 
   toggleButtonText: {
@@ -255,10 +349,10 @@ const styles = StyleSheet.create({
       height: '50%',
       paddingHorizontal: '5%',
       borderRadius: 10,
-
       alignItems: 'center',
       justifyContent: 'center',
   },
+  
 });
 
 export default styles;

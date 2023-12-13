@@ -1,11 +1,17 @@
+/* eslint-disable no-console */
 /* eslint-disable react/jsx-no-undef */
 import {KeyboardAvoidingView, Dimensions, Image, TouchableWithoutFeedback, Keyboard, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Illustration from '../../assets/login-vector.svg';
+import bcrypt from 'react-native-bcrypt';
+/**
+ * Signup component for user registration and account creation.
+ * It uses bcrypt to hash the user's entered password and store it in the database.
+ * @returns {JSX.Element} - JSX representation of the Signup component. 
+* */
 
-
-const LoginScreen = () => {
+const Signup = () => {
   const [Name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,6 +27,7 @@ const LoginScreen = () => {
   const isFormFilled = Name !== '' && email !== '' && password !== '' && repeatPassword !== ''
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false)
+  const saltRounds = 5;
 
   const handleSignup = async () => {
     // Check if passwords match
@@ -39,17 +46,20 @@ const LoginScreen = () => {
       return
     }
 
-    // Create a user object with the entered data
-    const user = {
-      name: Name,
-      email: email,
-      password: password,
-      type: "Standard",
-      profileimage: '../../assets/profileIcon.png'
-    };
-
-
     try {
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) {
+          console.error('Error hashing password:', err);
+          return;
+        }
+        // Create a user object with the entered data
+        const user = {
+          name: Name,
+          email: email,
+          password: hash,
+          type: "Standard",
+          profileimage: '../../assets/profileIcon.png'
+        };
       // Send a POST request to your API endpoint
       const response = await fetch('https://calvinfinds.azurewebsites.net/users', {
         method: 'POST',
@@ -58,13 +68,13 @@ const LoginScreen = () => {
         },
         body: JSON.stringify(user)
       })
-
-      if (response.ok) {
-        // User registration was successful
-        navigation.navigate('Login') // Redirect to the login screen
-      } else {
-        alert('Error: Registration failed')
-      }
+    if (response.ok) {
+      // User registration was successful
+      navigation.navigate('Login') // Redirect to the login screen
+    } else {
+      alert('Error: Sign up failed')
+    }
+      });
     } catch (error) {
       console.error(error)
       alert('Error: Registration failed')
@@ -95,6 +105,8 @@ const LoginScreen = () => {
               onFocus={() => setNameFocused(true)}
               onBlur={() => setNameFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
+              // autoCapitalize="none" // Disable auto-capitalization
           />
         </View>
 
@@ -109,6 +121,8 @@ const LoginScreen = () => {
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
+              autoCapitalize="none" // Disable auto-capitalization
           />
         </View>
         {/* password input */}
@@ -122,6 +136,7 @@ const LoginScreen = () => {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
+            autoCapitalize="none" // Disable auto-capitalization
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
@@ -143,6 +158,7 @@ const LoginScreen = () => {
                 secureTextEntry={!isRepeatPasswordVisible} // Toggle based on isPasswordVisible
                 onFocus={() => setRepeatPasswordFocused(true)}
                 onBlur={() => setRepeatPasswordFocused(false)}
+                autoCapitalize="none" // Disable auto-capitalization
                 style={styles.inputText}
             />
             <TouchableOpacity onPress={() => setRepeatPasswordVisible(!isRepeatPasswordVisible)}>
@@ -221,7 +237,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 3,
     paddingHorizontal: 15,
-    backgroundColor: '#EDE7E7',
+    backgroundColor: '#f5f0f0',
     borderRadius: 15
   },
 
@@ -302,4 +318,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default LoginScreen
+export default Signup

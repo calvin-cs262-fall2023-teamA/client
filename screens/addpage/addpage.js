@@ -2,6 +2,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, Modal, Button, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, ScrollView, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,7 +13,13 @@ import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../components/MapMarkers';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Camera } from 'expo-camera';
-
+/**
+ * AddPage component for entering information about a new item to be added to the database.
+ * The code uses expo-camera to allow users to click pictures in order to post.
+ * It uses react-native-maps to allow the user to select a location for the item.
+ * @param {Object} route - Route object containing parameters passed to the screen.
+ * @returns {JSX.Element} - JSX representation of the AddPage component.
+ * */
 
 function AddPage({ route }) {
   const navigation = useNavigation(); // used for navigation.navigate()
@@ -82,7 +89,23 @@ function AddPage({ route }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
 
-    // set permissions to use camera
+  const pickImageAsync = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: .25,
+      base64: true, // enables the return of binary image data 
+    });
+
+    if (!result.canceled) {
+      // setSelectedImage(result.assets[0].uri); // old solution
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
+    } else {
+      alert('You did not select any image.');
+    }
+  }
+
+  // set permissions to use camera
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -126,7 +149,7 @@ function AddPage({ route }) {
   const takePhoto = async () => {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
-      quality: 1,
+      quality: .25,
       base64: true, // enables the return of binary image data 
     });
 
@@ -181,10 +204,11 @@ function AddPage({ route }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+    <SafeAreaView style={{flex: 1, backgroundColor: '#EDE7E7'}}>
     <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 50 : -20} // Adjust the offset as needed
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} // Adjust the offset as needed
     >
       <View style={styles.imageSelector}>
         <ImageViewer
@@ -232,6 +256,7 @@ function AddPage({ route }) {
               onFocus={() => setInputFieldFocused(true)}
               onBlur={() => setInputFieldFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
         {/* <InputField header="Description" bodySize={50} changeText={setDescription} /> */}
@@ -243,6 +268,7 @@ function AddPage({ route }) {
               onFocus={() => setDescriptionFocused(true)}
               onBlur={() => setDescriptionFocused(false)}
               style={styles.inputText}
+              maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
         {/* From react-native-dropdown-picker, https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/usage */}
@@ -374,7 +400,8 @@ function AddPage({ route }) {
       </View>
 
 
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+      </SafeAreaView>
       </TouchableWithoutFeedback>
   );
 }
@@ -382,14 +409,15 @@ function AddPage({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',    
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#EDE7E7',
   },
   
   inputContainer: {
     flex: 1,
     // justifyContent: 'center',
-    // justifyContent: 'flex-end', 
+    justifyContent: 'center', 
     alignItems: 'center',
     width: '90%',
   },
@@ -403,7 +431,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 0,
-    marginBottom: 30,
+    marginBottom: 25,
     padding: 3,
     paddingHorizontal: 15,
     backgroundColor: '#f5f0f0',
@@ -429,12 +457,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     color: '#FAF2F2',
     zIndex: -1,
+    justifyContent: 'flex-end', 
     // backgroundColor: '#FAF2F2',
    // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
   switchButtonContainer: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 20,
+    marginBottom: 20,
     width: '85%',
     flexDirection: 'row',
     color: '#FAF2F2',
@@ -524,8 +553,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '85%',
     padding: 18,
-    marginBottom: 30,
-    marginTop: 10,
+    marginBottom: 40,
+    marginTop: 25,
     shadowColor: '#A59D95',
     shadowOffset: {width: 0, height: 8},
     shadowOpacity: 0.2,
@@ -551,13 +580,13 @@ const styles = StyleSheet.create({
     color: '#342F2F',
     fontWeight: '900',
     fontSize: 20,
-    marginTop: 12,
+    marginTop: 0,
   },
+
   locationButtonTextUnselected: {
     color: '#9E8B8D', // New color for unselected state
     fontWeight: '900',
     fontSize: 20,
-    
   },
   imageSelector:{ 
     flexDirection: 'row' 

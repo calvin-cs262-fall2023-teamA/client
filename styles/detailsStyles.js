@@ -42,13 +42,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         // paddingVertical: 10,
         alignItems: 'center',
+        backgroundColor: '#FAF2F2',
+        borderRadius: 20,
+        position: 'relative',
     },
-    textContainer: {
-        flexDirection: 'column',
+    userCommentContainer: {
+        flexDirection: 'row',
         justifyContent: 'left',
-        padding: 10,
-        marginBottom: 15,
-        alignItems: 'left',
+        paddingHorizontal: 15,
+        // paddingVertical: 10,
+        alignItems: 'center',
+        borderRadius: 20,
+    },
+    postCommentContainer: {
+        flexDirection: 'row',
+        justifyContent: 'left',
+        paddingHorizontal: 15,
+        // paddingVertical: 10,
+        alignItems: 'center',
+        marginBottom: 10,
     },
     item: {
         flex: 1,
@@ -91,43 +103,40 @@ const styles = StyleSheet.create({
         height: 60, // or whatever size you want
         borderRadius: 50,
         marginHorizontal: 10,
-        marginBottom: 20,
-        marginTop: 5,
-      },
+        marginVertical: 12,
+    },
+    textContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        padding: 10,
+    },
     userNameEmailContainer: {
         flexDirection: 'row',
         alignItems: 'baseline',
-      },
+        flexWrap: 'wrap',
+    },
     userName: {
-        flexDirection: 'row',
-        alignItems: 'center',
         fontWeight: '900',
-        // padding: 16,
         fontSize: 18,
         color: '#2F2E41',
+        paddingRight: 10,
     },
     userEmail: {
-        flexDirection: 'row',
-        alignItems: 'center',
         fontWeight: '900',
-        paddingLeft: 10,
         fontSize: 15,
         color: '#9E8B8D',
     },
     userComment: {
-        flexDirection: 'row',
-        alignItems: 'center',
         fontWeight: '600',
-        // padding: 16,
         fontSize: 15,
         color: '#2F2E41',
     },
+    
     
     input: {
         flex: 1,
         flexDirection: 'row',
         borderWidth: 0,
-        marginBottom: 20,
         paddingLeft: 15,
         backgroundColor: '#fff',
         borderRadius: 15,
@@ -231,6 +240,25 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         fontSize: 20,
     },
+    deleteButtonContainer: {
+        borderRadius: 10,
+        backgroundColor: '#FB8282',
+        position: 'absolute',
+        right: 10,
+        top: 0,
+        zIndex: 500,
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7, // android shadow
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: '#FB8282', // red background
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     deleteButton: {
         flex: 1,
         backgroundColor: '#FB8282', // same as primaryButton but with a red button
@@ -250,13 +278,41 @@ const styles = StyleSheet.create({
         elevation: 7,     
 
     },
-    helpButton: {
-        color: 'blue', // Change the color to your preference
-        fontSize: 16,   // Change the font size to your preference
-        fontWeight: 'bold', // Add other styles as needed
+    confirmText: {
+        backgroundColor: '#FAF2F2',
+        borderRadius: 50,
+        width: 100,
+        padding: 18,
+        alignItems: 'center',
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    },
+    warningText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    helpButtonContainer: {
+        borderRadius: 10,
+        backgroundColor: '#fff',
         position: 'absolute',
-        top: 10,             
-        left: 10,         
+        right: 10,
+        top: 0,
+        zIndex: 500,
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7, // android shadow
+    },
+    helpButton: {
+        color: '#9E8B8D', 
+        fontSize: 20,   
+        fontWeight: 'bold',      
+        paddingHorizontal: 8,
+        borderRadius: 10,
     },
     loadingComments: {
         paddingTop: '20%',
