@@ -148,7 +148,7 @@ function Details({ navigation, route }) {
 }
 
   const deleteBackButton = () => {
-    if (userID === itemData.postuser) {
+    if (userID === itemData.postuser && itemData.archived === false) {
       return ( <>
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
