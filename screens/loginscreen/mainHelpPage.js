@@ -12,11 +12,6 @@ return (
     >
       <View style={styles.outerContainer}>
         <View style={styles.mainContainer}>
-          <Text style={styles.description}>Add Page</Text>
-          <Text style={styles.textContainer}>When you make a post with the + button you must give your post a title. </Text>
-          <Text> </Text>
-          <Text style={styles.textContainer}>After clicking the submit button, your posted item will integrate into the list of items on this app. Your post will appear at the bottom of the list of items.</Text>
-          <Text> </Text>
           <Text style={styles.description}>Main Page</Text>
           <Text style={styles.textContainer}>The orange button with a magnifying glass is the search button. This button searches through the list of items on the screen.</Text>
           <Text> </Text>
