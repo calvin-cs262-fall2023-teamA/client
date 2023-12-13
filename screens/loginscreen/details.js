@@ -7,6 +7,7 @@ import * as demoImageGetter from '../addpage/demoimages.js'; // specifically for
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
 import PopupScreen from './detailsHelpPage';
+import WarnScreen from './warningPage';
 /**
  * Details component for displaying detailed information about a specific item.
  * This page also implements comments and allows the user to delete an item if they had posted it.
@@ -17,10 +18,9 @@ import PopupScreen from './detailsHelpPage';
 
 function Details({ navigation, route }) {
   const [comment, setComment] = useState(''); // State to store the entered comment
-  const [displayedComment, setDisplayedComment] = useState(); 
+  const [displayedComment, setDisplayedComment] = useState();  
   // State to store the comment to be displayed
-  const {itemData} = route.params; 
-
+  const {itemData, prevRoute } = route.params || {};  
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
   // these states are used to display username for comments
@@ -37,11 +37,16 @@ function Details({ navigation, route }) {
   const [open, setOpen] = useState(false); 
   // help page pop-up
   const [isPopupVisible, setPopupVisibility] = useState(false);
+  // warning popup when you delete an item
+  const [isWarningVisible, setWarningVisibility] = useState(false);
 
   const [email, setEmail] = useState('');
-
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
+  };
+
+  const warningPopup = () => {
+    setWarningVisibility(!isWarningVisible);
   };
   //comments
   let readComments = [];
@@ -113,16 +118,34 @@ function Details({ navigation, route }) {
   };
 
   const handleDelete = () => {
-    // updates archived -> true for a given item
-    fetch(`https://calvinfinds.azurewebsites.net/items/archive/${itemData.id}`, {
-        method: 'POST', // actually PUT, but it works with POST and not PUT.
-      })
-      .then((response) => response.json)
-      .catch(error => {
-        console.error(error);
-    });
-    navigation.navigate('MainPage', { prevRoute: 'delete' }); // so that the user can get a message on main page
+    warningPopup();
   };
+
+  const handleGoBack = () => {
+    console.log("PrevRoute: ", prevRoute);
+    if (prevRoute === "post"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+    } else if (prevRoute === "archived"){
+      try {
+        // Navigate to the main page
+        navigation.navigate('MainPage', { prevRoute: "archived", key: Math.random().toString()})
+      } catch (error) {
+        console.error(error)
+      }
+  }else{
+    try {
+      // Navigate to the main page
+      navigation.navigate('MainPage', { prevRoute: '' })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
 
   const deleteBackButton = () => {
     if (userID === itemData.postuser) {
@@ -130,17 +153,18 @@ function Details({ navigation, route }) {
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
             <Text style={styles.primaryButtonText}>Go Back</Text>
           </TouchableOpacity>
-        </>)
-    } 
+        </>
+        );
+    };
     
     //else
     // disabled for readability
     // eslint-disable-next-line react/jsx-no-useless-fragment
     return ( <>
-      <TouchableOpacity style={styles.primaryButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
       </TouchableOpacity>
     </>)
@@ -157,8 +181,7 @@ function Details({ navigation, route }) {
             <Text style={styles.helpButton}>?</Text>
           </TouchableOpacity>
           <Image
-          // TODO: change from '../../assets/DemoPlaceholders/demobottle.jpg' to '../../assets/placeholder.jpg' after demo
-            source={itemData.itemimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
+            source={itemData.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
             style={styles.postImage}
           />
           <View style={styles.row}>
@@ -186,7 +209,7 @@ function Details({ navigation, route }) {
                 navigation.navigate('Profile');
               }}
             > */}
-              <Image source={itemData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
+              <Image source={itemData.profileimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
             {/* </TouchableOpacity> */}
 
             <View style={styles.textContainer}>
@@ -223,7 +246,7 @@ function Details({ navigation, route }) {
                 navigation.navigate('Profile');
                 }}
               > */}
-                <Image source={commentData.profileimage == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(commentData.profileimage)} 
+                <Image source={commentData.userimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(commentData.userimage)} 
                 style={styles.userIconStyle} />
               {/* </TouchableOpacity> */}
             <View style={styles.textContainer}>
@@ -257,7 +280,7 @@ function Details({ navigation, route }) {
               }}
             >
               {!userLoading && 
-              <Image source={profileIcon == null ? require('../../assets/DemoPlaceholders/demobottle.jpg') : demoImageGetter.getImage(profileIcon)} 
+              <Image source={profileIcon == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(profileIcon)} 
               style={styles.userIconStyle} /> }
             </TouchableOpacity>
             <View style={styles.input}>
@@ -277,6 +300,7 @@ function Details({ navigation, route }) {
           </View>
           <View style={styles.buttonContainer}>
             {deleteBackButton()}
+            <WarnScreen isVisible={isWarningVisible} onClose={warningPopup} navigation={navigation} route={route}/>
           </View>
         </KeyboardAvoidingView>
         )}

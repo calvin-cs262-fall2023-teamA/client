@@ -91,6 +91,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    description: {
+        marginBottom: 8,
+        color: '#2F2E41',
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: -3, 
+    },
     locationName: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -247,6 +254,25 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         fontSize: 20,
     },
+    deleteButtonContainer: {
+        borderRadius: 10,
+        backgroundColor: '#FB8282',
+        position: 'absolute',
+        right: 10,
+        top: 0,
+        zIndex: 500,
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7, // android shadow
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: '#FB8282', // red background
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     deleteButton: {
         flex: 1,
         backgroundColor: '#FB8282', // same as primaryButton but with a red button
@@ -265,6 +291,22 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 7,     
 
+    },
+    confirmText: {
+        backgroundColor: '#FAF2F2',
+        borderRadius: 50,
+        width: 100,
+        padding: 18,
+        alignItems: 'center',
+        shadowColor: '#A59D95',
+        shadowOffset: {width: 0, height: 8},
+        shadowOpacity: 0.2,
+        shadowRadius: 24,
+        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    },
+    warningText: {
+        fontWeight: 'bold',
+        fontSize: 16,
     },
     helpButtonContainer: {
         borderRadius: 10,

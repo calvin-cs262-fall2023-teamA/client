@@ -55,6 +55,12 @@ function LoginScreen() {
             // Compare what the user inputted with the hashed password in the database
             const isPasswordCorrect = bcrypt.compareSync(password, userData.password);
             if (isPasswordCorrect) {
+              // Get profile image data if the user has set a profile image
+              if (userData.imageblob !== 'null' && userData.imageblob !== null) {
+                const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userData.id}`);
+                const postJson = await postResponse.json();
+                userData.profileimage = postJson.userimage;
+              }
               // Store user information in AsyncStorage
               await AsyncStorage.setItem('userData', JSON.stringify({ ID: userData.id, userName: userData.name, email: userData.emailaddress, password: userData.password, profileimage: userData.profileimage }));
               navigation.navigate('MainPage', { prevRoute: 'Login' });
@@ -107,6 +113,7 @@ function LoginScreen() {
               value={email}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
+              autoCapitalize="none" // Disable auto-capitalization
               style={styles.inputText}
           />
         </View>
@@ -121,6 +128,7 @@ function LoginScreen() {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
+            autoCapitalize="none" // Disable auto-capitalization
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>

@@ -12,9 +12,10 @@ return (
     >
       <View style={styles.outerContainer}>
         <View style={styles.mainContainer}>
+        <Text style={styles.description}>Details Page</Text>
           <Text style={styles.textContainer}>This page shows details of a specific lost or found item posted by a user.</Text>
           <Text> </Text>
-          <Text style={styles.textContainer}>You can leave a comment on this post and contact the poster.</Text>
+          <Text style={styles.textContainer}>You can leave a comment on this post and contact the poster with the given Calvin email.</Text>
           <Text> </Text>
           <TouchableOpacity style={styles.primaryButton} onPress={onClose}>
             <Text style={styles.primaryButtonText}>Close</Text>
@@ -70,5 +71,12 @@ const styles = StyleSheet.create({
       fontWeight: '900',
       fontSize: 20
     },
+    description: {
+      marginBottom: 8,
+      color: '#2F2E41',
+      fontSize: 15,
+      fontWeight: 'bold',
+      marginTop: -3, 
+  }
 
 });
