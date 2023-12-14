@@ -340,22 +340,7 @@ const MainPage = ({ navigation, route }) => {
                 <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
             </TouchableOpacity>
           )}
-          {(prevRoute === "post" || prevRoute === "archived") && (
-            <TouchableOpacity style={styles.addButton}
-                onPress={() => {
-                    // send information to the main (current) page to "reset" the page.
-                    // changes from the posted/archived view to the default (all posts) view
-                    navigation.navigate({
-                        name: 'MainPage',
-                        params: { prevRoute: 'reset'},
-                        merge: true,
-                    }),
-                    // navigate to the profile page (where the user will actually end up)
-                    navigation.navigate('Profile')
-                }}>
-                <Image source={require('../../assets/send.png')} style={styles.addIconStyle} />
-            </TouchableOpacity>
-          )}
+
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
@@ -403,21 +388,36 @@ const MainPage = ({ navigation, route }) => {
                 </View>
               </TouchableOpacity>
             </View>
-            
-            <TouchableOpacity onPress={() => {
-              // send information to the main (current) page to "reset" the pop up.
-              // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-              navigation.navigate({
-                  name: 'Profile',
-                  params: { prevRoute: 'reset'},
-                  merge: true,
-              }),
-              setRefreshKey(refreshKey+1), // tell the profile image to refresh
-              // navigate to the AddPage (where the user will actually end up)
-              navigation.navigate('Profile')
-             }}>
-              <Image source={demoImageGetter.getImage(profileIcon)} key={refreshKey} style={styles.userIconStyle} />
-            </TouchableOpacity>
+            {prevRoute !== "post" && prevRoute !== "archived" && (
+              <TouchableOpacity onPress={() => {
+                // send information to the main (current) page to "reset" the pop up.
+                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                navigation.navigate({
+                    name: 'Profile',
+                    params: { prevRoute: 'reset'},
+                    merge: true,
+                }),
+                // navigate to the AddPage (where the user will actually end up)
+                navigation.navigate('Profile')
+              }}>
+                <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
+              </TouchableOpacity>
+            )}
+            {(prevRoute === "post" || prevRoute === "archived") && (
+              <TouchableOpacity style={styles.primaryButton} onPress={() => {
+                  navigation.navigate({
+                      name: 'Profile',
+                      params: { prevRoute: 'reset'},
+                      merge: true,
+                  }),
+                  // navigate to the AddPage (where the user will actually end up)
+                  navigation.navigate('Profile')
+              }}>
+                <Text style={styles.primaryButtonText}>Go Back</Text>
+              </TouchableOpacity>
+            )}
+
+
           </View>
 
 
