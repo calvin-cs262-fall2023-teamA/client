@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import ImageButton from '../components/Buttons';
-import ImageViewer from '../components/ImageViewer';
+import ImageButton from '../../components/Buttons';
+import ImageViewer from '../../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as demoImageGetter from '../addpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
+import * as demoImageGetter from '../mainpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
 import PopupScreen3 from './profileHelpPage';
 /**
  * Profile component for displaying user profile information.

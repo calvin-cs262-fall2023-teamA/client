@@ -7,9 +7,9 @@ import PopupScreen2 from './mainHelpPage';
 
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
-import * as demoImageGetter from '../addpage/demoimages'; // specifically for demo. final images will probably work differently
+import * as demoImageGetter from './demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
-import ImageViewer from '../components/ImageViewer';
+import ImageViewer from '../../components/ImageViewer';
 
 /**
  * Main page component for the application.
