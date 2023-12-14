@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../../styles/detailsStyles';
-import * as demoImageGetter from '../mainpage/demoimages.js'; // specifically for demo. final images will probably work differently
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator, List } from 'react-native-paper';
 import PopupScreen from './detailsHelpPage';
@@ -173,8 +172,10 @@ function Details({ navigation, route }) {
           <TouchableOpacity style={styles.helpButtonContainer} onPress={togglePopup}> 
             <Text style={styles.helpButton}>?</Text>
           </TouchableOpacity>
+          {/* "|| (itemData.itemimage).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/placeholder.jpg by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
           <Image
-            source={itemData.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(itemData.itemimage)} // Placeholder image for post. item.itemimage is a uri for now
+            source={(itemData.itemimage == null || (itemData.itemimage).includes('../')) ? require('../../assets/placeholder.jpg') : { uri: itemData.itemimage}}
             style={styles.postImage}
           />
           <View style={styles.row}>
@@ -189,7 +190,9 @@ function Details({ navigation, route }) {
           </View>
 
           <View style={styles.commentContainer}>
-              <Image source={itemData.profileimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
+            {/* "|| (itemData.profileimage).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/profileIcon.png by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
+              <Image source={(itemData.profileimage == null || (itemData.profileimage).includes('../')) ? require('../../assets/profileIcon.png') : { uri: itemData.profileimage}} style={styles.userIconStyle} />
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
                 <Text style={styles.userName}>{itemData.name}</Text>
@@ -208,8 +211,9 @@ function Details({ navigation, route }) {
           {/* only run if isLoading = false */}
           {!isLoading && displayedComment.map((commentData, index) => (
             <View key={index} style={styles.userCommentContainer}>
-              
-                <Image source={commentData.userimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(commentData.userimage)} 
+              {/* "|| (commentData.userimage).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/profileIcon.png by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
+                <Image source={(commentData.userimage == null || (commentData.userimage).includes('../')) ? require('../../assets/profileIcon.png') : { uri: commentData.userimage}}
                 style={styles.userIconStyle} />
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{commentData.name}</Text>
@@ -238,8 +242,10 @@ function Details({ navigation, route }) {
                 });
               }}
             >
+              {/* "|| (profileIcon).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/profileIcon.png by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
               {!userLoading && 
-              <Image source={profileIcon == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(profileIcon)} 
+              <Image source={(profileIcon == null || (profileIcon).includes('../')) ? require('../../assets/profileIcon.png') : { uri: profileIcon}}
               style={styles.userIconStyle} /> }
             </TouchableOpacity>
             <View style={styles.input}>
