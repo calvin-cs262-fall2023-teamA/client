@@ -6,8 +6,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ImageViewer from '../../components/ImageViewer';
 import * as ImagePicker from 'expo-image-picker';
-import ImageButton from '../../components/Buttons';
-import InputField from '../../components/InputField';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MapView, { Marker } from 'react-native-maps';
 import MarkerList from '../../components/MapMarkers';
@@ -25,13 +23,10 @@ function AddPage({ route }) {
   const navigation = useNavigation(); // used for navigation.navigate()
 
   // information entered by the user that needs to be sent to the database for an Item.
-  // const [name, setName] = useState("");
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  // const { userID } = useUser();
 
-  // Main categories. May have subcategories in a different dropdown/selection tool (color? etc.) later.
+  // Categories
   const [categories, setCategories] = useState([
     {label: 'Books/Notebooks', value: 'books'},
     {label: 'Clothing/Accessories', value: 'clothing'},
@@ -42,9 +37,9 @@ function AddPage({ route }) {
     {label: 'Other', value: 'other'}, // catch-all
   ]); 
 
-  const [location, setLocation] = useState("Select Location"); // TODO: no way to reset location after it has been selected.
+  const [location, setLocation] = useState("Select Location"); 
   const locationButtonTextStyle = location === "Select Location" ? styles.locationButtonTextUnselected : styles.locationButtonText;
-  const [lostorfound, setLostOrFound] = useState("found") // the user either lost or found this item. A string for now but could technically be a boolean.
+  const [lostorfound, setLostOrFound] = useState("found") // the user either "lost" or "found" this item.
   
   const date = new Date().toLocaleDateString(undefined, {year: 'numeric', month: 'numeric', day: 'numeric',});
 
@@ -97,7 +92,7 @@ function AddPage({ route }) {
     })();
   }, []);
 
-  // image selection from camera
+  // image selection from camera or gallery
   const handleImageSelection = async (fromCamera) => {
     if (hasPermission === null) {
       return;
@@ -121,9 +116,8 @@ function AddPage({ route }) {
     });
 
     if (!result.canceled) {
-      // setSelectedImage(result.assets[0].uri); // old solution
       const file = result.assets[0].base64; // base 64 image data
-      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // used as an image source/uri
     } else {
       alert('You did not select any image.');
     }
@@ -139,7 +133,7 @@ function AddPage({ route }) {
 
     if (!result.canceled) {
       const file = result.assets[0].base64; // base 64 image data
-      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // used as an image source/uri
     } else {
       alert('You did not take a photo.');
     }
@@ -153,7 +147,6 @@ function AddPage({ route }) {
       const finalLocation = location === "Select Location" ? "N/A" : location;
       try {
       setIsUploading(true);
-
         // send information about item
         // Image data is handled in service
         await fetch('https://calvinfinds.azurewebsites.net/items', {
@@ -182,7 +175,6 @@ function AddPage({ route }) {
 
   const [isInputFieldFocused, setInputFieldFocused] = useState(false);
   const [isDescriptionFocused, setDescriptionFocused] = useState(false);
-  const [inputDescription, setInputDescription] = useState('');
   const [isMapVisible, setMapVisible] = useState(false);
 
 
@@ -198,7 +190,6 @@ function AddPage({ route }) {
         <ImageViewer
           placeholderImageSource={PlaceholderImage}
           selectedImage={selectedImage}
-          // onPress={() => handleImageSelection(true)} // click on image to modify. Should probably *change* the default to make it more apparent that you can modify/upload images.
         />
 
         {/* buttons for using the camera or choosing from the gallery */}
@@ -243,7 +234,6 @@ function AddPage({ route }) {
               maxLength ={50} // the limit on the database is 50 characters
           />
         </View>
-        {/* <InputField header="Description" bodySize={50} changeText={setDescription} /> */}
         <View style={[styles.input, isDescriptionFocused && styles.inputFocused]}>
           <TextInput
               placeholder="Item Description"
@@ -298,15 +288,6 @@ function AddPage({ route }) {
             
           }}
           
-          /* It would be great if it was more apparent that the user can scroll down through a list of categories.
-             My initial thought was to make the scroll bar always visible (instead of just while scrolling), but I
-             haven't gotten that to work yet. */
-             // possible props I could modify [vvv] to accomplish [^^^]
-          // containerProps={{
-            // the dropdown container (a 'View')
-          // }}
-          // dropDownContainerStyle={{
-          // }}
         />
         {/* Location Field */}
         {/* From react-native-maps, https://docs.expo.dev/versions/latest/sdk/map-view/ 
@@ -330,6 +311,7 @@ function AddPage({ route }) {
             <MapView
               style={styles.map}
               /* lat-long = 42.93105829800732, -85.58688823855098 (approx center [slightly south] of west side of campus) */
+              // default starting point for the map when it is first opened
               region={{
                 latitude: 42.93105829800732,
                 longitude: -85.58688823855098,
@@ -374,13 +356,6 @@ function AddPage({ route }) {
           </TouchableOpacity>
 
         </View>
-        {/* <TouchableOpacity style={styles.secondaryButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.primaryButtonText}>Discard</Text>
-        </TouchableOpacity> */}
-        {/* <Button title="Submit Item" onPress={() => handleCreateItem()} /> */}
-        {/* <TouchableOpacity style={styles.primaryButton} onPress={() => handleCreateItem()}>
-          <Text style={styles.primaryButtonText}>Submit Item</Text>
-        </TouchableOpacity> */}
       </View>
 
 
@@ -405,11 +380,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
   },
-  // inputContainer: {
-  //   borderRadius: 15,
-  //   width: '100%',
-  //   marginBottom: 20,
-  // },
   
   input: {
     flexDirection: 'row',

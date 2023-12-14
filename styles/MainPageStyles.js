@@ -1,11 +1,8 @@
 import { StyleSheet, Platform } from 'react-native';
 // Check if user device has notch
 const styles = StyleSheet.create({
-  // Add your styles here to format the feed items, headers, images, etc.
-  // This is a simplified example, and you may need to customize it further.
   itemContainer: {
     flex: 1,  
-    
   },
   pageTitleContainer:{
     paddingHorizontal: 30,
@@ -92,17 +89,6 @@ const styles = StyleSheet.create({
   comments: {
     color: '#888',
   },
-
-//   input: {
-//     paddingVertical: 0,
-//     paddingHorizontal: 15,
-//     backgroundColor: '#FFF',
-//     borderRadius: 30,
-//     borderColor: '#C0C0C0',
-//     borderWidth: 1,
-//     width: 150,
-//   },
-
 
   writeTaskWrapper: {
     flex: 1,

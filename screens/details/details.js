@@ -23,24 +23,19 @@ function Details({ navigation, route }) {
   const {itemData, prevRoute } = route.params || {};  
   const [isBottomContainerVisible, setBottomContainerVisibility] = useState(true);
   
-  // these states are used to display username for comments
+  // these states are used to display the current user's username for comments
   const [userName, setUsername] = useState('');
   const [userID, setUserID] = useState('');
-  // useStates for dropdown (category)
+  const [email, setEmail] = useState('');
   const [profileIcon, setProfileIcon] = useState('');
-  const [userLoading, setUserLoading] = useState(true);
+  const [userLoading, setUserLoading] = useState(true); // loading user info from async storage
 
-
-  //value stored in dropdown (see categories item label/value)
-  const [value, setValue] = useState(null);
-  //handles user clicking on dropdown. Opens/closes the dropdown menu.
-  const [open, setOpen] = useState(false); 
   // help page pop-up
   const [isPopupVisible, setPopupVisibility] = useState(false);
   // warning popup when you delete an item
   const [isWarningVisible, setWarningVisibility] = useState(false);
 
-  const [email, setEmail] = useState('');
+  
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
@@ -160,8 +155,7 @@ function Details({ navigation, route }) {
     };
     
     //else
-    // disabled for readability
-    // eslint-disable-next-line react/jsx-no-useless-fragment
+    
     return ( <>
       <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
         <Text style={styles.primaryButtonText}>Go Back</Text>
@@ -195,22 +189,7 @@ function Details({ navigation, route }) {
           </View>
 
           <View style={styles.commentContainer}>
-            {/* <TouchableOpacity
-              onPress={() => {
-                // send information to the main (current) page to "reset" the pop-up.
-                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                navigation.navigate({
-                  name: 'Profile',
-                  params: { prevRoute: 'reset' },
-                  merge: true,
-                });
-                // navigate to the AddPage (where the user will actually end up)
-                navigation.navigate('Profile');
-              }}
-            > */}
               <Image source={itemData.profileimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(itemData.profileimage)} style={styles.userIconStyle} />
-            {/* </TouchableOpacity> */}
-
             <View style={styles.textContainer}>
               <View style={styles.userNameEmailContainer}>
                 <Text style={styles.userName}>{itemData.name}</Text>
@@ -224,30 +203,14 @@ function Details({ navigation, route }) {
           </View>
 
         </View>
-        {/* Implement scroll for comments with ScrollView */}
-        {/* TODO: integrate read items */} 
         <ScrollView style={styles.ScrollViewContainer}>
           {/* makes comments appear seperate from each other so it looks like two posts and not one when someone comments twice */}
           {/* only run if isLoading = false */}
           {!isLoading && displayedComment.map((commentData, index) => (
-            //NOTE: newest comments show up at top. if that is a problem, reverse readComments array in getComments() after pushing all elements and before setDisplayedComment(readComments); (around line 62)
             <View key={index} style={styles.userCommentContainer}>
-              {/* <TouchableOpacity
-                onPress={() => {
-                // Send information to the main (current) page to "reset" the pop-up.
-                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-                navigation.navigate({
-                  name: 'Profile',
-                  params: { prevRoute: 'reset' },
-                  merge: true,
-                });
-                // Navigate to the AddPage (where the user will actually end up)
-                navigation.navigate('Profile');
-                }}
-              > */}
+              
                 <Image source={commentData.userimage == null ? require('../../assets/profileIcon.png') : demoImageGetter.getImage(commentData.userimage)} 
                 style={styles.userIconStyle} />
-              {/* </TouchableOpacity> */}
             <View style={styles.textContainer}>
               <Text style={styles.userName}>{commentData.name}</Text>
               <Text style={styles.userComment}>{commentData.content}</Text>
@@ -267,15 +230,12 @@ function Details({ navigation, route }) {
           <View style={styles.postCommentContainer}>
             <TouchableOpacity
               onPress={() => {
-                // Send information to the main (current) page to "reset" the pop-up.
-                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                // Send information to "reset" prevRoute information (used for pop-ups, filters, etc).
                 navigation.navigate({
                   name: 'Profile',
                   params: { prevRoute: 'reset' },
                   merge: true,
                 });
-                // Navigate to the AddPage (where the user will actually end up)
-                navigation.navigate('Profile');
               }}
             >
               {!userLoading && 

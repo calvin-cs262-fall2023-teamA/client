@@ -18,6 +18,7 @@ const Signup = () => {
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('window').width // get screen width so illustration can be resized according to screen size
   const svgWidth = screenWidth * 0.8 // Adjust the multiplier as needed
+
   // detect if email or password input is focused
   const [isNameFocused, setNameFocused] = useState(false)
   const [isEmailFocused, setEmailFocused] = useState(false)
@@ -27,19 +28,16 @@ const Signup = () => {
   const isFormFilled = Name !== '' && email !== '' && password !== '' && repeatPassword !== ''
   const [isPasswordVisible, setPasswordVisible] = useState(false)
   const [isRepeatPasswordVisible, setRepeatPasswordVisible] = useState(false)
+
   const saltRounds = 5;
 
   const handleSignup = async () => {
+    // Implement the login, verify email and password
     // Check if passwords match
     if (password !== repeatPassword) {
       alert('Passwords do not match!')
       return
     }
-    // Implement the login, verify email and password
-    // if (email === 'admin' && password === 'password') {
-    //   navigation.navigate('MainPage'); // Use navigation.navigate here
-    // }
-
     // Check if the email is from @calvin.edu domain
     if (!email.endsWith('@calvin.edu')) {
       alert('Make sure you are using @calvin.edu email address.')
@@ -106,7 +104,6 @@ const Signup = () => {
               onBlur={() => setNameFocused(false)}
               style={styles.inputText}
               maxLength ={50} // the limit on the database is 50 characters
-              // autoCapitalize="none" // Disable auto-capitalization
           />
         </View>
 
@@ -122,7 +119,7 @@ const Signup = () => {
               onBlur={() => setEmailFocused(false)}
               style={styles.inputText}
               maxLength ={50} // the limit on the database is 50 characters
-              autoCapitalize="none" // Disable auto-capitalization
+              autoCapitalize="none"
           />
         </View>
         {/* password input */}
@@ -136,7 +133,7 @@ const Signup = () => {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
-            autoCapitalize="none" // Disable auto-capitalization
+            autoCapitalize="none"
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
@@ -158,7 +155,7 @@ const Signup = () => {
                 secureTextEntry={!isRepeatPasswordVisible} // Toggle based on isPasswordVisible
                 onFocus={() => setRepeatPasswordFocused(true)}
                 onBlur={() => setRepeatPasswordFocused(false)}
-                autoCapitalize="none" // Disable auto-capitalization
+                autoCapitalize="none"
                 style={styles.inputText}
             />
             <TouchableOpacity onPress={() => setRepeatPasswordVisible(!isRepeatPasswordVisible)}>
@@ -264,14 +261,6 @@ const styles = StyleSheet.create({
     bottom: 15,
     maxWidth: 350,
     margin: 10
-    // color: '#FAF2F2',
-    // backgroundColor: '#FAF2F2',
-    // borderRadius: 50,
-    // shadowColor: '#A59D95',
-    // shadowOffset: {width: 0, height: 8},
-    // shadowOpacity: 0.2,
-    // shadowRadius: 24,
-    // elevation: 7,     //drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
   },
 
   primaryButton: {

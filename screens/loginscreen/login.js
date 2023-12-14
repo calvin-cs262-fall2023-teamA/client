@@ -1,6 +1,3 @@
-/* eslint-disable global-require */
-/* eslint-disable no-use-before-define */
-/* eslint-disable react/jsx-filename-extension */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
@@ -13,7 +10,6 @@ import Illustration from '../../assets/login-vector.svg';
  * password on the database.
  * @returns {JSX.Element} - JSX representation of the LoginScreen component.
  * */
-
 
 function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -32,9 +28,6 @@ function LoginScreen() {
 
   const handleLogin = async() => {
     // Implement the login, verify email and password
-    // if (email === 'admin' && password === 'password') {
-    //   navigation.navigate('MainPage', { prevRoute: "Login" }); // Use navigation.navigate here
-    // }
     try {
       // Clear all stored data in AsyncStorage
       await AsyncStorage.clear()
@@ -113,7 +106,7 @@ function LoginScreen() {
               value={email}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}
-              autoCapitalize="none" // Disable auto-capitalization
+              autoCapitalize="none"
               style={styles.inputText}
           />
         </View>
@@ -128,7 +121,7 @@ function LoginScreen() {
             secureTextEntry={!isPasswordVisible} // Toggle based on isPasswordVisible
             onFocus={() => setPasswordFocused(true)}
             onBlur={() => setPasswordFocused(false)}
-            autoCapitalize="none" // Disable auto-capitalization
+            autoCapitalize="none"
             style={styles.inputText}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!isPasswordVisible)}>
