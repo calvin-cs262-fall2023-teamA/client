@@ -9,17 +9,22 @@ The app currently contains a login/signup screen, a main screen, a details scree
    - Contains a list of lost/found items that have been posted by users.
    - The cards for these items currently include titles and descriptions but lack detail regarding pictures, location, etc.).
    - The main page also includes a search bar to search for specific items.
+   - The toggle button allows the user to toggle between lost and found items.
 - **Add Items page:**
    - Allows the user to add items (lost/found item cards) to the main page.
+   - Users can either select an already existing image in their device or use the camera to upload a new image.
+   - Users can select a location using the maps.
    - The items added from this page are displayed on the main page.
 - **Details page:**
-   - Contains a detailed description of the items.
-   - Contains comments from users on the items (not functional yet).
+   - Contains a detailed description of the items including the username and email of the user who posted it.
+   - Contains comments from users on the items.
 - **User Profile page:**
    - Displays the current user's name and email.
-   - Includes number of items posted and number of items claimed (not functional yet).
+   - Includes number of items posted and number of items claimed.
    - The "log out" button will navigate to the login page.
-     
+- **Online Help page:**
+   - Contains navigation instructions and descriptions about the page.
+   - Currently present on the main page, details page, and profile page.
 ### Unique Dependencies:
 - react-native-svg
 - expo-image-picker
