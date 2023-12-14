@@ -32,8 +32,8 @@ const Profile = () => {
   const [userName, setUsername] = useState('');
   // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
-  const [postedCount, setPostedCount] = useState(0);
-  const [archivedCount, setArchivedCount] = useState(0);
+  const [postedCount, setPostedCount] = useState('-');
+  const [archivedCount, setArchivedCount] = useState('-');
 
   const [userLoading, setUserLoading] = useState(true);
 
