@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   pageTitleContainer:{
     paddingHorizontal: 30,
-    paddingVertical: 10,
+    paddingVertical: 5,
     position: 'absolute',
     backgroundColor: '#EDE7E7',
     zIndex: 50,

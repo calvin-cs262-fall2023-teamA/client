@@ -341,7 +341,7 @@ const MainPage = ({ navigation, route }) => {
           data={data}
           keyExtractor={({ id }) => id}
           renderItem={renderItem}
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 25 }}
         />
       )}
 
