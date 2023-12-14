@@ -7,7 +7,6 @@ import PopupScreen2 from './mainHelpPage';
 
 // use external stylesheet
 import styles from '../../styles/MainPageStyles'; 
-import * as demoImageGetter from './demoimages'; // specifically for demo. final images will probably work differently
 import { useFocusEffect } from '@react-navigation/native';
 import ImageViewer from '../../components/ImageViewer';
 
@@ -212,49 +211,15 @@ const MainPage = ({ navigation, route }) => {
   };
 
   const handleDetailsOpen = (selectedItem) => {
-        navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
-    } 
+    navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
+  } 
 
-    const renderItem = ({ item }) => {
-      // If viewing posted/archived items, do not filter by lost/found and instead show all items. This keeps the page simple.
-      if (prevRoute !== "post" && prevRoute !== "archived" ) {
-        /* filter by lost/found based on the toggle at the bottom of the main page.
-            If the current item does not match the filter, do not render it. */
-        if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
-          return (
-            <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
-              <View style={styles.itemContainer}>
-                <View style={styles.postContainer}>
-                  <View style={styles.row}>  
-                    <View style={styles.nameDescription}>
-                      <Text style={styles.itemName}>
-                        {item.title}
-                      </Text>
-                      <Text style={styles.description}>
-                        {item.description}
-                      </Text>
-                    </View>
-    
-                    <View style={styles.userDate}>
-                      <Text style={styles.username}> 
-                        {item.name}
-                      </Text>
-                      <Text style={styles.date}>
-                        {item.dateposted}
-                      </Text>
-                    </View>
-                  </View>
-                  <Image
-                    source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)}
-                    style={styles.postImage}
-                  />
-                </View>
-              </View>
-            </TouchableOpacity>
-          );
-        }
-      } else {
-        // Return the same JSX structure when prevRoute is not "post" or "archived"
+  const renderItem = ({ item }) => {
+    // If viewing posted/archived items, do not filter by lost/found and instead show all items. This keeps the page simple.
+    if (prevRoute !== "post" && prevRoute !== "archived" ) {
+      /* filter by lost/found based on the toggle at the bottom of the main page.
+          If the current item does not match the filter, do not render it. */
+      if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
         return (
           <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
             <View style={styles.itemContainer}>
@@ -268,7 +233,7 @@ const MainPage = ({ navigation, route }) => {
                       {item.description}
                     </Text>
                   </View>
-    
+  
                   <View style={styles.userDate}>
                     <Text style={styles.username}> 
                       {item.name}
@@ -278,8 +243,10 @@ const MainPage = ({ navigation, route }) => {
                     </Text>
                   </View>
                 </View>
+                {/* "|| (item.itemimage).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/placeholder.jpg by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
                 <Image
-                  source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)}
+                  source={(item.itemimage == null || (item.itemimage).includes('../')) ? require('../../assets/placeholder.jpg') : { uri: item.itemimage}}
                   style={styles.postImage}
                 />
               </View>
@@ -287,8 +254,44 @@ const MainPage = ({ navigation, route }) => {
           </TouchableOpacity>
         );
       }
-      return null;
-    };
+    } else {
+      // Return the same JSX structure when prevRoute is not "post" or "archived"
+      return (
+        <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+          <View style={styles.itemContainer}>
+            <View style={styles.postContainer}>
+              <View style={styles.row}>  
+                <View style={styles.nameDescription}>
+                  <Text style={styles.itemName}>
+                    {item.title}
+                  </Text>
+                  <Text style={styles.description}>
+                    {item.description}
+                  </Text>
+                </View>
+  
+                <View style={styles.userDate}>
+                  <Text style={styles.username}> 
+                    {item.name}
+                  </Text>
+                  <Text style={styles.date}>
+                    {item.dateposted}
+                  </Text>
+                </View>
+              </View>
+              {/* "|| (item.itemimage).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/placeholder.jpg by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
+              <Image
+                source={(item.itemimage == null || (item.itemimage).includes('../')) ? require('../../assets/placeholder.jpg') : { uri: item.itemimage}}
+                style={styles.postImage}
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  };
     
 
   LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
@@ -408,28 +411,26 @@ const MainPage = ({ navigation, route }) => {
             )}
             {prevRoute !== "post" && prevRoute !== "archived" && (
               <TouchableOpacity onPress={() => {
-                // send information to the main (current) page to "reset" the pop up.
-                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                // Send information to "reset" prevRoute information (used for pop-ups, filters, etc).
                 navigation.navigate({
                     name: 'Profile',
                     params: { prevRoute: 'reset'},
                     merge: true,
-                }),
-                // navigate to the AddPage (where the user will actually end up)
-                navigation.navigate('Profile')
+                })
               }}>
-                <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
+                {/* "|| (profileIcon).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/profileIcon.png by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */}
+                <Image source={(profileIcon == null || (profileIcon).includes('../')) ? require('../../assets/profileIcon.png') : { uri: profileIcon}} style={styles.userIconStyle} />
               </TouchableOpacity>
             )}
             {(prevRoute === "post" || prevRoute === "archived") && (
               <TouchableOpacity style={styles.primaryButton} onPress={() => {
+                // Send information to "reset" prevRoute information (used for pop-ups, filters, etc).                
                   navigation.navigate({
                       name: 'Profile',
                       params: { prevRoute: 'reset'},
                       merge: true,
-                  }),
-                  // navigate to the AddPage (where the user will actually end up)
-                  navigation.navigate('Profile')
+                  })
               }}>
                 <Text style={styles.primaryButtonText}>Go Back</Text>
               </TouchableOpacity>

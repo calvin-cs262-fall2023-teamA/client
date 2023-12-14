@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import ImageViewer from '../../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as demoImageGetter from '../mainpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
 import PopupScreen3 from './profileHelpPage';
 /**
  * Profile component for displaying user profile information.
@@ -57,7 +56,9 @@ const Profile = () => {
         }
         
         if (profileIcon) {
-          setPlaceholderImage(demoImageGetter.getImage(profileIcon));
+          /* "|| (profileIcon).includes('../')" if the service does not return a base64 uri, it will return a local url (../../assets/profileIcon.png by default) 
+                The reason for this is that old versions of the system would fail if there was no default in the database */
+          setPlaceholderImage((profileIcon == null || (profileIcon).includes('../')) ? require('../../assets/profileIcon.png') : { uri: profileIcon});
           setUserLoading(false);
         }
         
