@@ -79,7 +79,7 @@ const MainPage = ({ navigation, route }) => {
     setSearchActive(!searchActive);  // Toggle the searchActive state
   };
 
-  // clears results (resets search to show all results to user) when "x" is pressed.
+  /** clears search results (resets search to show all results to user) when "x" is pressed. */
   const resetSearch = () => {
     // called by "x" button displayed when search bar is open.
     handleSearch() // collapse search bar
@@ -94,6 +94,11 @@ const MainPage = ({ navigation, route }) => {
   }, [prevRoute]); // If prevRoute changes (which it does when navigating to this page), run the function.
 
 
+  /**
+   * Chooses whether to load posted items, archived items, or all items when data needs to be loaded.
+   * Also sends the user alerts if there are any errors with loading data
+   * (for example, if they try to load their archived items when they have 0).
+   */
   const fetchData = async () => {
     try {
       // Load data based on the previous route
@@ -131,7 +136,7 @@ const MainPage = ({ navigation, route }) => {
   }, [prevRoute, route.params?.key]);
 
   
-
+  // Various functions for retrieving database information about items
   const getItems = async () => {
     try {
     const response = await fetch('https://calvinfinds.azurewebsites.net/items');
@@ -207,14 +212,6 @@ const MainPage = ({ navigation, route }) => {
   };
 
   const handleDetailsOpen = (selectedItem) => {
-        // send information to the main (current) page to "reset" the pop up.
-        // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-        navigation.navigate({
-            name: 'MainPage',
-            params: { prevRoute: 'reset'},
-            merge: true,
-        }),
-        // navigate to the Details page (where the user will actually end up)
         navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 

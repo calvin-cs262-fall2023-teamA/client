@@ -92,7 +92,7 @@ function AddPage({ route }) {
     })();
   }, []);
 
-  // image selection from camera
+  // image selection from camera or gallery
   const handleImageSelection = async (fromCamera) => {
     if (hasPermission === null) {
       return;
