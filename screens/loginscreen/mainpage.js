@@ -405,25 +405,27 @@ const MainPage = ({ navigation, route }) => {
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
 
           <View style={styles.bottomRow}>
-            <View style={styles.toggleContainer}>
-              <TouchableOpacity 
-                style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
-                onPress={toggleLostOrFoundFilter}>
-                <View style={{alignItems:"center"}}>
-                  <Text style={styles.toggleButtonText}>Lost</Text>
-                  <Text style={styles.toggleButtonText}>Items</Text>
-                </View>
-              </TouchableOpacity>
+            {prevRoute !== "post" && prevRoute !== "archived" && (
+              <View style={styles.toggleContainer}>
+                <TouchableOpacity 
+                  style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
+                  onPress={toggleLostOrFoundFilter}>
+                  <View style={{alignItems:"center"}}>
+                    <Text style={styles.toggleButtonText}>Lost</Text>
+                    <Text style={styles.toggleButtonText}>Items</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <TouchableOpacity 
-                style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
-                onPress={toggleLostOrFoundFilter}>
-                <View style={{alignItems:"center"}}>
-                  <Text style={styles.toggleButtonText}>Found</Text>
-                  <Text style={styles.toggleButtonText}>Items</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity 
+                  style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
+                  onPress={toggleLostOrFoundFilter}>
+                  <View style={{alignItems:"center"}}>
+                    <Text style={styles.toggleButtonText}>Found</Text>
+                    <Text style={styles.toggleButtonText}>Items</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
             {prevRoute !== "post" && prevRoute !== "archived" && (
               <TouchableOpacity onPress={() => {
                 // send information to the main (current) page to "reset" the pop up.
