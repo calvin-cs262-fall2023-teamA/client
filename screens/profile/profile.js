@@ -24,6 +24,7 @@ const Profile = () => {
   const [PlaceholderImage, setPlaceholderImage] = useState(require('../../assets/profileIcon.png')); // can be overwritten for now. will likely be reverted later
   // const PlaceholderImage = require('../../assets/profileIcon.png');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [status, setStatus] = useState(false); // for retrieving image data
   // const { userData } = useUser();
   // const { userID, userName } = userData;
   const [email, setEmail] = useState('');
@@ -31,8 +32,8 @@ const Profile = () => {
   const [userName, setUsername] = useState('');
   // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
-  const [postedCount, setPostedCount] = useState(0);
-  const [archivedCount, setArchivedCount] = useState(0);
+  const [postedCount, setPostedCount] = useState('-');
+  const [archivedCount, setArchivedCount] = useState('-');
 
   const [userLoading, setUserLoading] = useState(true);
 
@@ -71,6 +72,11 @@ const Profile = () => {
 }, []);
 
 useEffect(() => {
+  // called when the user selects an image and the 'selectedImage' changes
+  if (selectedImage != null) handleNewImage();
+}, [selectedImage])
+
+useEffect(() => {
   // whenever user data is gotten from async storage (currently the only time setUserID is used.)
   // necessary because userID is needed for the following function, but wasn't updated because retrieveUserData is async 
   if (userID !== '') updateCount();
@@ -98,41 +104,68 @@ try {
 };
   
   const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      quality: 1
+      quality: .25,
+      base64: true, // enables the return of binary image data 
     })
 
     if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      // handleNewImage() //update in database/locally //bugged for now, commented out.
+      const file = result.assets[0].base64; // base 64 image data
+      setSelectedImage(`data:image/jpeg;base64,${file}`); // uri = image data      
+      // could upload here and store locally, but download into async storage at login
     } else {
       alert('You did not select any image.');
     }
   }
 
-  // const handleNewImage = async () => {
-  //   /* update in service */
+  /**
+   * When a new image is selected,
+   * - sends image data to the webservice (which sends info to database/storage account)
+   * - updates local data for the user's image (async storage)
+   */
+  const handleNewImage = async () => {
+    /* update in service */
     
-  //   console.log(selectedImage);
-  //   fetch('https://calvinfinds.azurewebsites.net/users/image', {
-  //       method: 'POST', //actually PUT
-  //       headers: {
-  //         "Content-type": "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         id: userID, image: await selectedImage,
-  //       }),
-  //     })
-  //     /* update locally, add the new comment to the list of displayedComments via getComments() */
-  //     .then((response) => {response.json})
-  //     .catch(error => {
-  //       console.error(error);
-  //   });
-  //   /* update local information */
-  //   await AsyncStorage.mergeItem('userData', JSON.stringify({ profileimage: selectedImage }));
+    const response = await fetch('https://calvinfinds.azurewebsites.net/users/image', {
+        method: 'POST',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          id: userID, imagedata: selectedImage,
+        }),
+      })
+      .then((response) => {response.json})
+      .catch(error => {
+        console.error(error);
+    });
+    // trigger updateLocalImage
+    // if (response.ok) 
+    setStatus(!status);
+  }
 
-  // }
+  const updateLocalImage = async () => {
+    /* update local information */
+    // may need to be in a useeffect as well
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userID}`);
+        const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
+        const storeJson = JSON.stringify({ ID: userID, userName, email, password: userData.password, profileimage: postJson.userimage });
+        await AsyncStorage.setItem('userData', storeJson);
+      }
+    } catch (error) {
+      console.log(`profile image download error: ${error}`);
+    }
+  }
+
+  useEffect(() => {
+    // local changes
+    if (status) updateLocalImage();
+    // might only work once if not reset
+  }, [status])
 
   // one update for changing db, one get for getting current image. the get might already be done in login.
   // also update locally (userData)

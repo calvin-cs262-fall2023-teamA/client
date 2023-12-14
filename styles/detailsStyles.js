@@ -70,6 +70,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
     },
+    userFoundOrLostText:{
+        fontWeight: '700',
+        fontSize: 15,
+        color: '#9E8B8D',
+    },
     itemName: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -86,6 +91,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#2F2E41',
     },
+    
     locationName: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -140,6 +146,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         backgroundColor: '#fff',
         borderRadius: 15,
+        borderTopRightRadius: 50,
+        borderBottomRightRadius: 50,
         justifyContent: 'space-between',
     },
     inputText:{
@@ -157,7 +165,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFAF66', // Background color of the search button
         paddingVertical: 8,
         paddingHorizontal: 10,
-        borderRadius: 15,
+        borderRadius: 55,
         padding: 3,
     },
     bottomContainer: {
@@ -253,12 +261,6 @@ const styles = StyleSheet.create({
         shadowRadius: 24,
         elevation: 7, // android shadow
     },
-    modalBackground: {
-        flex: 1,
-        backgroundColor: '#FB8282', // red background
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     deleteButton: {
         flex: 1,
         backgroundColor: '#FB8282', // same as primaryButton but with a red button
@@ -276,23 +278,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 24,
         elevation: 7,     
-
-    },
-    confirmText: {
-        backgroundColor: '#FAF2F2',
-        borderRadius: 50,
-        width: 100,
-        padding: 18,
-        alignItems: 'center',
-        shadowColor: '#A59D95',
-        shadowOffset: {width: 0, height: 8},
-        shadowOpacity: 0.2,
-        shadowRadius: 24,
-        elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
-    },
-    warningText: {
-        fontWeight: 'bold',
-        fontSize: 16,
     },
     helpButtonContainer: {
         borderRadius: 10,

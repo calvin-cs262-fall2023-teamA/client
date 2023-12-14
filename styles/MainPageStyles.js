@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   pageTitleContainer:{
     paddingHorizontal: 30,
-    paddingVertical: 10,
+    paddingVertical: 5,
     position: 'absolute',
     backgroundColor: '#EDE7E7',
     zIndex: 50,
@@ -320,7 +320,26 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     lineHeight: 17,
     // marginBottom: -7,
-
+  },
+  primaryButton: {
+    flex: 1,
+    backgroundColor: '#FAF2F2',
+    borderRadius: 50,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    marginHorizontal: 50,
+    alignItems: 'center',
+    shadowColor: '#A59D95',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 7,     // drop-shadow(0px 8px 24px rgba(165, 157, 149, 0.20)),
+    marginBottom: 30,
+  },
+  primaryButtonText: {
+    color: '#342F2F',
+    fontWeight: '900',
+    fontSize: 20,
   },
 
   // for PostPopup
@@ -352,6 +371,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
   },
+
   
 });
 

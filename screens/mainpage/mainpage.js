@@ -44,6 +44,7 @@ const MainPage = ({ navigation, route }) => {
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
   const [profileIcon, setProfileIcon] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0); // triggers a refresh of current user's profile icon
 
 
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
@@ -238,42 +239,78 @@ const MainPage = ({ navigation, route }) => {
         navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 
-  const renderItem = ({ item }) => {
-    // Filter for lost vs found. Only load the item if it matches the filter switch's current state.
-    if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
-      return (
-        <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
-          <View style={styles.itemContainer}>
-            <View style={styles.postContainer}>
-                <View style={styles.row}>  
+    const renderItem = ({ item }) => {
+      if (prevRoute !== "post" && prevRoute !== "archived" ) {
+        if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
+          return (
+            <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+              <View style={styles.itemContainer}>
+                <View style={styles.postContainer}>
+                  <View style={styles.row}>  
                     <View style={styles.nameDescription}>
-                        <Text style={styles.itemName}>
-                            {item.title}
-                        </Text>
-                        <Text style={styles.description}>
-                            {item.description}
-                        </Text>
+                      <Text style={styles.itemName}>
+                        {item.title}
+                      </Text>
+                      <Text style={styles.description}>
+                        {item.description}
+                      </Text>
                     </View>
-
+    
                     <View style={styles.userDate}>
-                        <Text style={styles.username}> 
-                            {item.name}
-                        </Text>
-                        <Text style={styles.date}>
-                            {item.dateposted}
-                        </Text>
+                      <Text style={styles.username}> 
+                        {item.name}
+                      </Text>
+                      <Text style={styles.date}>
+                        {item.dateposted}
+                      </Text>
                     </View>
-                </View>
-                <Image
+                  </View>
+                  <Image
                     source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
                     style={styles.postImage}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        }
+      } else {
+        // Return the same JSX structure when prevRoute is not "post" or "archived"
+        return (
+          <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+            <View style={styles.itemContainer}>
+              <View style={styles.postContainer}>
+                <View style={styles.row}>  
+                  <View style={styles.nameDescription}>
+                    <Text style={styles.itemName}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.description}>
+                      {item.description}
+                    </Text>
+                  </View>
+    
+                  <View style={styles.userDate}>
+                    <Text style={styles.username}> 
+                      {item.name}
+                    </Text>
+                    <Text style={styles.date}>
+                      {item.dateposted}
+                    </Text>
+                  </View>
+                </View>
+                <Image
+                  source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                  style={styles.postImage}
                 />
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      )}
-    return null; // else
-  };
+          </TouchableOpacity>
+        );
+      }
+      return null;
+    };
+    
 
   LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
   LogBox.ignoreAllLogs(); // Ignore all log notification
@@ -304,7 +341,7 @@ const MainPage = ({ navigation, route }) => {
           data={data}
           keyExtractor={({ id }) => id}
           renderItem={renderItem}
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 25 }}
         />
       )}
 
@@ -339,22 +376,7 @@ const MainPage = ({ navigation, route }) => {
                 <Image source={require('../../assets/add.png')} style={styles.addIconStyle} />
             </TouchableOpacity>
           )}
-          {(prevRoute === "post" || prevRoute === "archived") && (
-            <TouchableOpacity style={styles.addButton}
-                onPress={() => {
-                    // send information to the main (current) page to "reset" the page.
-                    // changes from the posted/archived view to the default (all posts) view
-                    navigation.navigate({
-                        name: 'MainPage',
-                        params: { prevRoute: 'reset'},
-                        merge: true,
-                    }),
-                    // navigate to the profile page (where the user will actually end up)
-                    navigation.navigate('Profile')
-                }}>
-                <Image source={require('../../assets/send.png')} style={styles.addIconStyle} />
-            </TouchableOpacity>
-          )}
+
           {/* search button */}
           {searchActive && (
             <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
@@ -383,39 +405,57 @@ const MainPage = ({ navigation, route }) => {
         {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
 
           <View style={styles.bottomRow}>
-            <View style={styles.toggleContainer}>
-              <TouchableOpacity 
-                style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
-                onPress={toggleLostOrFoundFilter}>
-                <View style={{alignItems:"center"}}>
-                  <Text style={styles.toggleButtonText}>Lost</Text>
-                  <Text style={styles.toggleButtonText}>Items</Text>
-                </View>
-              </TouchableOpacity>
+            {prevRoute !== "post" && prevRoute !== "archived" && (
+              <View style={styles.toggleContainer}>
+                <TouchableOpacity 
+                  style={lostOrFoundFilter === 'Lost' ? styles.activeButton : styles.inactiveButton} 
+                  onPress={toggleLostOrFoundFilter}>
+                  <View style={{alignItems:"center"}}>
+                    <Text style={styles.toggleButtonText}>Lost</Text>
+                    <Text style={styles.toggleButtonText}>Items</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <TouchableOpacity 
-                style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
-                onPress={toggleLostOrFoundFilter}>
-                <View style={{alignItems:"center"}}>
-                  <Text style={styles.toggleButtonText}>Found</Text>
-                  <Text style={styles.toggleButtonText}>Items</Text>
-                </View>
+                <TouchableOpacity 
+                  style={lostOrFoundFilter === 'Found' ? styles.activeButton : styles.inactiveButton} 
+                  onPress={toggleLostOrFoundFilter}>
+                  <View style={{alignItems:"center"}}>
+                    <Text style={styles.toggleButtonText}>Found</Text>
+                    <Text style={styles.toggleButtonText}>Items</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+            {prevRoute !== "post" && prevRoute !== "archived" && (
+              <TouchableOpacity onPress={() => {
+                // send information to the main (current) page to "reset" the pop up.
+                // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
+                navigation.navigate({
+                    name: 'Profile',
+                    params: { prevRoute: 'reset'},
+                    merge: true,
+                }),
+                // navigate to the AddPage (where the user will actually end up)
+                navigation.navigate('Profile')
+              }}>
+                <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
               </TouchableOpacity>
-            </View>
-            
-            <TouchableOpacity onPress={() => {
-              // send information to the main (current) page to "reset" the pop up.
-              // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
-              navigation.navigate({
-                  name: 'Profile',
-                  params: { prevRoute: 'reset'},
-                  merge: true,
-              }),
-              // navigate to the AddPage (where the user will actually end up)
-              navigation.navigate('Profile')
-             }}>
-              <Image source={demoImageGetter.getImage(profileIcon)} style={styles.userIconStyle} />
-            </TouchableOpacity>
+            )}
+            {(prevRoute === "post" || prevRoute === "archived") && (
+              <TouchableOpacity style={styles.primaryButton} onPress={() => {
+                  navigation.navigate({
+                      name: 'Profile',
+                      params: { prevRoute: 'reset'},
+                      merge: true,
+                  }),
+                  // navigate to the AddPage (where the user will actually end up)
+                  navigation.navigate('Profile')
+              }}>
+                <Text style={styles.primaryButtonText}>Go Back</Text>
+              </TouchableOpacity>
+            )}
+
+
           </View>
 
 
