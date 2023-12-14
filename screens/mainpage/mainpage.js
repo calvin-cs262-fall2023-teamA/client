@@ -30,9 +30,7 @@ const MainPage = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [searchedItem, setSearchedItem] = useState('');
-  const {prevRoute} = route.params|| {};   // Used by the useEffect for the popup.
-  /* set to "Login" if coming from login screen, "AddPage" if coming from add screen, 
-  and is reset to "reset" if navigating to addpage from this screen. */
+  const {prevRoute} = route.params|| {};   // Used by the useEffect for the popup alerts.
 
   // Define state to control the visibility of the Details popup
   const [detailsVisible, setDetailsVisible] = useState(false);
@@ -44,7 +42,6 @@ const MainPage = ({ navigation, route }) => {
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
   const [profileIcon, setProfileIcon] = useState(null);
-  const [refreshKey, setRefreshKey] = useState(0); // triggers a refresh of current user's profile icon
 
 
   const [lostOrFoundFilter, setLostOrFoundFilter] = useState('Found');
@@ -90,9 +87,7 @@ const MainPage = ({ navigation, route }) => {
     fetchData()
   }
 
-  /* Function/useEffect used to give feedback to the user after they (successfully, determined by the conditional below) add an item 
-    (from adddetails.js) to the database. 
-    Right now, that just means that the user made an item listing at the "addPage" screen. */
+  /* useEffect used to give feedback to the user after they add/delete an item to/from the database. */
   useEffect(() => {
     if (prevRoute === "AddPage") alert("Your item has been posted!"); 
     if (prevRoute === 'delete') alert('Your item has been archived and will no longer appear in search results.');
@@ -167,12 +162,9 @@ const MainPage = ({ navigation, route }) => {
   };
 
   const getItemsPosted = async () => {
-
-    // Retrieve posted data from AsyncStorage
     try {
       // Retrieve posted data from AsyncStorage
       const postedData = await AsyncStorage.getItem('postedData');
-
       if (postedData) {
         // Parse the string as JSON
         const json = JSON.parse(postedData);
@@ -192,7 +184,6 @@ const MainPage = ({ navigation, route }) => {
     };
 
   const getItemsArchived = async () => {
-
     try {
       // Retrieve archived data from AsyncStorage
       const archivedData = await AsyncStorage.getItem('archivedData');
@@ -215,17 +206,6 @@ const MainPage = ({ navigation, route }) => {
     }
   };
 
-  const generatePlaceholderData = (count) => {
-    const placeholderData = [];
-    for (let i = 0; i < count; i++) {
-      placeholderData.push({
-        id: i.toString(),
-        loading: true, // Indicates that the post is still loading
-      });
-    }
-    return placeholderData;
-  };
-
   const handleDetailsOpen = (selectedItem) => {
         // send information to the main (current) page to "reset" the pop up.
         // Without this, the popup will only work once (unless the corresponding useEffect is refactored in the future).
@@ -234,13 +214,15 @@ const MainPage = ({ navigation, route }) => {
             params: { prevRoute: 'reset'},
             merge: true,
         }),
-        // navigate to the AddPage (where the user will actually end up)
-        console.log(prevRoute);
+        // navigate to the Details page (where the user will actually end up)
         navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 
     const renderItem = ({ item }) => {
+      // If viewing posted/archived items, do not filter by lost/found and instead show all items. This keeps the page simple.
       if (prevRoute !== "post" && prevRoute !== "archived" ) {
+        /* filter by lost/found based on the toggle at the bottom of the main page.
+            If the current item does not match the filter, do not render it. */
         if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
           return (
             <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
@@ -266,7 +248,7 @@ const MainPage = ({ navigation, route }) => {
                     </View>
                   </View>
                   <Image
-                    source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                    source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)}
                     style={styles.postImage}
                   />
                 </View>
@@ -300,7 +282,7 @@ const MainPage = ({ navigation, route }) => {
                   </View>
                 </View>
                 <Image
-                  source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                  source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)}
                   style={styles.postImage}
                 />
               </View>
@@ -349,7 +331,7 @@ const MainPage = ({ navigation, route }) => {
       {prevRoute !== "post" && prevRoute !== "archived" && (
         <FlatList
         data={data}
-        keyExtractor={({id}) => id} // {(item) => item.id} // old
+        keyExtractor={({id}) => id}
         renderItem={renderItem}
         />
       )}
@@ -360,6 +342,7 @@ const MainPage = ({ navigation, route }) => {
           keyboardVerticalOffset={Platform.OS === "ios" ? -160 : -20} //  Adjust the offset as needed
         >
 
+          {/* only load if you are on the main (full) list, not archived/posted items */}
           {prevRoute !== "post" && prevRoute !== "archived" && (
             <TouchableOpacity style={styles.addButton}
                 onPress={() => {

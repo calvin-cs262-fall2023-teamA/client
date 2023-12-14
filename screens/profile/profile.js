@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import ImageButton from '../../components/Buttons';
 import ImageViewer from '../../components/ImageViewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as demoImageGetter from '../mainpage/demoimages'; // any placeholder/template images retrieved from here. Should be unnecessary once images are properly stored in server.
@@ -13,6 +12,7 @@ import PopupScreen3 from './profileHelpPage';
 /**
  * Profile component for displaying user profile information.
  * This page allows users to view their profile details, including username, email, and profile picture.
+ * Users are also able to click on buttons that bring them to a version of the mainpage that only contain their own posts/archives.
  * @returns {JSX.Element} - JSX representation of the profile page component.
  * */
 
@@ -22,15 +22,11 @@ const Profile = () => {
   // image handled below
 
   const [PlaceholderImage, setPlaceholderImage] = useState(require('../../assets/profileIcon.png')); // can be overwritten for now. will likely be reverted later
-  // const PlaceholderImage = require('../../assets/profileIcon.png');
   const [selectedImage, setSelectedImage] = useState(null);
   const [status, setStatus] = useState(false); // for retrieving image data
-  // const { userData } = useUser();
-  // const { userID, userName } = userData;
   const [email, setEmail] = useState('');
   const [userID, setUserID] = useState('');
   const [userName, setUsername] = useState('');
-  // const [profileIcon, setProfileIcon] = useState(''); //got empty values for some reason
   let profileIcon = '';
   const [postedCount, setPostedCount] = useState('-');
   const [archivedCount, setArchivedCount] = useState('-');
@@ -54,7 +50,6 @@ const Profile = () => {
                 setUserID(ID);
                 setEmail(email);
                 setUsername(userName);
-                // setProfileIcon(profileimage); //empty values for some reason
                 profileIcon = profileimage;
             }
         } catch (error) {
@@ -78,7 +73,7 @@ useEffect(() => {
 
 useEffect(() => {
   // whenever user data is gotten from async storage (currently the only time setUserID is used.)
-  // necessary because userID is needed for the following function, but wasn't updated because retrieveUserData is async 
+  // necessary because userID is needed for the updateCount function, but wasn't updated because retrieveUserData is async 
   if (userID !== '') updateCount();
 }, [userID])
 
@@ -141,7 +136,6 @@ try {
         console.error(error);
     });
     // trigger updateLocalImage
-    // if (response.ok) 
     setStatus(!status);
   }
 
@@ -152,7 +146,8 @@ try {
       const userData = await AsyncStorage.getItem('userData');
       if (userData) {
         const postResponse = await fetch(`https://calvinfinds.azurewebsites.net/users/image/${userID}`);
-        const postJson = await postResponse.json(); // if fetch returns null (size 0), an error is thrown
+        const postJson = await postResponse.json();
+        // replace the image
         const storeJson = JSON.stringify({ ID: userID, userName, email, password: userData.password, profileimage: postJson.userimage });
         await AsyncStorage.setItem('userData', storeJson);
       }
@@ -162,17 +157,13 @@ try {
   }
 
   useEffect(() => {
-    // local changes
+    // local changes to the image. triggered at the end of handleNewImage()
     if (status) updateLocalImage();
-    // might only work once if not reset
   }, [status])
-
-  // one update for changing db, one get for getting current image. the get might already be done in login.
-  // also update locally (userData)
 
   const handleLogout = async () => {
     try {
-      // Clear all stored data in AsyncStorage
+      // Clear all stored data in AsyncStorage on logout
       await AsyncStorage.clear()
       // Navigate to the login page
       navigation.navigate('Login', { prevRoute: 'Login' })
@@ -203,8 +194,6 @@ try {
       <View style={styles.flexContainer}>
 
       <PopupScreen3 isVisible={isPopupVisible} onClose={togglePopup} />
-
-        {/* this Button should lead to item page for user */}
 
         <TouchableOpacity style={styles.tertiaryButton} onPress={() => navigation.navigate('MainPage', { prevRoute: "post", key: Math.random().toString()})}>
           <Text style={styles.tertiaryButtonTitle}>{postedCount}</Text>
