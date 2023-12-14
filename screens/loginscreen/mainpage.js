@@ -234,46 +234,83 @@ const MainPage = ({ navigation, route }) => {
             params: { prevRoute: 'reset'},
             merge: true,
         }),
-        // navigate to the Details page (where the user will actually end up)
+        // navigate to the AddPage (where the user will actually end up)
+        console.log(prevRoute);
         navigation.navigate('Details', { itemData: selectedItem , prevRoute: prevRoute}) // pass json data of a given item as itemData
     } 
 
-  const renderItem = ({ item }) => {
-    // Filter for lost vs found. Only load the item if it matches the filter switch's current state.
-    if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
-      return (
-        <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
-          <View style={styles.itemContainer}>
-            <View style={styles.postContainer}>
-                <View style={styles.row}>  
+    const renderItem = ({ item }) => {
+      if (prevRoute !== "post" && prevRoute !== "archived" ) {
+        if (item.lostfound === lostOrFoundFilter.toLowerCase()) {
+          return (
+            <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+              <View style={styles.itemContainer}>
+                <View style={styles.postContainer}>
+                  <View style={styles.row}>  
                     <View style={styles.nameDescription}>
-                        <Text style={styles.itemName}>
-                            {item.title}
-                        </Text>
-                        <Text style={styles.description}>
-                            {item.description}
-                        </Text>
+                      <Text style={styles.itemName}>
+                        {item.title}
+                      </Text>
+                      <Text style={styles.description}>
+                        {item.description}
+                      </Text>
                     </View>
-
+    
                     <View style={styles.userDate}>
-                        <Text style={styles.username}> 
-                            {item.name}
-                        </Text>
-                        <Text style={styles.date}>
-                            {item.dateposted}
-                        </Text>
+                      <Text style={styles.username}> 
+                        {item.name}
+                      </Text>
+                      <Text style={styles.date}>
+                        {item.dateposted}
+                      </Text>
                     </View>
-                </View>
-                <Image
+                  </View>
+                  <Image
                     source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
                     style={styles.postImage}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
+        }
+      } else {
+        // Return the same JSX structure when prevRoute is not "post" or "archived"
+        return (
+          <TouchableOpacity onPress={() => handleDetailsOpen(item)}>
+            <View style={styles.itemContainer}>
+              <View style={styles.postContainer}>
+                <View style={styles.row}>  
+                  <View style={styles.nameDescription}>
+                    <Text style={styles.itemName}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.description}>
+                      {item.description}
+                    </Text>
+                  </View>
+    
+                  <View style={styles.userDate}>
+                    <Text style={styles.username}> 
+                      {item.name}
+                    </Text>
+                    <Text style={styles.date}>
+                      {item.dateposted}
+                    </Text>
+                  </View>
+                </View>
+                <Image
+                  source={item.itemimage == null ? require('../../assets/placeholder.jpg') : demoImageGetter.getImage(item.itemimage)} //  Placeholder image for post. item.itemimage is a uri for now
+                  style={styles.postImage}
                 />
+              </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      )}
-    return null; // else
-  };
+          </TouchableOpacity>
+        );
+      }
+      return null;
+    };
+    
 
   LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
   LogBox.ignoreAllLogs(); // Ignore all log notification
