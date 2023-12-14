@@ -122,7 +122,6 @@ function Details({ navigation, route }) {
   };
 
   const handleGoBack = () => {
-    console.log("PrevRoute: ", prevRoute);
     if (prevRoute === "post"){
       try {
         // Navigate to the main page
@@ -148,7 +147,7 @@ function Details({ navigation, route }) {
 }
 
   const deleteBackButton = () => {
-    if (userID === itemData.postuser) {
+    if (userID === itemData.postuser && itemData.archived === false) {
       return ( <>
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
             <Text style={styles.primaryButtonText}>Delete</Text>
