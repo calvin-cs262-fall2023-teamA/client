@@ -25,7 +25,7 @@ return (
     >
             <View style={styles.outerContainer}>
              <View style={styles.mainContainer}>
-                    <Text style={styles.description}>Are you sure you want to delete?</Text>
+                    <Text style={styles.description}>Are you sure you want to archive?</Text>
                     <Text> </Text>
                         <TouchableOpacity style={styles.primaryButton} onPress={confirmDelete}>
                             <Text style={styles.primaryButtonText}>Yes</Text>

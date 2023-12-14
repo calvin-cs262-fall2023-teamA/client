@@ -150,7 +150,7 @@ function Details({ navigation, route }) {
     if (userID === itemData.postuser && itemData.archived === false) {
       return ( <>
           <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete()}>
-            <Text style={styles.primaryButtonText}>Delete</Text>
+            <Text style={styles.primaryButtonText}>Archive</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.primaryButton} onPress={() => handleGoBack()}>
             <Text style={styles.primaryButtonText}>Go Back</Text>
